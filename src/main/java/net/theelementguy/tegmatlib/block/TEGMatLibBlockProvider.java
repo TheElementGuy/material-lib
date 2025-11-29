@@ -18,7 +18,7 @@ public class TEGMatLibBlockProvider {
 		MATERIALS = materials;
 	}
 
-	protected void registerBlocks(DeferredRegister.Blocks blocksRegistry, Supplier<DeferredRegister.Items> itemsRegistry) {
+	public void registerBlocks(DeferredRegister.Blocks blocksRegistry, Supplier<DeferredRegister.Items> itemsRegistry) {
 
 		for (MaterialConfiguration config : MATERIALS.get()) {
 			config.fillBlocks(blocksRegistry, itemsRegistry);
