@@ -19,6 +19,7 @@ import net.theelementguy.tegmatlib.core.SingleOrMultiple;
 import net.theelementguy.tegmatlib.util.OrePlacement;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class OreGenConfig {
 
@@ -61,31 +62,31 @@ public class OreGenConfig {
 		BIOMES = null;
 	}
 
-	public static OreGenConfig smallAllBiomes(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int numberPerChunk, Dimension dimension) {
+	public static Supplier<OreGenConfig> smallAllBiomes(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int numberPerChunk, Dimension dimension) {
 		if (distributionType == OreDistribution.TRIANGLE) {
-			return new OreGenConfig(OreGenSize.SMALL, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
+			return () -> new OreGenConfig(OreGenSize.SMALL, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
 		} else if (distributionType == OreDistribution.UNIFORM) {
-			return new OreGenConfig(OreGenSize.SMALL, HeightRangePlacement.uniform(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
+			return () -> new OreGenConfig(OreGenSize.SMALL, HeightRangePlacement.uniform(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
 		}
-		return new OreGenConfig(OreGenSize.SMALL, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
+		return () -> new OreGenConfig(OreGenSize.SMALL, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
 	}
 
-	public static OreGenConfig mediumAllBiomes(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int numberPerChunk, Dimension dimension) {
+	public static Supplier<OreGenConfig> mediumAllBiomes(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int numberPerChunk, Dimension dimension) {
 		if (distributionType == OreDistribution.TRIANGLE) {
-			return new OreGenConfig(OreGenSize.MEDIUM, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
+			return () -> new OreGenConfig(OreGenSize.MEDIUM, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
 		} else if (distributionType == OreDistribution.UNIFORM) {
-			return new OreGenConfig(OreGenSize.MEDIUM, HeightRangePlacement.uniform(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
+			return () -> new OreGenConfig(OreGenSize.MEDIUM, HeightRangePlacement.uniform(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
 		}
-		return new OreGenConfig(OreGenSize.MEDIUM, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
+		return () -> new OreGenConfig(OreGenSize.MEDIUM, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
 	}
 
-	public static OreGenConfig largeAllBiomes(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int numberPerChunk, Dimension dimension) {
+	public static Supplier<OreGenConfig> largeAllBiomes(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int numberPerChunk, Dimension dimension) {
 		if (distributionType == OreDistribution.TRIANGLE) {
-			return new OreGenConfig(OreGenSize.LARGE, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
+			return () -> new OreGenConfig(OreGenSize.LARGE, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
 		} else if (distributionType == OreDistribution.UNIFORM) {
-			return new OreGenConfig(OreGenSize.LARGE, HeightRangePlacement.uniform(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
+			return () -> new OreGenConfig(OreGenSize.LARGE, HeightRangePlacement.uniform(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
 		}
-		return new OreGenConfig(OreGenSize.LARGE, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
+		return () -> new OreGenConfig(OreGenSize.LARGE, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
 	}
 
 	public void registerConfiguredFeature(BootstrapContext<ConfiguredFeature<?, ?>> context, List<OreConfiguration.TargetBlockState> ores, ResourceKey<ConfiguredFeature<?, ?>> key) {

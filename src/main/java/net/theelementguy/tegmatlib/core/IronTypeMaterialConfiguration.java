@@ -186,22 +186,22 @@ public class IronTypeMaterialConfiguration extends MaterialConfiguration {
 			return this;
 		}
 
-		public Builder oreConfigAll(OreGenConfig small, OreGenConfig medium, OreGenConfig large, OreGenConfig extra) {
+		public Builder oreConfigAll(Supplier<OreGenConfig> small, Supplier<OreGenConfig> medium, Supplier<OreGenConfig> large, Supplier<OreGenConfig> extra) {
 			this.ORE_GEN_CONFIGS = new OreGenConfigHolder(small, medium, large, extra);
 			return this;
 		}
 
-		public Builder oreConfigNoExtra(OreGenConfig small, OreGenConfig medium, OreGenConfig large) {
+		public Builder oreConfigNoExtra(Supplier<OreGenConfig> small, Supplier<OreGenConfig> medium, Supplier<OreGenConfig> large) {
 			this.ORE_GEN_CONFIGS = new OreGenConfigHolder(small, medium, large, null);
 			return this;
 		}
 
-		public Builder oreConfigSimple(OreGenConfig small, OreGenConfig large) {
+		public Builder oreConfigSimple(Supplier<OreGenConfig> small, Supplier<OreGenConfig> large) {
 			this.ORE_GEN_CONFIGS = new OreGenConfigHolder(small, null, large, null);
 			return this;
 		}
 
-		public Builder oreConfigSimpleWithExtra(OreGenConfig small, OreGenConfig large, OreGenConfig extra) {
+		public Builder oreConfigSimpleWithExtra(Supplier<OreGenConfig> small, Supplier<OreGenConfig> large, Supplier<OreGenConfig> extra) {
 			this.ORE_GEN_CONFIGS = new OreGenConfigHolder(small, null, large, extra);
 			return this;
 		}
