@@ -21,7 +21,6 @@ public class TEGMatLibConfiguredFeatureProvider {
 	public void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
 
 		for (MaterialConfiguration config : MATERIALS.get()) {
-			config.fillConfiguredFeatureKeys();
 			config.registerConfiguredFeatures(context);
 		}
 

@@ -18,7 +18,6 @@ public class TEGMatLibBiomeModifierProvider {
 	public void bootstrap(BootstrapContext<BiomeModifier> context) {
 
 		for (MaterialConfiguration config : MATERIALS.get()) {
-			config.fillBiomeModifierKeys();
 			config.registerBiomeModifiers(context);
 		}
 

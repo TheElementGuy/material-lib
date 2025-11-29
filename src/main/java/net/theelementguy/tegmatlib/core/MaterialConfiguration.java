@@ -124,6 +124,10 @@ public abstract class MaterialConfiguration {
 			attribute.put(ArmorType.BOOTS, bootsDefense);
 			attribute.put(ArmorType.BODY, horseDefense);
 		}), enchantmentValue, equipSound.get(), toughness, knockbackResistance, REPAIRABLES, EQUIPMENT_ASSET);
+		fillTrimMaterialKeys();
+		fillConfiguredFeatureKeys();
+		fillPlacedFeatureKeys();
+		fillBiomeModifierKeys();
 	}
 
 	public String getBaseName() {
