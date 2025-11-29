@@ -40,8 +40,8 @@ public class IronTypeMaterialConfiguration extends MaterialConfiguration {
 	protected DeferredBlock<Block> ORE_BLOCK;
 	protected DeferredBlock<Block> DEEPSLATE_ORE_BLOCK;
 
-	private IronTypeMaterialConfiguration(String modId, String baseName, String humanReadableName, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Item.Properties defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Holder<SoundEvent> equipSound, float toughness, float knockbackResistance, MapColor mapColor, SoundType soundType, OreGenConfigHolder oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier) {
-		super(modId, baseName, humanReadableName, MaterialType.IRON, trimMaterialDescriptionColor, toolDurability, speed, attackDamageBonus, enchantmentValue, defaultProperties, armorDurability, helmetDefense, chestplateDefense, smeltingExperience, leggingsDefense, bootsDefense, horseDefense, equipSound, toughness, knockbackResistance, mapColor, soundType, oreGenConfigs, dropsPerOre, extraDrops, tier);
+	private IronTypeMaterialConfiguration(String modId, String baseName, String humanReadableName, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Holder<SoundEvent> equipSound, float toughness, float knockbackResistance, MapColor mapColor, SoundType soundType, OreGenConfigHolder oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier) {
+		super(modId, baseName, humanReadableName, MaterialType.IRON, trimMaterialDescriptionColor, toolDurability, speed, attackDamageBonus, enchantmentValue, defaultProperties.get(), armorDurability, helmetDefense, chestplateDefense, smeltingExperience, leggingsDefense, bootsDefense, horseDefense, equipSound, toughness, knockbackResistance, mapColor, soundType, oreGenConfigs, dropsPerOre, extraDrops, tier);
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class IronTypeMaterialConfiguration extends MaterialConfiguration {
 		protected String MOD_ID;
 		protected String HUMAN_READABLE_NAME;
 
-		protected Item.Properties DEFAULT_PROPERTIES = new Item.Properties();
+		protected Supplier<Item.Properties> DEFAULT_PROPERTIES = Item.Properties::new;
 
 		protected float SMELTING_EXPERIENCE;
 
@@ -136,7 +136,7 @@ public class IronTypeMaterialConfiguration extends MaterialConfiguration {
 			return this;
 		}
 
-		public Builder defaultProperties(Item.Properties properties) {
+		public Builder defaultProperties(Supplier<Item.Properties> properties) {
 			this.DEFAULT_PROPERTIES = properties;
 			return this;
 		}
