@@ -35,7 +35,8 @@ repositories {
 dependencies {
     // Your 'compileOnly' dependency on NeoForge is NOW HANDLED by the 'neoforge' block above.
     // You no longer need: compileOnly "net.neoforged:neoforge:..."
-    implementation "net.neoforged:neoforge:21.10.50-beta"
+    compileOnly "net.neoforged:neoforge:21.10.50-beta"
+    localRuntime "net.neoforged:neoforge:21.10.50-beta"
     // You can add other *non-Minecraft* dependencies here if your library needs them.
     // Example:
     // api 'com.google.guava:guava:33.2.0-jre'
