@@ -22,10 +22,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.theelementguy.tegmatlib.core.tiers.MiningTier;
-import net.theelementguy.tegmatlib.worldgen.BiomeModifierKeyHolder;
-import net.theelementguy.tegmatlib.worldgen.ConfiguredFeatureKeyHolder;
-import net.theelementguy.tegmatlib.worldgen.OreGenConfigHolder;
-import net.theelementguy.tegmatlib.worldgen.PlacedFeatureKeyHolder;
+import net.theelementguy.tegmatlib.worldgen.*;
 import net.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
 
 import java.util.EnumMap;
@@ -40,7 +37,7 @@ public class IronTypeMaterialConfiguration extends MaterialConfiguration {
 	protected DeferredBlock<Block> ORE_BLOCK;
 	protected DeferredBlock<Block> DEEPSLATE_ORE_BLOCK;
 
-	private IronTypeMaterialConfiguration(String modId, String baseName, String humanReadableName, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, SoundType soundType, OreGenConfigHolder oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier) {
+	private IronTypeMaterialConfiguration(String modId, String baseName, String humanReadableName, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier) {
 		super(modId, baseName, humanReadableName, MaterialType.IRON, trimMaterialDescriptionColor, toolDurability, speed, attackDamageBonus, enchantmentValue, defaultProperties, armorDurability, helmetDefense, chestplateDefense, smeltingExperience, leggingsDefense, bootsDefense, horseDefense, equipSound, toughness, knockbackResistance, mapColor, soundType, oreGenConfigs, dropsPerOre, extraDrops, tier);
 	}
 
@@ -53,7 +50,7 @@ public class IronTypeMaterialConfiguration extends MaterialConfiguration {
 
 	@Override
 	public void fillBlocks(DeferredRegister.Blocks register, Supplier<DeferredRegister.Items> itemsRegister) {
-		RAW_BLOCK = registerSimpleBlock("raw_" + BASE_NAME + "_block", register, itemsRegister, 3f, 6f, MAP_COLOR.get(), SOUND_TYPE);
+		RAW_BLOCK = registerSimpleBlock("raw_" + BASE_NAME + "_block", register, itemsRegister, 3f, 6f, MAP_COLOR.get(), SOUND_TYPE.get());
 		ORE_BLOCK = registerSimpleBlock(BASE_NAME + "_ore", register, itemsRegister, 3f, 3f, MapColor.STONE, SoundType.STONE);
 		DEEPSLATE_ORE_BLOCK = registerSimpleBlock("deepslate_" + BASE_NAME + "_ore", register, itemsRegister, 4.5f, 3f, MapColor.DEEPSLATE, SoundType.DEEPSLATE);
 	}
@@ -97,8 +94,8 @@ public class IronTypeMaterialConfiguration extends MaterialConfiguration {
 		protected String TRIM_MATERIAL_DESCRIPTION_COLOR;
 
 		protected Supplier<MapColor> MAP_COLOR;
-		protected SoundType SOUND_TYPE;
-		protected OreGenConfigHolder ORE_GEN_CONFIGS;
+		protected Supplier<SoundType> SOUND_TYPE;
+		protected OreGenHolder<OreGenConfig> ORE_GEN_CONFIGS;
 
 		protected int DROPS_PER_ORE = 1;
 		protected int EXTRA_DROPS = 0;
@@ -180,29 +177,29 @@ public class IronTypeMaterialConfiguration extends MaterialConfiguration {
 			return this;
 		}
 
-		public Builder blockProperties(Supplier<MapColor> color, SoundType stepSound) {
+		public Builder blockProperties(Supplier<MapColor> color, Supplier<SoundType> stepSound) {
 			this.MAP_COLOR = color;
 			this.SOUND_TYPE = stepSound;
 			return this;
 		}
 
 		public Builder oreConfigAll(Supplier<OreGenConfig> small, Supplier<OreGenConfig> medium, Supplier<OreGenConfig> large, Supplier<OreGenConfig> extra) {
-			this.ORE_GEN_CONFIGS = new OreGenConfigHolder(small, medium, large, extra);
+			this.ORE_GEN_CONFIGS = new OreGenHolder<>(small, medium, large, extra);
 			return this;
 		}
 
 		public Builder oreConfigNoExtra(Supplier<OreGenConfig> small, Supplier<OreGenConfig> medium, Supplier<OreGenConfig> large) {
-			this.ORE_GEN_CONFIGS = new OreGenConfigHolder(small, medium, large, null);
+			this.ORE_GEN_CONFIGS = new OreGenHolder<>(small, medium, large, null);
 			return this;
 		}
 
 		public Builder oreConfigSimple(Supplier<OreGenConfig> small, Supplier<OreGenConfig> large) {
-			this.ORE_GEN_CONFIGS = new OreGenConfigHolder(small, null, large, null);
+			this.ORE_GEN_CONFIGS = new OreGenHolder<>(small, null, large, null);
 			return this;
 		}
 
 		public Builder oreConfigSimpleWithExtra(Supplier<OreGenConfig> small, Supplier<OreGenConfig> large, Supplier<OreGenConfig> extra) {
-			this.ORE_GEN_CONFIGS = new OreGenConfigHolder(small, null, large, extra);
+			this.ORE_GEN_CONFIGS = new OreGenHolder<OreGenConfig>(small, null, large, extra);
 			return this;
 		}
 
