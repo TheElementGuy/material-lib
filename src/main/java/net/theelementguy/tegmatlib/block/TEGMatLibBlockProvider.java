@@ -15,7 +15,7 @@ public class TEGMatLibBlockProvider {
 
 	private final Supplier<List<MaterialConfiguration>> MATERIALS;
 
-	protected TEGMatLibBlockProvider(String modId, Supplier<List<MaterialConfiguration>> materials) {
+	public TEGMatLibBlockProvider(String modId, Supplier<List<MaterialConfiguration>> materials) {
 		MOD_ID = modId;
 		MATERIALS = materials;
 		BLOCKS = DeferredRegister.createBlocks(MOD_ID);

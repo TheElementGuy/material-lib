@@ -13,7 +13,7 @@ public class TEGMatLibTrimMaterialProvider {
 
 	private final Supplier<List<MaterialConfiguration>> MATERIALS;
 
-	protected TEGMatLibTrimMaterialProvider(String modId, Supplier<List<MaterialConfiguration>> materials) {
+	public TEGMatLibTrimMaterialProvider(String modId, Supplier<List<MaterialConfiguration>> materials) {
 		MOD_ID = modId;
 		MATERIALS = materials;
 	}

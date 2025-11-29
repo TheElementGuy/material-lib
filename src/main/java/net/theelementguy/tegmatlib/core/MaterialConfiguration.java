@@ -119,7 +119,7 @@ public abstract class MaterialConfiguration {
 		TOOL_MATERIAL = new ToolMaterial(INCORRECT_FOR_MATERIAL, toolDurability, speed, attackDamageBonus, enchantmentValue, REPAIRABLES);
 		ARMOR_MATERIAL = new ArmorMaterial(armorDurability, Util.make(new EnumMap<ArmorType, Integer>(ArmorType.class), attribute -> {
 			attribute.put(ArmorType.HELMET, helmetDefense);
-			attribute.put(ArmorType.CHESTPLATE, helmetDefense);
+			attribute.put(ArmorType.CHESTPLATE, chestplateDefense);
 			attribute.put(ArmorType.LEGGINGS, leggingsDefense);
 			attribute.put(ArmorType.BOOTS, bootsDefense);
 			attribute.put(ArmorType.BODY, horseDefense);

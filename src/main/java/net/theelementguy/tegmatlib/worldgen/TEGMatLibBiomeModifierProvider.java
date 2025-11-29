@@ -11,7 +11,7 @@ public class TEGMatLibBiomeModifierProvider {
 
 	private final Supplier<List<MaterialConfiguration>> MATERIALS;
 
-	protected TEGMatLibBiomeModifierProvider(Supplier<List<MaterialConfiguration>> materials) {
+	public TEGMatLibBiomeModifierProvider(Supplier<List<MaterialConfiguration>> materials) {
 		MATERIALS = materials;
 	}
 

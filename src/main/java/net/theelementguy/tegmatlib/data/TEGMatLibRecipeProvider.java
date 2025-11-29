@@ -37,7 +37,7 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 
 		private final String MOD_ID;
 
-		protected Runner(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, String modName, Supplier<List<MaterialConfiguration>> materials, String modId) {
+		public Runner(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, String modName, Supplier<List<MaterialConfiguration>> materials, String modId) {
 			super(packOutput, registries);
 			NAME = modName;
 			MATERIALS = materials;

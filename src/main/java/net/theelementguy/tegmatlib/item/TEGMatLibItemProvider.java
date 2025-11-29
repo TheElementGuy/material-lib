@@ -15,7 +15,7 @@ public class TEGMatLibItemProvider {
 
 	private final Supplier<List<MaterialConfiguration>> MATERIALS;
 
-	protected TEGMatLibItemProvider(String modId, Supplier<List<MaterialConfiguration>> materials) {
+	public TEGMatLibItemProvider(String modId, Supplier<List<MaterialConfiguration>> materials) {
 		MOD_ID = modId;
 		MATERIALS = materials;
 		ITEMS = DeferredRegister.createItems(MOD_ID);
@@ -34,6 +34,10 @@ public class TEGMatLibItemProvider {
 			config.fillItems(itemRegistry, MOD_ID);
 		}
 
+	}
+
+	public DeferredRegister.Items getRegister() {
+		return ITEMS;
 	}
 
 }

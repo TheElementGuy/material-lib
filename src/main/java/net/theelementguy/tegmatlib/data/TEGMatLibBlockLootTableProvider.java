@@ -30,7 +30,7 @@ public class TEGMatLibBlockLootTableProvider extends BlockLootSubProvider {
 
 	private Supplier<List<MaterialConfiguration>> MATERIALS;
 
-	protected TEGMatLibBlockLootTableProvider(HolderLookup.Provider registries, Supplier<List<MaterialConfiguration>> materials) {
+	public TEGMatLibBlockLootTableProvider(HolderLookup.Provider registries, Supplier<List<MaterialConfiguration>> materials) {
 		super(Set.of(), FeatureFlags.REGISTRY.allFlags(), registries);
 		MATERIALS = materials;
 	}

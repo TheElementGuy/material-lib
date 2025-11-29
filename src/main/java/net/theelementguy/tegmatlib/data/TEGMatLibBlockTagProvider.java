@@ -26,7 +26,9 @@ public class TEGMatLibBlockTagProvider extends BlockTagsProvider {
 	@Override
 	protected void addTags(HolderLookup.Provider provider) {
 
-
+		for (MaterialConfiguration config : MATERIALS.get()) {
+			addMaterial(config);
+		}
 
 	}
 

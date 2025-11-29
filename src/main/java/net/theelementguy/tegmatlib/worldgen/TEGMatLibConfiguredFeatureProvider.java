@@ -13,7 +13,7 @@ public class TEGMatLibConfiguredFeatureProvider {
 
 	private final Supplier<List<MaterialConfiguration>> MATERIALS;
 
-	protected TEGMatLibConfiguredFeatureProvider(String modId, Supplier<List<MaterialConfiguration>> materials) {
+	public TEGMatLibConfiguredFeatureProvider(String modId, Supplier<List<MaterialConfiguration>> materials) {
 		MOD_ID = modId;
 		MATERIALS = materials;
 	}
