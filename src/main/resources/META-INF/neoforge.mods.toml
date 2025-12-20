@@ -20,7 +20,7 @@ license="MIT License"
 modId="tegmatlib" #mandatory
 
 # The version number of the mod
-version="21.10.7.4-beta" #mandatory
+version="21.10.7.5-beta" #mandatory
 
 # A display name for the mod
 displayName="TEG Material Lib" #mandatory
