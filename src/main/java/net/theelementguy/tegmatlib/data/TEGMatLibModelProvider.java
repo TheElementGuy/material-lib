@@ -45,6 +45,7 @@ public class TEGMatLibModelProvider extends ModelProvider {
 		this.MOD_ID = modId;
 		ArrayList<ItemModelGenerators.TrimMaterialData> trimMaterialsToAdd = new ArrayList<>();
 		for (MaterialConfiguration config : MATERIALS.get()) {
+			MaterialConfiguration concrete;
 			trimMaterialsToAdd.add(new ItemModelGenerators.TrimMaterialData(config.getMaterialAssetGroup(), config.getTrimMaterial()));
 		}
 		TRIM_MATERIAL_MODELS.addAll(trimMaterialsToAdd);
