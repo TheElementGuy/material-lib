@@ -98,7 +98,12 @@ public abstract class MaterialConfiguration {
 
 	protected final MiningTier TIER;
 
-	public MaterialConfiguration(String modId, String baseName, String humanReadableName, MaterialType materialType, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier) {
+	protected final String SET_BEFORE;
+	protected final Item ITEM_BEFORE;
+	protected final Block BLOCK_BEFORE;
+	protected final String ORE_BEFORE;
+
+	public MaterialConfiguration(String modId, String baseName, String humanReadableName, MaterialType materialType, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, String setBefore, Item itemBefore, Block blockBefore, String oreBefore) {
 		BASE_NAME = baseName;
 		MOD_ID = modId;
 		HUMAN_READABLE_NAME = humanReadableName;
@@ -112,6 +117,10 @@ public abstract class MaterialConfiguration {
 		DROPS_PER_ORE = dropsPerOre;
 		EXTRA_DROPS = extraDrops;
 		TIER = tier;
+		SET_BEFORE = setBefore;
+		ITEM_BEFORE = itemBefore;
+		BLOCK_BEFORE = blockBefore;
+		ORE_BEFORE = oreBefore;
 		INCORRECT_FOR_MATERIAL = () -> BlockTags.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, "incorrect_for_" + BASE_NAME + "_tool"));
 		NEEDS_MATERIAL = () -> BlockTags.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, "needs_" + BASE_NAME));
 		REPAIRABLES = () -> ItemTags.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, BASE_NAME + "_repairables"));
@@ -353,4 +362,19 @@ public abstract class MaterialConfiguration {
 		return SMELTING_EXPERIENCE;
 	}
 
+	public String getSetBefore() {
+		return SET_BEFORE;
+	}
+
+	public Item getItemBefore() {
+		return ITEM_BEFORE;
+	}
+
+	public Block getBlockBefore() {
+		return BLOCK_BEFORE;
+	}
+
+	public String getOreBefore() {
+		return ORE_BEFORE;
+	}
 }

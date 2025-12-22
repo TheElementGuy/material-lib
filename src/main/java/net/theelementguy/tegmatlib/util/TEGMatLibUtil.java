@@ -102,6 +102,9 @@ public class TEGMatLibUtil {
 	}
 
 	public static Block getBlockFromKey(String key, String modId) {
+		if (BuiltInRegistries.BLOCK.get(TEGMatLibUtil.createBlockResourceKey(key, modId)).isEmpty()) {
+			return getBlockFromKey(key, "minecraft");
+		}
 		return BuiltInRegistries.BLOCK.get(TEGMatLibUtil.createBlockResourceKey(key, modId)).get().value();
 	}
 
