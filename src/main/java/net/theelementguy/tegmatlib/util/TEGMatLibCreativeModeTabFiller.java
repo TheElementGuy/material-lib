@@ -37,8 +37,8 @@ public class TEGMatLibCreativeModeTabFiller {
 				switch (m.getType()) {
 					case IRON -> {
 						IronTypeMaterialConfiguration ironMatConfig = (IronTypeMaterialConfiguration) m;
-						TEGMatLibUtil.inventoryAddAfter(ironMatConfig.getOre(), TEGMatLibUtil.getBlockFromKey(ironMatConfig.getOreBefore() + "_ore", modID), event);
-						TEGMatLibUtil.inventoryAddAfter(ironMatConfig.getDeepslateOre(), TEGMatLibUtil.getBlockFromKey("deepslate_" + ironMatConfig.getOreBefore() + "_ore", modID), event);
+						TEGMatLibUtil.inventoryAddAfter(ironMatConfig.getOre(), TEGMatLibUtil.getBlockFromKey("deepslate_" + ironMatConfig.getOreBefore() + "_ore", modID), event);
+						TEGMatLibUtil.inventoryAddAfter(ironMatConfig.getDeepslateOre(), ironMatConfig.getDeepslateOre(), event);
 						TEGMatLibUtil.inventoryAddAfter(ironMatConfig.getRawBlock(), TEGMatLibUtil.getBlockFromKey("raw_" + ironMatConfig.getRawBefore() + "_block", modID), event);
 					}
 				}
