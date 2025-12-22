@@ -21,7 +21,7 @@ public class OreGenHolder<T> {
 	}
 
 	public Optional<T> getSmall() {
-		return Optional.ofNullable(SMALL_KEY.get());
+		return Optional.ofNullable(SMALL_KEY).map(Supplier::get);
 	}
 
 	public boolean hasSmall() {
@@ -29,7 +29,7 @@ public class OreGenHolder<T> {
 	}
 
 	public Optional<T> getMedium() {
-		return Optional.ofNullable(MEDIUM_KEY.get());
+		return Optional.ofNullable(MEDIUM_KEY).map(Supplier::get);
 	}
 
 	public boolean hasMedium() {
@@ -37,7 +37,7 @@ public class OreGenHolder<T> {
 	}
 
 	public Optional<T> getLarge() {
-		return Optional.ofNullable(LARGE_KEY.get());
+		return Optional.ofNullable(LARGE_KEY).map(Supplier::get);
 	}
 
 	public boolean hasLarge() {
@@ -45,7 +45,7 @@ public class OreGenHolder<T> {
 	}
 
 	public Optional<T> getExtra() {
-		return Optional.ofNullable(EXTRA_KEY.get());
+		return Optional.ofNullable(EXTRA_KEY).map(Supplier::get);
 	}
 
 	public boolean hasExtra() {
