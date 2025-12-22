@@ -7,7 +7,7 @@ import net.theelementguy.tegmatlib.core.MaterialConfiguration;
 
 import java.util.List;
 
-public class TEGCreativeModeTabFiller {
+public class TEGMatLibCreativeModeTabFiller {
 
 	/**
 	 * Automatically fills the inventory in creative mode.
@@ -51,7 +51,7 @@ public class TEGCreativeModeTabFiller {
 		}
 		if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
 			for (MaterialConfiguration m : materials) {
-				TEGMatLibUtil.setAddAfter(m.getBaseName(), m.getSetBefore(), event, modID);
+				TEGMatLibUtil.toolsAddAfter(m.getBaseName(), m.getSetBefore(), event, modID);
 			}
 		}
 
