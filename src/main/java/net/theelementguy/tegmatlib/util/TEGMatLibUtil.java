@@ -124,7 +124,6 @@ public class TEGMatLibUtil {
 			if (upsideDown.containsKey(c)) {
 				charList.set(i, upsideDown.get(c));
 			} else {
-				System.out.println(upsideDown);
 				throw new NoSuchElementException("No upside down equivalent for: " + c);
 			}
 			i++;
@@ -145,16 +144,13 @@ public class TEGMatLibUtil {
 		HashMap<K, V> toReturn = new HashMap<>(things.length / 2);
 
 		for (int i = 0; i < things.length; i++) {
-			System.out.println(i);
 			if (((i % 2) == 1)) {
 				temp.add(things[i]);
-				System.out.println(temp);
 				toReturn.put((K) temp.get(0), (V) temp.get(1));
 				temp.clear();
 			} else {
 				temp.add(things[i]);
 			}
-			System.out.println(temp);
 		}
 
 		return toReturn;

@@ -1,13 +1,14 @@
 package net.theelementguy.tegmatlib.item;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.RegisterEvent;
+import net.theelementguy.tegmatlib.core.FullyConfiguredMaterialHolder;
 import net.theelementguy.tegmatlib.core.MaterialConfiguration;
+import org.checkerframework.checker.units.qual.A;
 import org.slf4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -16,20 +17,25 @@ public class TEGMatLibItemProvider {
 	private final String MOD_ID;
 	private final Logger LOG = LogUtils.getLogger();
 
-	private final Supplier<List<MaterialConfiguration>> MATERIALS;
+	private final FullyConfiguredMaterialHolder MATERIALS;
 
-	public TEGMatLibItemProvider(String modId, Supplier<List<MaterialConfiguration>> materials) {
+	public TEGMatLibItemProvider(String modId, FullyConfiguredMaterialHolder materials) {
 		MOD_ID = modId;
 		MATERIALS = materials;
 	}
 
-	public void registerItems(DeferredRegister.Items itemRegistry) {
+	public void registerItems(DeferredRegister.Items itemsRegistry) {
 
 		LOG.info("HELLO from tegmatlib item registration: {}", MOD_ID);
 
-		for (MaterialConfiguration config : MATERIALS.get()) {
-			config.fillItems(itemRegistry, MOD_ID);
+		ArrayList<Supplier<MaterialConfiguration>> configs = new ArrayList<>(MATERIALS.getMaterials().size());
+
+		for (MaterialConfiguration config : MATERIALS.getMaterials()) {
+			config.fillItems(itemsRegistry, MOD_ID);
+			configs.add(() -> config);
 		}
+
+		MATERIALS.setMaterialConfiguration(configs);
 
 	}
 
