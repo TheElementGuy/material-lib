@@ -1,5 +1,6 @@
 package net.theelementguy.tegmatlib.data;
 
+import com.ibm.icu.text.Normalizer2;
 import net.minecraft.client.color.item.Dye;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.data.models.BlockModelGenerators;
@@ -73,6 +74,8 @@ public class TEGMatLibModelProvider extends ModelProvider {
 			switch (config.getType()) {
 				case IRON -> {
 					IronTypeMaterialConfiguration ironMatConfig = (IronTypeMaterialConfiguration) config;
+
+					itemModels.generateFlatItem(ironMatConfig.getRawItem(), ModelTemplates.FLAT_ITEM);
 
 					blockModels.createTrivialCube(ironMatConfig.getRawBlock());
 					blockModels.createTrivialCube(ironMatConfig.getOre());
