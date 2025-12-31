@@ -5,6 +5,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.tags.ItemTags;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ItemTagsProvider;
+import net.theelementguy.tegmatlib.core.CubicZirconiaTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.MaterialConfiguration;
 import net.theelementguy.tegmatlib.core.MaterialType;
@@ -38,12 +39,20 @@ public class TEGMatLibItemTagProvider extends ItemTagsProvider {
 			tag(ItemTags.FOOT_ARMOR).add(config.getBoots());
 			tag(Tags.Items.MELEE_WEAPON_TOOLS).add(config.getSword(), config.getAxe());
 			tag(Tags.Items.MINING_TOOL_TOOLS).add(config.getPickaxe());
-			if (config.getType() == MaterialType.DIAMOND) {
-				tag(Tags.Items.GEMS).add(config.getBaseItem());
-			} else if (config.getType() == MaterialType.IRON) {
-				IronTypeMaterialConfiguration mat = (IronTypeMaterialConfiguration) config;
-				tag(Tags.Items.INGOTS).add(mat.getBaseItem());
-				tag(Tags.Items.RAW_MATERIALS).add(mat.getRawItem());
+			switch (config.getType()) {
+				case DIAMOND -> {
+					tag(Tags.Items.GEMS).add(config.getBaseItem());
+				}
+				case IRON -> {
+					IronTypeMaterialConfiguration mat = (IronTypeMaterialConfiguration) config;
+					tag(Tags.Items.INGOTS).add(mat.getBaseItem());
+					tag(Tags.Items.RAW_MATERIALS).add(mat.getRawItem());
+				}
+				case CUBIC_ZIRCONIA -> {
+					CubicZirconiaTypeMaterialConfiguration mat = (CubicZirconiaTypeMaterialConfiguration) config;
+					tag(Tags.Items.GEMS).add(mat.getBaseItem());
+					tag(Tags.Items.RAW_MATERIALS).add(mat.getRawItem());
+				}
 			}
 		}
 

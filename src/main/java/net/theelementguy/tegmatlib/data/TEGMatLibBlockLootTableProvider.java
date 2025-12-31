@@ -16,6 +16,7 @@ import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.theelementguy.tegmatlib.core.CubicZirconiaTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.DiamondTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.MaterialConfiguration;
@@ -73,6 +74,18 @@ public class TEGMatLibBlockLootTableProvider extends BlockLootSubProvider {
 				} else {
 					add(mat.getOre(), b -> createMultipleOreDrops(mat.getOre(), mat.getBaseItem(), mat));
 					add(mat.getDeepslateOre(), b -> createMultipleOreDrops(mat.getDeepslateOre(), mat.getBaseItem(), mat));
+				}
+			}
+			case CUBIC_ZIRCONIA -> {
+				CubicZirconiaTypeMaterialConfiguration mat = (CubicZirconiaTypeMaterialConfiguration) config;
+				dropSelf(mat.getBaseBlock());
+				dropSelf(mat.getRawBlock());
+				if (config.isSingleOre()) {
+					add(mat.getOre(), b -> createOreDrop(mat.getOre(), mat.getRawItem()));
+					add(mat.getDeepslateOre(), b -> createOreDrop(mat.getDeepslateOre(), mat.getRawItem()));
+				} else {
+					add(mat.getOre(), b -> createMultipleOreDrops(mat.getOre(), mat.getRawItem(), mat));
+					add(mat.getDeepslateOre(), b -> createMultipleOreDrops(mat.getDeepslateOre(), mat.getRawItem(), mat));
 				}
 			}
 		}

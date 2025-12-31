@@ -3,6 +3,7 @@ package net.theelementguy.tegmatlib.data;
 import net.minecraft.Util;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
+import net.theelementguy.tegmatlib.core.CubicZirconiaTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.DiamondTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.MaterialConfiguration;
@@ -53,6 +54,14 @@ public class TEGMatLibLanguageProvider extends LanguageProvider {
 					add(diamondMatConfig.getBaseItem(), diamondMatConfig.getHumanReadableName());
 					add(diamondMatConfig.getOre(), diamondMatConfig.getHumanReadableName() + " Ore");
 					add(diamondMatConfig.getDeepslateOre(), "Deepslate " + diamondMatConfig.getHumanReadableName() + " Ore");
+				}
+				case CUBIC_ZIRCONIA -> {
+					CubicZirconiaTypeMaterialConfiguration cubicMatConfig = (CubicZirconiaTypeMaterialConfiguration) config;
+					add(cubicMatConfig.getBaseItem(), cubicMatConfig.getHumanReadableName());
+					add(cubicMatConfig.getRawItem(), "Raw " + cubicMatConfig.getHumanReadableName());
+					add(cubicMatConfig.getRawBlock(), "Block of Raw " + cubicMatConfig.getHumanReadableName());
+					add(cubicMatConfig.getOre(), cubicMatConfig.getHumanReadableName() + " Ore");
+					add(cubicMatConfig.getDeepslateOre(), "Deepslate " + cubicMatConfig.getHumanReadableName() + " Ore");
 				}
 			}
 

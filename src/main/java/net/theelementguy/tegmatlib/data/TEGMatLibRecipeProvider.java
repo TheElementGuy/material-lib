@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
+import net.theelementguy.tegmatlib.core.CubicZirconiaTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.DiamondTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.MaterialConfiguration;
@@ -83,6 +84,11 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 				case DIAMOND -> {
 					DiamondTypeMaterialConfiguration diamondMatConfig = (DiamondTypeMaterialConfiguration) config;
 					allOreSmelting(diamondMatConfig.getBaseItem(), List.of(diamondMatConfig.getOre(), diamondMatConfig.getDeepslateOre()), diamondMatConfig.getSmeltingExperience(), diamondMatConfig.getBaseName());
+				}
+				case CUBIC_ZIRCONIA -> {
+					CubicZirconiaTypeMaterialConfiguration cubicConfig = (CubicZirconiaTypeMaterialConfiguration) config;
+					blockRecipe(cubicConfig.getRawItem(), cubicConfig.getRawBlock().asItem());
+					allOreSmelting(cubicConfig.getBaseItem(), List.of(cubicConfig.getOre(), cubicConfig.getDeepslateOre(), cubicConfig.getRawItem()), cubicConfig.getSmeltingExperience(), cubicConfig.getBaseName());
 				}
 			}
 

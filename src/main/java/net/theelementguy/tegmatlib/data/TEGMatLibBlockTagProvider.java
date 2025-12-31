@@ -5,6 +5,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
+import net.theelementguy.tegmatlib.core.CubicZirconiaTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.DiamondTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.MaterialConfiguration;
@@ -79,6 +80,31 @@ public class TEGMatLibBlockTagProvider extends BlockTagsProvider {
 				} else {
 					tag(BlockTags.MINEABLE_WITH_PICKAXE).add(mat.getBaseBlock(), mat.getOre(), mat.getDeepslateOre());
 					tag(TEGMatLibUtil.getNeedsTagForMineability(tier)).add(mat.getBaseBlock(), mat.getOre(), mat.getDeepslateOre());
+					tag(mat.getIncorrectForMaterial()).addTag(TEGMatLibUtil.getTagForTierIncorrect(mat.getMiningLevel()));
+					tag(mat.getNeedsMaterial()).addTag(TEGMatLibUtil.getTagForTierNeeds(mat.getMiningLevel()));
+				}
+				if (mat.isSingleOre()) {
+					tag(Tags.Blocks.ORE_RATES_SINGULAR).add(mat.getOre(), mat.getDeepslateOre());
+				} else {
+					tag(Tags.Blocks.ORE_RATES_DENSE).add(mat.getOre(), mat.getDeepslateOre());
+				}
+				tag(Tags.Blocks.ORES_IN_GROUND_STONE).add(mat.getOre());
+				tag(Tags.Blocks.ORE_BEARING_GROUND_DEEPSLATE).add(mat.getDeepslateOre());
+			}
+			case CUBIC_ZIRCONIA -> {
+				CubicZirconiaTypeMaterialConfiguration mat = (CubicZirconiaTypeMaterialConfiguration) material;
+				if (tier == MineabilityTier.ALL) {
+					tag(BlockTags.MINEABLE_WITH_PICKAXE).add(mat.getBaseBlock(), mat.getRawBlock(), mat.getOre(), mat.getDeepslateOre());
+					tag(mat.getIncorrectForMaterial()).addTag(BlockTags.INCORRECT_FOR_WOODEN_TOOL);
+					tag(mat.getNeedsMaterial()).addTag(Tags.Blocks.NEEDS_WOOD_TOOL);
+				} else if (tier == MineabilityTier.NETHERITE) {
+					tag(BlockTags.MINEABLE_WITH_PICKAXE).add(mat.getBaseBlock(), mat.getRawBlock(), mat.getOre(), mat.getDeepslateOre());
+					tag(Tags.Blocks.NEEDS_NETHERITE_TOOL).add(mat.getBaseBlock(), mat.getRawBlock(), mat.getOre(), mat.getDeepslateOre());
+					tag(mat.getNeedsMaterial()).addTag(Tags.Blocks.NEEDS_NETHERITE_TOOL);
+					tag(mat.getIncorrectForMaterial()).addTag(BlockTags.INCORRECT_FOR_NETHERITE_TOOL).remove(mat.getNeedsMaterial());
+				} else {
+					tag(BlockTags.MINEABLE_WITH_PICKAXE).add(mat.getBaseBlock(), mat.getRawBlock(), mat.getOre(), mat.getDeepslateOre());
+					tag(TEGMatLibUtil.getNeedsTagForMineability(tier)).add(mat.getBaseBlock(), mat.getRawBlock(), mat.getOre(), mat.getDeepslateOre());
 					tag(mat.getIncorrectForMaterial()).addTag(TEGMatLibUtil.getTagForTierIncorrect(mat.getMiningLevel()));
 					tag(mat.getNeedsMaterial()).addTag(TEGMatLibUtil.getTagForTierNeeds(mat.getMiningLevel()));
 				}

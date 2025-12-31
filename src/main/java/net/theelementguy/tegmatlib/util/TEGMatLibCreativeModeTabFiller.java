@@ -2,6 +2,7 @@ package net.theelementguy.tegmatlib.util;
 
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.theelementguy.tegmatlib.core.CubicZirconiaTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.DiamondTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.MaterialConfiguration;
@@ -26,6 +27,10 @@ public class TEGMatLibCreativeModeTabFiller {
 						IronTypeMaterialConfiguration ironMatConfig = (IronTypeMaterialConfiguration) m;
 						TEGMatLibUtil.inventoryAddAfter(ironMatConfig.getRawItem(), TEGMatLibUtil.getItemFromKey("raw_" + ironMatConfig.getRawBefore(), modID), event);
 					}
+					case CUBIC_ZIRCONIA -> {
+						CubicZirconiaTypeMaterialConfiguration cubicMatConfig = (CubicZirconiaTypeMaterialConfiguration) m;
+						TEGMatLibUtil.inventoryAddAfter(cubicMatConfig.getRawItem(), TEGMatLibUtil.getItemFromKey("raw_" + cubicMatConfig.getRawBefore(), modID), event);
+					}
 				}
 			}
 		}
@@ -47,6 +52,12 @@ public class TEGMatLibCreativeModeTabFiller {
 						DiamondTypeMaterialConfiguration diamondMatConfig = (DiamondTypeMaterialConfiguration) m;
 						TEGMatLibUtil.inventoryAddAfter(diamondMatConfig.getOre(), TEGMatLibUtil.getBlockFromKey("deepslate_" + diamondMatConfig.getOreBefore() + "_ore", modID), event);
 						TEGMatLibUtil.inventoryAddAfter(diamondMatConfig.getDeepslateOre(), diamondMatConfig.getOre(), event);
+					}
+					case CUBIC_ZIRCONIA -> {
+						CubicZirconiaTypeMaterialConfiguration cubicMatConfig = (CubicZirconiaTypeMaterialConfiguration) m;
+						TEGMatLibUtil.inventoryAddAfter(cubicMatConfig.getOre(), TEGMatLibUtil.getBlockFromKey("deepslate_" + cubicMatConfig.getOreBefore() + "_ore", modID), event);
+						TEGMatLibUtil.inventoryAddAfter(cubicMatConfig.getDeepslateOre(), cubicMatConfig.getOre(), event);
+						TEGMatLibUtil.inventoryAddAfter(cubicMatConfig.getRawBlock(), TEGMatLibUtil.getBlockFromKey("raw_" + cubicMatConfig.getRawBefore() + "_block", modID), event);
 					}
 				}
 			}
