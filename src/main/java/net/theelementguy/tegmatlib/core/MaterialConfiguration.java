@@ -21,7 +21,6 @@ import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.item.equipment.trim.MaterialAssetGroup;
 import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.RailState;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -32,7 +31,6 @@ import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.RegisterEvent;
 import net.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import net.theelementguy.tegmatlib.core.tiers.MiningTier;
 import net.theelementguy.tegmatlib.util.TEGMatLibUtil;
@@ -100,12 +98,13 @@ public abstract class MaterialConfiguration {
 	protected final MiningTier TIER;
 	protected final MineabilityTier MINEABILITY_TIER;
 
-	protected final String SET_BEFORE;
+	protected final String TOOLS_BEFORE;
+	protected final String ARMOR_BEFORE;
 	protected final Item ITEM_BEFORE;
 	protected final Block BLOCK_BEFORE;
 	protected final String ORE_BEFORE;
 
-	public MaterialConfiguration(String modId, String baseName, String humanReadableName, MaterialType materialType, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String setBefore, Item itemBefore, Block blockBefore, String oreBefore) {
+	public MaterialConfiguration(String modId, String baseName, String humanReadableName, MaterialType materialType, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String toolsBefore, String armorBefore, Item itemBefore, Block blockBefore, String oreBefore) {
 		BASE_NAME = baseName;
 		MOD_ID = modId;
 		HUMAN_READABLE_NAME = humanReadableName;
@@ -120,7 +119,8 @@ public abstract class MaterialConfiguration {
 		EXTRA_DROPS = extraDrops;
 		TIER = tier;
 		MINEABILITY_TIER = mineabilityTier;
-		SET_BEFORE = setBefore;
+		TOOLS_BEFORE = toolsBefore;
+		ARMOR_BEFORE = armorBefore;
 		ITEM_BEFORE = itemBefore;
 		BLOCK_BEFORE = blockBefore;
 		ORE_BEFORE = oreBefore;
@@ -365,8 +365,12 @@ public abstract class MaterialConfiguration {
 		return SMELTING_EXPERIENCE;
 	}
 
-	public String getSetBefore() {
-		return SET_BEFORE;
+	public String getToolsBefore() {
+		return TOOLS_BEFORE;
+	}
+
+	public String getArmorBefore() {
+		return ARMOR_BEFORE;
 	}
 
 	public Item getItemBefore() {

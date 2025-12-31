@@ -53,12 +53,12 @@ public class TEGMatLibCreativeModeTabFiller {
 		}
 		if (event.getTabKey() == CreativeModeTabs.COMBAT) {
 			for (MaterialConfiguration m : materials) {
-				TEGMatLibUtil.setAddAfter(m.getBaseName(), m.getSetBefore(), event, modID);
+				TEGMatLibUtil.setAddAfter(m.getBaseName(), m.getToolsBefore(), m.getArmorBefore(), event, modID);
 			}
 		}
 		if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
 			for (MaterialConfiguration m : materials) {
-				TEGMatLibUtil.toolsAddAfter(m.getBaseName(), m.getSetBefore(), event, modID);
+				TEGMatLibUtil.toolsAddAfter(m.getBaseName(), m.getToolsBefore(), event, modID);
 			}
 		}
 

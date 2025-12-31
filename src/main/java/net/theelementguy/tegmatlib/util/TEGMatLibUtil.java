@@ -72,10 +72,10 @@ public class TEGMatLibUtil {
 		event.insertAfter(new ItemStack(referenceItem, 1), new ItemStack(item, 1), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 	}
 
-	public static void setAddAfter(String set, String begin, BuildCreativeModeTabContentsEvent event, String modId) {
-		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_sword", modId), TEGMatLibUtil.getItemFromKey(begin + "_sword", modId), event);
-		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_axe", modId), TEGMatLibUtil.getItemFromKey(begin + "_axe", modId), event);
-		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_helmet", modId), TEGMatLibUtil.getItemFromKey(begin + "_boots", modId), event);
+	public static void setAddAfter(String set, String tools, String armor, BuildCreativeModeTabContentsEvent event, String modId) {
+		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_sword", modId), TEGMatLibUtil.getItemFromKey(tools + "_sword", modId), event);
+		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_axe", modId), TEGMatLibUtil.getItemFromKey(tools + "_axe", modId), event);
+		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_helmet", modId), TEGMatLibUtil.getItemFromKey(armor + "_boots", modId), event);
 		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_chestplate", modId), TEGMatLibUtil.getItemFromKey(set + "_helmet", modId), event);
 		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_leggings", modId), TEGMatLibUtil.getItemFromKey(set + "_chestplate", modId), event);
 		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_boots", modId), TEGMatLibUtil.getItemFromKey(set + "_leggings", modId), event);
