@@ -24,7 +24,7 @@ public class DiamondTypeMaterialConfiguration extends MaterialConfiguration {
 	protected DeferredBlock<Block> ORE_BLOCK;
 	protected DeferredBlock<Block> DEEPSLATE_ORE_BLOCK;
 
-	public DiamondTypeMaterialConfiguration(String modId, String baseName, String humanReadableName, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, String setBefore, Item itemBefore, Block blockBefore, String oreBefore, String rawBefore) {
+	public DiamondTypeMaterialConfiguration(String modId, String baseName, String humanReadableName, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, String setBefore, Item itemBefore, Block blockBefore, String oreBefore) {
 		super(modId, baseName, humanReadableName, MaterialType.DIAMOND, trimMaterialDescriptionColor, toolDurability, speed, attackDamageBonus, enchantmentValue, defaultProperties, armorDurability, helmetDefense, chestplateDefense, smeltingExperience, leggingsDefense, bootsDefense, horseDefense, equipSound, toughness, knockbackResistance, mapColor, soundType, oreGenConfigs, dropsPerOre, extraDrops, tier, setBefore, itemBefore, blockBefore, oreBefore);
 	}
 
@@ -102,7 +102,6 @@ public class DiamondTypeMaterialConfiguration extends MaterialConfiguration {
 		protected Item ITEM_BEFORE;
 		protected Block BLOCK_BEFORE;
 		protected String ORE_BEFORE;
-		protected String RAW_BEFORE;
 
 		public DiamondTypeMaterialConfiguration.Builder modId(String modId) {
 			this.MOD_ID = modId;
@@ -221,12 +220,11 @@ public class DiamondTypeMaterialConfiguration extends MaterialConfiguration {
 			this.ITEM_BEFORE = itemBefore;
 			this.BLOCK_BEFORE = blockBefore;
 			this.ORE_BEFORE = oreBefore;
-			this.RAW_BEFORE = rawBefore;
 			return this;
 		}
 
 		public DiamondTypeMaterialConfiguration build() {
-			return new DiamondTypeMaterialConfiguration(MOD_ID, BASE_NAME, HUMAN_READABLE_NAME, TRIM_MATERIAL_DESCRIPTION_COLOR, TOOL_DURABILITY, SPEED, ATTACK_DAMAGE_BONUS, TOOL_ENCHANTMENT, DEFAULT_PROPERTIES, ARMOR_DURABILITY, HEAD_DEFENSE, CHESTPLATE_DEFENSE, SMELTING_EXPERIENCE, LEGGINGS_DEFENSE, BOOTS_DEFENSE, HORSE_DEFENSE, EQUIP_SOUND, TOUGHNESS, KNOCKBACK_RESISTANCE, MAP_COLOR, SOUND_TYPE, ORE_GEN_CONFIGS, DROPS_PER_ORE, EXTRA_DROPS, TIER, SET_BEFORE, ITEM_BEFORE, BLOCK_BEFORE, ORE_BEFORE, RAW_BEFORE);
+			return new DiamondTypeMaterialConfiguration(MOD_ID, BASE_NAME, HUMAN_READABLE_NAME, TRIM_MATERIAL_DESCRIPTION_COLOR, TOOL_DURABILITY, SPEED, ATTACK_DAMAGE_BONUS, TOOL_ENCHANTMENT, DEFAULT_PROPERTIES, ARMOR_DURABILITY, HEAD_DEFENSE, CHESTPLATE_DEFENSE, SMELTING_EXPERIENCE, LEGGINGS_DEFENSE, BOOTS_DEFENSE, HORSE_DEFENSE, EQUIP_SOUND, TOUGHNESS, KNOCKBACK_RESISTANCE, MAP_COLOR, SOUND_TYPE, ORE_GEN_CONFIGS, DROPS_PER_ORE, EXTRA_DROPS, TIER, SET_BEFORE, ITEM_BEFORE, BLOCK_BEFORE, ORE_BEFORE);
 		}
 
 	}
