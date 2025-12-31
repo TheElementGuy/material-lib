@@ -16,6 +16,7 @@ import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.theelementguy.tegmatlib.core.DiamondTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.MaterialConfiguration;
 
@@ -61,6 +62,17 @@ public class TEGMatLibBlockLootTableProvider extends BlockLootSubProvider {
 				} else {
 					add(mat.getOre(), b -> createMultipleOreDrops(mat.getOre(), mat.getRawItem(), mat));
 					add(mat.getDeepslateOre(), b -> createMultipleOreDrops(mat.getDeepslateOre(), mat.getRawItem(), mat));
+				}
+			}
+			case DIAMOND -> {
+				DiamondTypeMaterialConfiguration mat = (DiamondTypeMaterialConfiguration) config;
+				dropSelf(mat.getBaseBlock());
+				if (config.isSingleOre()) {
+					add(mat.getOre(), b -> createOreDrop(mat.getOre(), mat.getBaseItem()));
+					add(mat.getDeepslateOre(), b -> createOreDrop(mat.getDeepslateOre(), mat.getBaseItem()));
+				} else {
+					add(mat.getOre(), b -> createMultipleOreDrops(mat.getOre(), mat.getBaseItem(), mat));
+					add(mat.getDeepslateOre(), b -> createMultipleOreDrops(mat.getDeepslateOre(), mat.getBaseItem(), mat));
 				}
 			}
 		}

@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
+import net.theelementguy.tegmatlib.core.DiamondTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.MaterialConfiguration;
 
@@ -78,6 +79,10 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 					IronTypeMaterialConfiguration ironConfig = (IronTypeMaterialConfiguration) config;
 					blockRecipe(ironConfig.getRawItem(), ironConfig.getRawBlock().asItem());
 					allOreSmelting(ironConfig.getBaseItem(), List.of(ironConfig.getOre(), ironConfig.getDeepslateOre(), ironConfig.getRawItem()), ironConfig.getSmeltingExperience(), ironConfig.getBaseName());
+				}
+				case DIAMOND -> {
+					DiamondTypeMaterialConfiguration diamondMatConfig = (DiamondTypeMaterialConfiguration) config;
+					allOreSmelting(diamondMatConfig.getBaseItem(), List.of(diamondMatConfig.getOre(), diamondMatConfig.getDeepslateOre()), diamondMatConfig.getSmeltingExperience(), diamondMatConfig.getBaseName());
 				}
 			}
 

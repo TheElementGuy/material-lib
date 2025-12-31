@@ -3,6 +3,7 @@ package net.theelementguy.tegmatlib.data;
 import net.minecraft.Util;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
+import net.theelementguy.tegmatlib.core.DiamondTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.MaterialConfiguration;
 
@@ -46,6 +47,12 @@ public class TEGMatLibLanguageProvider extends LanguageProvider {
 					add(ironMatConfig.getRawBlock(), "Block of Raw " + ironMatConfig.getHumanReadableName());
 					add(ironMatConfig.getOre(), ironMatConfig.getHumanReadableName() + " Ore");
 					add(ironMatConfig.getDeepslateOre(), "Deepslate " + ironMatConfig.getHumanReadableName() + " Ore");
+				}
+				case DIAMOND -> {
+					DiamondTypeMaterialConfiguration diamondMatConfig = (DiamondTypeMaterialConfiguration) config;
+					add(diamondMatConfig.getBaseItem(), diamondMatConfig.getHumanReadableName());
+					add(diamondMatConfig.getOre(), diamondMatConfig.getHumanReadableName() + " Ore");
+					add(diamondMatConfig.getDeepslateOre(), "Deepslate " + diamondMatConfig.getHumanReadableName() + " Ore");
 				}
 			}
 

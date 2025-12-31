@@ -2,6 +2,7 @@ package net.theelementguy.tegmatlib.util;
 
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.theelementguy.tegmatlib.core.DiamondTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.MaterialConfiguration;
 
@@ -16,6 +17,7 @@ public class TEGMatLibCreativeModeTabFiller {
 	 * @param modID The mod ID of the mod in question.
 	 */
 	public static void build(List<MaterialConfiguration> materials, BuildCreativeModeTabContentsEvent event, String modID) {
+		//TODO: proper ordering
 		if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
 			for (MaterialConfiguration m : materials) {
 				TEGMatLibUtil.inventoryAddAfter(m.getBaseItem(), m.getItemBefore(), event);
@@ -40,6 +42,11 @@ public class TEGMatLibCreativeModeTabFiller {
 						TEGMatLibUtil.inventoryAddAfter(ironMatConfig.getOre(), TEGMatLibUtil.getBlockFromKey("deepslate_" + ironMatConfig.getOreBefore() + "_ore", modID), event);
 						TEGMatLibUtil.inventoryAddAfter(ironMatConfig.getDeepslateOre(), ironMatConfig.getOre(), event);
 						TEGMatLibUtil.inventoryAddAfter(ironMatConfig.getRawBlock(), TEGMatLibUtil.getBlockFromKey("raw_" + ironMatConfig.getRawBefore() + "_block", modID), event);
+					}
+					case DIAMOND -> {
+						DiamondTypeMaterialConfiguration diamondMatConfig = (DiamondTypeMaterialConfiguration) m;
+						TEGMatLibUtil.inventoryAddAfter(diamondMatConfig.getOre(), TEGMatLibUtil.getBlockFromKey("deepslate_" + diamondMatConfig.getOreBefore() + "_ore", modID), event);
+						TEGMatLibUtil.inventoryAddAfter(diamondMatConfig.getDeepslateOre(), diamondMatConfig.getOre(), event);
 					}
 				}
 			}

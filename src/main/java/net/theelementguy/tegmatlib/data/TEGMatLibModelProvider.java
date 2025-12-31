@@ -23,6 +23,7 @@ import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.item.equipment.trim.MaterialAssetGroup;
 import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.minecraft.world.item.equipment.trim.TrimMaterials;
+import net.theelementguy.tegmatlib.core.DiamondTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.MaterialConfiguration;
 
@@ -80,6 +81,11 @@ public class TEGMatLibModelProvider extends ModelProvider {
 					blockModels.createTrivialCube(ironMatConfig.getRawBlock());
 					blockModels.createTrivialCube(ironMatConfig.getOre());
 					blockModels.createTrivialCube(ironMatConfig.getDeepslateOre());
+				}
+				case DIAMOND -> {
+					DiamondTypeMaterialConfiguration diamondMatConfig = (DiamondTypeMaterialConfiguration) config;
+					blockModels.createTrivialCube(diamondMatConfig.getOre());
+					blockModels.createTrivialCube(diamondMatConfig.getDeepslateOre());
 				}
 			}
 
