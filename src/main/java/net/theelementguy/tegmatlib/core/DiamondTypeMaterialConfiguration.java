@@ -215,7 +215,7 @@ public class DiamondTypeMaterialConfiguration extends MaterialConfiguration {
 			return this;
 		}
 
-		public DiamondTypeMaterialConfiguration.Builder setBefore(String setBefore, Item itemBefore, Block blockBefore, String rawBefore, String oreBefore) {
+		public DiamondTypeMaterialConfiguration.Builder setBefore(String setBefore, Item itemBefore, Block blockBefore, String oreBefore) {
 			this.SET_BEFORE = setBefore;
 			this.ITEM_BEFORE = itemBefore;
 			this.BLOCK_BEFORE = blockBefore;
