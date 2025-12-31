@@ -22,6 +22,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.RegisterEvent;
+import net.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import net.theelementguy.tegmatlib.core.tiers.MiningTier;
 import net.theelementguy.tegmatlib.worldgen.*;
 import net.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
@@ -40,8 +41,8 @@ public class IronTypeMaterialConfiguration extends MaterialConfiguration {
 
 	protected String RAW_BEFORE;
 
-	public IronTypeMaterialConfiguration(String modId, String baseName, String humanReadableName, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, String setBefore, Item itemBefore, Block blockBefore, String oreBefore, String rawBefore) {
-		super(modId, baseName, humanReadableName, MaterialType.IRON, trimMaterialDescriptionColor, toolDurability, speed, attackDamageBonus, enchantmentValue, defaultProperties, armorDurability, helmetDefense, chestplateDefense, smeltingExperience, leggingsDefense, bootsDefense, horseDefense, equipSound, toughness, knockbackResistance, mapColor, soundType, oreGenConfigs, dropsPerOre, extraDrops, tier, setBefore, itemBefore, blockBefore, oreBefore);
+	public IronTypeMaterialConfiguration(String modId, String baseName, String humanReadableName, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String setBefore, Item itemBefore, Block blockBefore, String oreBefore, String rawBefore) {
+		super(modId, baseName, humanReadableName, MaterialType.IRON, trimMaterialDescriptionColor, toolDurability, speed, attackDamageBonus, enchantmentValue, defaultProperties, armorDurability, helmetDefense, chestplateDefense, smeltingExperience, leggingsDefense, bootsDefense, horseDefense, equipSound, toughness, knockbackResistance, mapColor, soundType, oreGenConfigs, dropsPerOre, extraDrops, tier, mineabilityTier, setBefore, itemBefore, blockBefore, oreBefore);
 		this.RAW_BEFORE = rawBefore;
 	}
 
@@ -110,6 +111,7 @@ public class IronTypeMaterialConfiguration extends MaterialConfiguration {
 		protected int EXTRA_DROPS = 0;
 
 		protected MiningTier TIER;
+		protected MineabilityTier MINEABILITY_TIER = MineabilityTier.DEFAULT;
 
 		protected int TOOL_DURABILITY;
 		protected float SPEED;
@@ -240,6 +242,12 @@ public class IronTypeMaterialConfiguration extends MaterialConfiguration {
 			return this;
 		}
 
+		public Builder tier(MiningTier miningTier, MineabilityTier mineabilityTier) {
+			this.TIER = miningTier;
+			this.MINEABILITY_TIER = mineabilityTier;
+			return this;
+		}
+
 		public Builder trimMaterialDescriptionColor(String colorHex) {
 			this.TRIM_MATERIAL_DESCRIPTION_COLOR = colorHex;
 			return this;
@@ -255,7 +263,7 @@ public class IronTypeMaterialConfiguration extends MaterialConfiguration {
 		}
 
 		public IronTypeMaterialConfiguration build() {
-			return new IronTypeMaterialConfiguration(MOD_ID, BASE_NAME, HUMAN_READABLE_NAME, TRIM_MATERIAL_DESCRIPTION_COLOR, TOOL_DURABILITY, SPEED, ATTACK_DAMAGE_BONUS, TOOL_ENCHANTMENT, DEFAULT_PROPERTIES, ARMOR_DURABILITY, HEAD_DEFENSE, CHESTPLATE_DEFENSE, SMELTING_EXPERIENCE, LEGGINGS_DEFENSE, BOOTS_DEFENSE, HORSE_DEFENSE, EQUIP_SOUND, TOUGHNESS, KNOCKBACK_RESISTANCE, MAP_COLOR, SOUND_TYPE, ORE_GEN_CONFIGS, DROPS_PER_ORE, EXTRA_DROPS, TIER, SET_BEFORE, ITEM_BEFORE, BLOCK_BEFORE, ORE_BEFORE, RAW_BEFORE);
+			return new IronTypeMaterialConfiguration(MOD_ID, BASE_NAME, HUMAN_READABLE_NAME, TRIM_MATERIAL_DESCRIPTION_COLOR, TOOL_DURABILITY, SPEED, ATTACK_DAMAGE_BONUS, TOOL_ENCHANTMENT, DEFAULT_PROPERTIES, ARMOR_DURABILITY, HEAD_DEFENSE, CHESTPLATE_DEFENSE, SMELTING_EXPERIENCE, LEGGINGS_DEFENSE, BOOTS_DEFENSE, HORSE_DEFENSE, EQUIP_SOUND, TOUGHNESS, KNOCKBACK_RESISTANCE, MAP_COLOR, SOUND_TYPE, ORE_GEN_CONFIGS, DROPS_PER_ORE, EXTRA_DROPS, TIER, MINEABILITY_TIER, SET_BEFORE, ITEM_BEFORE, BLOCK_BEFORE, ORE_BEFORE, RAW_BEFORE);
 		}
 
 	}

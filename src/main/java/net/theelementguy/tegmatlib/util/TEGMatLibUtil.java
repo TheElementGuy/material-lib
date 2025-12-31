@@ -23,6 +23,7 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import net.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import net.theelementguy.tegmatlib.core.tiers.MiningTier;
 
 import java.util.*;
@@ -202,6 +203,41 @@ public class TEGMatLibUtil {
 			case DIAMOND -> BlockTags.NEEDS_DIAMOND_TOOL;
 			case NETHERITE -> Tags.Blocks.NEEDS_NETHERITE_TOOL;
 			case BEYOND_NETHERITE -> {throw new IllegalArgumentException("Mining level of beyond netherite not permitted. Such a material should be incorrect for netherite and remove needs for that level.");}
+		};
+	}
+
+	public static MineabilityTier getMineability(MiningTier tier) {
+		return switch (tier) {
+			case WOOD -> MineabilityTier.ALL;
+			case STONE -> MineabilityTier.WOOD;
+			case IRON -> MineabilityTier.STONE;
+			case DIAMOND -> MineabilityTier.IRON;
+			case NETHERITE -> MineabilityTier.DIAMOND;
+			case BEYOND_NETHERITE -> MineabilityTier.NETHERITE;
+		};
+	}
+
+	public static TagKey<Block> getNeedsTagForMineability(MineabilityTier tier) {
+		return switch (tier) {
+			case ALL -> Tags.Blocks.NEEDS_WOOD_TOOL;
+			case DEFAULT -> {throw new IllegalArgumentException("Default not permitted here. Input should be resolved.");}
+			case WOOD -> BlockTags.NEEDS_STONE_TOOL;
+			case STONE -> BlockTags.NEEDS_IRON_TOOL;
+			case IRON -> BlockTags.NEEDS_DIAMOND_TOOL;
+			case DIAMOND -> Tags.Blocks.NEEDS_NETHERITE_TOOL;
+			case NETHERITE -> {throw new IllegalArgumentException("Mining level of beyond netherite not permitted. Such a material should be incorrect for netherite and remove needs for that level.");}
+		};
+	}
+
+	public static TagKey<Block> getIncorrectTagForMineability(MineabilityTier tier) {
+		return switch (tier) {
+			case DEFAULT -> {throw new IllegalArgumentException("Default not permitted here. Input should be resolved.");}
+			case WOOD -> BlockTags.INCORRECT_FOR_WOODEN_TOOL;
+			case STONE -> BlockTags.INCORRECT_FOR_STONE_TOOL;
+			case IRON -> BlockTags.INCORRECT_FOR_IRON_TOOL;
+			case DIAMOND -> BlockTags.INCORRECT_FOR_DIAMOND_TOOL;
+			case NETHERITE -> BlockTags.INCORRECT_FOR_NETHERITE_TOOL;
+			case ALL -> {throw new IllegalArgumentException("Mineability level of all not permitted. Such a material should be incorrect for nothing.");}
 		};
 	}
 

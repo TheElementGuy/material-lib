@@ -33,6 +33,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.RegisterEvent;
+import net.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import net.theelementguy.tegmatlib.core.tiers.MiningTier;
 import net.theelementguy.tegmatlib.util.TEGMatLibUtil;
 import net.theelementguy.tegmatlib.worldgen.*;
@@ -97,13 +98,14 @@ public abstract class MaterialConfiguration {
 	protected final int EXTRA_DROPS;
 
 	protected final MiningTier TIER;
+	protected final MineabilityTier MINEABILITY_TIER;
 
 	protected final String SET_BEFORE;
 	protected final Item ITEM_BEFORE;
 	protected final Block BLOCK_BEFORE;
 	protected final String ORE_BEFORE;
 
-	public MaterialConfiguration(String modId, String baseName, String humanReadableName, MaterialType materialType, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, String setBefore, Item itemBefore, Block blockBefore, String oreBefore) {
+	public MaterialConfiguration(String modId, String baseName, String humanReadableName, MaterialType materialType, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String setBefore, Item itemBefore, Block blockBefore, String oreBefore) {
 		BASE_NAME = baseName;
 		MOD_ID = modId;
 		HUMAN_READABLE_NAME = humanReadableName;
@@ -117,6 +119,7 @@ public abstract class MaterialConfiguration {
 		DROPS_PER_ORE = dropsPerOre;
 		EXTRA_DROPS = extraDrops;
 		TIER = tier;
+		MINEABILITY_TIER = mineabilityTier;
 		SET_BEFORE = setBefore;
 		ITEM_BEFORE = itemBefore;
 		BLOCK_BEFORE = blockBefore;
@@ -376,5 +379,9 @@ public abstract class MaterialConfiguration {
 
 	public String getOreBefore() {
 		return ORE_BEFORE;
+	}
+
+	public MineabilityTier getMineabilityLevel() {
+		return MINEABILITY_TIER;
 	}
 }

@@ -8,8 +8,10 @@ import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.theelementguy.tegmatlib.core.DiamondTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
 import net.theelementguy.tegmatlib.core.MaterialConfiguration;
+import net.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import net.theelementguy.tegmatlib.core.tiers.MiningTier;
 import net.theelementguy.tegmatlib.util.TEGMatLibUtil;
+import org.w3c.dom.html.HTMLIsIndexElement;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -36,19 +38,24 @@ public class TEGMatLibBlockTagProvider extends BlockTagsProvider {
 	protected void addMaterial(MaterialConfiguration material) {
 		//TODO: investigate proper tags getbase, getraw, getore, getdore
 		tag(Tags.Blocks.STORAGE_BLOCKS).add(material.getBaseBlock());
+		MineabilityTier tier = (material.getMineabilityLevel() == MineabilityTier.DEFAULT) ? TEGMatLibUtil.getMineability(material.getMiningLevel()) : material.getMineabilityLevel();
 		switch (material.getType()) {
 			case IRON -> {
 				IronTypeMaterialConfiguration mat = (IronTypeMaterialConfiguration) material;
-				if (mat.getMiningLevel() != MiningTier.WOOD) {
+				if (tier == MineabilityTier.ALL) {
 					tag(BlockTags.MINEABLE_WITH_PICKAXE).add(mat.getBaseBlock(), mat.getRawBlock(), mat.getOre(), mat.getDeepslateOre());
-					tag(TEGMatLibUtil.getTagForTierUnder(mat.getMiningLevel())).add(mat.getBaseBlock(), mat.getRawBlock(), mat.getOre(), mat.getDeepslateOre());
-				}
-				if (mat.getMiningLevel() != MiningTier.BEYOND_NETHERITE) {
-					tag(mat.getIncorrectForMaterial()).addTag(TEGMatLibUtil.getTagForTierIncorrect(mat.getMiningLevel()));
-					tag(mat.getNeedsMaterial()).addTag(TEGMatLibUtil.getTagForTierNeeds(mat.getMiningLevel()));
-				} else {
+					tag(mat.getIncorrectForMaterial()).addTag(BlockTags.INCORRECT_FOR_WOODEN_TOOL);
+					tag(mat.getNeedsMaterial()).addTag(Tags.Blocks.NEEDS_WOOD_TOOL);
+				} else if (tier == MineabilityTier.NETHERITE) {
+					tag(BlockTags.MINEABLE_WITH_PICKAXE).add(mat.getBaseBlock(), mat.getRawBlock(), mat.getOre(), mat.getDeepslateOre());
+					tag(Tags.Blocks.NEEDS_NETHERITE_TOOL).add(mat.getBaseBlock(), mat.getRawBlock(), mat.getOre(), mat.getDeepslateOre());
 					tag(mat.getNeedsMaterial()).addTag(Tags.Blocks.NEEDS_NETHERITE_TOOL);
 					tag(mat.getIncorrectForMaterial()).addTag(BlockTags.INCORRECT_FOR_NETHERITE_TOOL).remove(mat.getNeedsMaterial());
+				} else {
+					tag(BlockTags.MINEABLE_WITH_PICKAXE).add(mat.getBaseBlock(), mat.getRawBlock(), mat.getOre(), mat.getDeepslateOre());
+					tag(TEGMatLibUtil.getNeedsTagForMineability(tier)).add(mat.getBaseBlock(), mat.getRawBlock(), mat.getOre(), mat.getDeepslateOre());
+					tag(mat.getIncorrectForMaterial()).addTag(TEGMatLibUtil.getTagForTierIncorrect(mat.getMiningLevel()));
+					tag(mat.getNeedsMaterial()).addTag(TEGMatLibUtil.getTagForTierNeeds(mat.getMiningLevel()));
 				}
 				if (mat.isSingleOre()) {
 					tag(Tags.Blocks.ORE_RATES_SINGULAR).add(mat.getOre(), mat.getDeepslateOre());
@@ -60,16 +67,20 @@ public class TEGMatLibBlockTagProvider extends BlockTagsProvider {
 			}
 			case DIAMOND -> {
 				DiamondTypeMaterialConfiguration mat = (DiamondTypeMaterialConfiguration) material;
-				if (mat.getMiningLevel() != MiningTier.WOOD) {
+				if (tier == MineabilityTier.ALL) {
 					tag(BlockTags.MINEABLE_WITH_PICKAXE).add(mat.getBaseBlock(), mat.getOre(), mat.getDeepslateOre());
-					tag(TEGMatLibUtil.getTagForTierUnder(mat.getMiningLevel())).add(mat.getBaseBlock(), mat.getOre(), mat.getDeepslateOre());
-				}
-				if (mat.getMiningLevel() != MiningTier.BEYOND_NETHERITE) {
-					tag(mat.getIncorrectForMaterial()).addTag(TEGMatLibUtil.getTagForTierIncorrect(mat.getMiningLevel()));
-					tag(mat.getNeedsMaterial()).addTag(TEGMatLibUtil.getTagForTierNeeds(mat.getMiningLevel()));
-				} else {
+					tag(mat.getIncorrectForMaterial()).addTag(BlockTags.INCORRECT_FOR_WOODEN_TOOL);
+					tag(mat.getNeedsMaterial()).addTag(Tags.Blocks.NEEDS_WOOD_TOOL);
+				} else if (tier == MineabilityTier.NETHERITE) {
+					tag(BlockTags.MINEABLE_WITH_PICKAXE).add(mat.getBaseBlock(), mat.getOre(), mat.getDeepslateOre());
+					tag(Tags.Blocks.NEEDS_NETHERITE_TOOL).add(mat.getBaseBlock(), mat.getOre(), mat.getDeepslateOre());
 					tag(mat.getNeedsMaterial()).addTag(Tags.Blocks.NEEDS_NETHERITE_TOOL);
 					tag(mat.getIncorrectForMaterial()).addTag(BlockTags.INCORRECT_FOR_NETHERITE_TOOL).remove(mat.getNeedsMaterial());
+				} else {
+					tag(BlockTags.MINEABLE_WITH_PICKAXE).add(mat.getBaseBlock(), mat.getOre(), mat.getDeepslateOre());
+					tag(TEGMatLibUtil.getNeedsTagForMineability(tier)).add(mat.getBaseBlock(), mat.getOre(), mat.getDeepslateOre());
+					tag(mat.getIncorrectForMaterial()).addTag(TEGMatLibUtil.getTagForTierIncorrect(mat.getMiningLevel()));
+					tag(mat.getNeedsMaterial()).addTag(TEGMatLibUtil.getTagForTierNeeds(mat.getMiningLevel()));
 				}
 				if (mat.isSingleOre()) {
 					tag(Tags.Blocks.ORE_RATES_SINGULAR).add(mat.getOre(), mat.getDeepslateOre());
