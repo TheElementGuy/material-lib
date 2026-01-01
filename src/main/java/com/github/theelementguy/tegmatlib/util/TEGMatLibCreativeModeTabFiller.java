@@ -1,0 +1,78 @@
+package com.github.theelementguy.tegmatlib.util;
+
+import net.minecraft.world.item.CreativeModeTabs;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import com.github.theelementguy.tegmatlib.core.CubicZirconiaTypeMaterialConfiguration;
+import com.github.theelementguy.tegmatlib.core.DiamondTypeMaterialConfiguration;
+import com.github.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
+import com.github.theelementguy.tegmatlib.core.MaterialConfiguration;
+
+import java.util.List;
+
+public class TEGMatLibCreativeModeTabFiller {
+
+	/**
+	 * Automatically fills the inventory in creative mode.
+	 * @param materials A list of MaterialConfigurations, <b>in order of how they would appear relatively in the inventory</b>.
+	 * @param event The BuildCreativeModeTabContentsEvent from the addCreative method.
+	 * @param modID The mod ID of the mod in question.
+	 */
+	public static void build(List<MaterialConfiguration> materials, BuildCreativeModeTabContentsEvent event, String modID) {
+		//TODO: proper ordering
+		if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+			for (MaterialConfiguration m : materials) {
+				TEGMatLibUtil.inventoryAddAfter(m.getBaseItem(), m.getItemBefore(), event);
+				switch (m.getType()) {
+					case IRON -> {
+						IronTypeMaterialConfiguration ironMatConfig = (IronTypeMaterialConfiguration) m;
+						TEGMatLibUtil.inventoryAddAfter(ironMatConfig.getRawItem(), TEGMatLibUtil.getItemFromKey("raw_" + ironMatConfig.getRawBefore(), modID), event);
+					}
+					case CUBIC_ZIRCONIA -> {
+						CubicZirconiaTypeMaterialConfiguration cubicMatConfig = (CubicZirconiaTypeMaterialConfiguration) m;
+						TEGMatLibUtil.inventoryAddAfter(cubicMatConfig.getRawItem(), TEGMatLibUtil.getItemFromKey("raw_" + cubicMatConfig.getRawBefore(), modID), event);
+					}
+				}
+			}
+		}
+		if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
+			for (MaterialConfiguration m : materials) {
+				TEGMatLibUtil.inventoryAddAfter(m.getBaseBlock(), m.getBlockBefore(), event);
+			}
+		}
+		if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS) {
+			for (MaterialConfiguration m : materials) {
+				switch (m.getType()) {
+					case IRON -> {
+						IronTypeMaterialConfiguration ironMatConfig = (IronTypeMaterialConfiguration) m;
+						TEGMatLibUtil.inventoryAddAfter(ironMatConfig.getOre(), TEGMatLibUtil.getBlockFromKey("deepslate_" + ironMatConfig.getOreBefore() + "_ore", modID), event);
+						TEGMatLibUtil.inventoryAddAfter(ironMatConfig.getDeepslateOre(), ironMatConfig.getOre(), event);
+						TEGMatLibUtil.inventoryAddAfter(ironMatConfig.getRawBlock(), TEGMatLibUtil.getBlockFromKey("raw_" + ironMatConfig.getRawBefore() + "_block", modID), event);
+					}
+					case DIAMOND -> {
+						DiamondTypeMaterialConfiguration diamondMatConfig = (DiamondTypeMaterialConfiguration) m;
+						TEGMatLibUtil.inventoryAddAfter(diamondMatConfig.getOre(), TEGMatLibUtil.getBlockFromKey("deepslate_" + diamondMatConfig.getOreBefore() + "_ore", modID), event);
+						TEGMatLibUtil.inventoryAddAfter(diamondMatConfig.getDeepslateOre(), diamondMatConfig.getOre(), event);
+					}
+					case CUBIC_ZIRCONIA -> {
+						CubicZirconiaTypeMaterialConfiguration cubicMatConfig = (CubicZirconiaTypeMaterialConfiguration) m;
+						TEGMatLibUtil.inventoryAddAfter(cubicMatConfig.getOre(), TEGMatLibUtil.getBlockFromKey("deepslate_" + cubicMatConfig.getOreBefore() + "_ore", modID), event);
+						TEGMatLibUtil.inventoryAddAfter(cubicMatConfig.getDeepslateOre(), cubicMatConfig.getOre(), event);
+						TEGMatLibUtil.inventoryAddAfter(cubicMatConfig.getRawBlock(), TEGMatLibUtil.getBlockFromKey("raw_" + cubicMatConfig.getRawBefore() + "_block", modID), event);
+					}
+				}
+			}
+		}
+		if (event.getTabKey() == CreativeModeTabs.COMBAT) {
+			for (MaterialConfiguration m : materials) {
+				TEGMatLibUtil.setAddAfter(m.getBaseName(), m.getToolsBefore(), m.getArmorBefore(), event, modID);
+			}
+		}
+		if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+			for (MaterialConfiguration m : materials) {
+				TEGMatLibUtil.toolsAddAfter(m.getBaseName(), m.getToolsBefore(), event, modID);
+			}
+		}
+
+	}
+
+}
