@@ -3,10 +3,7 @@ package net.theelementguy.tegmatlib.data;
 import net.minecraft.Util;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
-import net.theelementguy.tegmatlib.core.CubicZirconiaTypeMaterialConfiguration;
-import net.theelementguy.tegmatlib.core.DiamondTypeMaterialConfiguration;
-import net.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
-import net.theelementguy.tegmatlib.core.MaterialConfiguration;
+import net.theelementguy.tegmatlib.core.*;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -48,6 +45,7 @@ public class TEGMatLibLanguageProvider extends LanguageProvider {
 					add(ironMatConfig.getRawBlock(), "Block of Raw " + ironMatConfig.getHumanReadableName());
 					add(ironMatConfig.getOre(), ironMatConfig.getHumanReadableName() + " Ore");
 					add(ironMatConfig.getDeepslateOre(), "Deepslate " + ironMatConfig.getHumanReadableName() + " Ore");
+					add(ironMatConfig.getNugget(), ironMatConfig.getHumanReadableName() + " Nugget");
 				}
 				case DIAMOND -> {
 					DiamondTypeMaterialConfiguration diamondMatConfig = (DiamondTypeMaterialConfiguration) config;
@@ -62,6 +60,16 @@ public class TEGMatLibLanguageProvider extends LanguageProvider {
 					add(cubicMatConfig.getRawBlock(), "Block of Raw " + cubicMatConfig.getHumanReadableName());
 					add(cubicMatConfig.getOre(), cubicMatConfig.getHumanReadableName() + " Ore");
 					add(cubicMatConfig.getDeepslateOre(), "Deepslate " + cubicMatConfig.getHumanReadableName() + " Ore");
+				}
+				case NETHER_DIAMOND -> {
+					NetherDiamondTypeMaterialConfiguration netherDiamondMatConfig = (NetherDiamondTypeMaterialConfiguration) config;
+					add(netherDiamondMatConfig.getBaseItem(), netherDiamondMatConfig.getHumanReadableName());
+					add(netherDiamondMatConfig.getNetherOre(), "Nether " + netherDiamondMatConfig.getHumanReadableName() + " Ore");
+				}
+				case END_DIAMOND -> {
+					EndDiamondTypeMaterialConfiguration endDiamondMatConfig = (EndDiamondTypeMaterialConfiguration) config;
+					add(endDiamondMatConfig.getBaseItem(), endDiamondMatConfig.getHumanReadableName());
+					add(endDiamondMatConfig.getEndOre(), "End " + endDiamondMatConfig.getHumanReadableName() + " Ore");
 				}
 			}
 

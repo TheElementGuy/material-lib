@@ -23,10 +23,7 @@ import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.item.equipment.trim.MaterialAssetGroup;
 import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.minecraft.world.item.equipment.trim.TrimMaterials;
-import net.theelementguy.tegmatlib.core.CubicZirconiaTypeMaterialConfiguration;
-import net.theelementguy.tegmatlib.core.DiamondTypeMaterialConfiguration;
-import net.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
-import net.theelementguy.tegmatlib.core.MaterialConfiguration;
+import net.theelementguy.tegmatlib.core.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +75,7 @@ public class TEGMatLibModelProvider extends ModelProvider {
 					IronTypeMaterialConfiguration ironMatConfig = (IronTypeMaterialConfiguration) config;
 
 					itemModels.generateFlatItem(ironMatConfig.getRawItem(), ModelTemplates.FLAT_ITEM);
+					itemModels.generateFlatItem(ironMatConfig.getNugget(), ModelTemplates.FLAT_ITEM);
 
 					blockModels.createTrivialCube(ironMatConfig.getRawBlock());
 					blockModels.createTrivialCube(ironMatConfig.getOre());
@@ -96,6 +94,14 @@ public class TEGMatLibModelProvider extends ModelProvider {
 					blockModels.createTrivialCube(cubicMatConfig.getRawBlock());
 					blockModels.createTrivialCube(cubicMatConfig.getOre());
 					blockModels.createTrivialCube(cubicMatConfig.getDeepslateOre());
+				}
+				case NETHER_DIAMOND -> {
+					NetherDiamondTypeMaterialConfiguration netherDiamondMatConfig = (NetherDiamondTypeMaterialConfiguration) config;
+					blockModels.createTrivialCube(netherDiamondMatConfig.getNetherOre());
+				}
+				case END_IRON -> {
+					EndDiamondTypeMaterialConfiguration endDiamondMatConfig = (EndDiamondTypeMaterialConfiguration) config;
+					blockModels.createTrivialCube(endDiamondMatConfig.getEndOre());
 				}
 			}
 

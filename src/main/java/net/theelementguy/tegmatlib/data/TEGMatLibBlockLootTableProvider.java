@@ -16,10 +16,7 @@ import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.theelementguy.tegmatlib.core.CubicZirconiaTypeMaterialConfiguration;
-import net.theelementguy.tegmatlib.core.DiamondTypeMaterialConfiguration;
-import net.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
-import net.theelementguy.tegmatlib.core.MaterialConfiguration;
+import net.theelementguy.tegmatlib.core.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -86,6 +83,24 @@ public class TEGMatLibBlockLootTableProvider extends BlockLootSubProvider {
 				} else {
 					add(mat.getOre(), b -> createMultipleOreDrops(mat.getOre(), mat.getRawItem(), mat));
 					add(mat.getDeepslateOre(), b -> createMultipleOreDrops(mat.getDeepslateOre(), mat.getRawItem(), mat));
+				}
+			}
+			case NETHER_DIAMOND -> {
+				NetherDiamondTypeMaterialConfiguration mat = (NetherDiamondTypeMaterialConfiguration) config;
+				dropSelf(mat.getBaseBlock());
+				if (config.isSingleOre()) {
+					add(mat.getNetherOre(), b -> createOreDrop(mat.getNetherOre(), mat.getBaseItem()));
+				} else {
+					add(mat.getNetherOre(), b -> createMultipleOreDrops(mat.getNetherOre(), mat.getBaseItem(), mat));
+				}
+			}
+			case END_DIAMOND -> {
+				EndDiamondTypeMaterialConfiguration mat = (EndDiamondTypeMaterialConfiguration) config;
+				dropSelf(mat.getBaseBlock());
+				if (config.isSingleOre()) {
+					add(mat.getEndOre(), b -> createOreDrop(mat.getEndOre(), mat.getBaseItem()));
+				} else {
+					add(mat.getEndOre(), b -> createMultipleOreDrops(mat.getEndOre(), mat.getBaseItem(), mat));
 				}
 			}
 		}

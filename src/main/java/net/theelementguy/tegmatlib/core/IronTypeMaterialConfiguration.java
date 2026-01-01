@@ -23,6 +23,7 @@ import java.util.function.Supplier;
 public class IronTypeMaterialConfiguration extends MaterialConfiguration {
 
 	protected DeferredItem<Item> RAW_MATERIAL;
+	protected DeferredItem<Item> NUGGET;
 
 	protected DeferredBlock<Block> RAW_BLOCK;
 	protected DeferredBlock<Block> ORE_BLOCK;
@@ -39,6 +40,7 @@ public class IronTypeMaterialConfiguration extends MaterialConfiguration {
 	public void fillItems(DeferredRegister.Items register, String modId) {
 		BASE_MATERIAL = registerSimpleItemWithTrimMaterial(BASE_NAME + "_ingot", register, modId);
 		RAW_MATERIAL = registerSimpleItem("raw_" + BASE_NAME, register, modId);
+		NUGGET = registerSimpleItem(BASE_NAME + "_nugget", register, modId);
 		fillBaseEquipment(register, modId);
 	}
 
@@ -78,6 +80,10 @@ public class IronTypeMaterialConfiguration extends MaterialConfiguration {
 
 	public String getRawBefore() {
 		return RAW_BEFORE;
+	}
+
+	public Item getNugget() {
+		return NUGGET.get();
 	}
 
 	public static class Builder {

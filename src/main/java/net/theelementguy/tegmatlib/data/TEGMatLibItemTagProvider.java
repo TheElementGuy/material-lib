@@ -40,13 +40,14 @@ public class TEGMatLibItemTagProvider extends ItemTagsProvider {
 			tag(Tags.Items.MELEE_WEAPON_TOOLS).add(config.getSword(), config.getAxe());
 			tag(Tags.Items.MINING_TOOL_TOOLS).add(config.getPickaxe());
 			switch (config.getType()) {
-				case DIAMOND -> {
+				case DIAMOND, NETHER_DIAMOND, END_DIAMOND -> {
 					tag(Tags.Items.GEMS).add(config.getBaseItem());
 				}
 				case IRON -> {
 					IronTypeMaterialConfiguration mat = (IronTypeMaterialConfiguration) config;
 					tag(Tags.Items.INGOTS).add(mat.getBaseItem());
 					tag(Tags.Items.RAW_MATERIALS).add(mat.getRawItem());
+					tag(Tags.Items.NUGGETS).add(mat.getNugget());
 				}
 				case CUBIC_ZIRCONIA -> {
 					CubicZirconiaTypeMaterialConfiguration mat = (CubicZirconiaTypeMaterialConfiguration) config;

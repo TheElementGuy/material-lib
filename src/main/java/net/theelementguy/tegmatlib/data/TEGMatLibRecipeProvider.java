@@ -10,10 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
-import net.theelementguy.tegmatlib.core.CubicZirconiaTypeMaterialConfiguration;
-import net.theelementguy.tegmatlib.core.DiamondTypeMaterialConfiguration;
-import net.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
-import net.theelementguy.tegmatlib.core.MaterialConfiguration;
+import net.theelementguy.tegmatlib.core.*;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -79,6 +76,7 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 				case IRON -> {
 					IronTypeMaterialConfiguration ironConfig = (IronTypeMaterialConfiguration) config;
 					blockRecipe(ironConfig.getRawItem(), ironConfig.getRawBlock().asItem());
+					nuggetRecipe(ironConfig.getBaseItem(), ironConfig.getNugget());
 					allOreSmelting(ironConfig.getBaseItem(), List.of(ironConfig.getOre(), ironConfig.getDeepslateOre(), ironConfig.getRawItem()), ironConfig.getSmeltingExperience(), ironConfig.getBaseName());
 				}
 				case DIAMOND -> {
@@ -89,6 +87,14 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 					CubicZirconiaTypeMaterialConfiguration cubicConfig = (CubicZirconiaTypeMaterialConfiguration) config;
 					blockRecipe(cubicConfig.getRawItem(), cubicConfig.getRawBlock().asItem());
 					allOreSmelting(cubicConfig.getBaseItem(), List.of(cubicConfig.getOre(), cubicConfig.getDeepslateOre(), cubicConfig.getRawItem()), cubicConfig.getSmeltingExperience(), cubicConfig.getBaseName());
+				}
+				case NETHER_DIAMOND -> {
+					NetherDiamondTypeMaterialConfiguration netherDiamondMatConfig = (NetherDiamondTypeMaterialConfiguration) config;
+					allOreSmelting(netherDiamondMatConfig.getBaseItem(), List.of(netherDiamondMatConfig.getNetherOre()), netherDiamondMatConfig.getSmeltingExperience(), netherDiamondMatConfig.getBaseName());
+				}
+				case END_DIAMOND -> {
+					EndDiamondTypeMaterialConfiguration endDiamondMatConfig = (EndDiamondTypeMaterialConfiguration) config;
+					allOreSmelting(endDiamondMatConfig.getBaseItem(), List.of(endDiamondMatConfig.getEndOre()), endDiamondMatConfig.getSmeltingExperience(), endDiamondMatConfig.getBaseName());
 				}
 			}
 
@@ -150,6 +156,12 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 		shapeless(RecipeCategory.MISC, material, 9).requires(block).unlockedBy("has_" + getItemName(material), has(block)).save(output);
 
 		shapeless(RecipeCategory.MISC, block).requires(material, 9).unlockedBy("has_" + getItemName(material) + "_block", has(block)).save(output);
+	}
+
+	protected void nuggetRecipe(Item material, Item nugget) {
+		shapeless(RecipeCategory.MISC, material, 9).requires(nugget).unlockedBy("has_" + getItemName(material), has(nugget)).save(output);
+
+		shapeless(RecipeCategory.MISC, nugget).requires(material, 9).unlockedBy("has_" + getItemName(material) + "_nugget", has(nugget)).save(output);
 	}
 
 	protected void allOreSmelting(Item material, List<ItemLike> smeltables, float experience, String group) {
