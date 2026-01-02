@@ -2,9 +2,11 @@ package com.github.theelementguy.tegmatlib.data;
 
 import com.github.theelementguy.tegmatlib.core.*;
 import net.minecraft.Util;
+import net.minecraft.client.main.GameConfig;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import com.github.theelementguy.tegmatlib.core.*;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -13,9 +15,9 @@ public class TEGMatLibLanguageProvider extends LanguageProvider {
 
 	protected Supplier<List<MaterialConfiguration>> MATERIALS;
 
-	public TEGMatLibLanguageProvider(PackOutput output, String modid, Supplier<List<MaterialConfiguration>> materials) {
-		super(output, modid, "en_us");
-		this.MATERIALS = materials;
+	public TEGMatLibLanguageProvider(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
+		super(event.getGenerator().getPackOutput(), materials.getModID(), "en_us");
+		this.MATERIALS = materials::getMaterials;
 	}
 
 	@Override

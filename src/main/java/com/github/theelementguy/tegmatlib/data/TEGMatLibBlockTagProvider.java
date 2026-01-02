@@ -9,6 +9,7 @@ import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import com.github.theelementguy.tegmatlib.core.*;
 import com.github.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import com.github.theelementguy.tegmatlib.util.TEGMatLibUtil;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -18,9 +19,9 @@ public class TEGMatLibBlockTagProvider extends BlockTagsProvider {
 
 	private Supplier<List<MaterialConfiguration>> MATERIALS;
 
-	public TEGMatLibBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, String modId, Supplier<List<MaterialConfiguration>> materials) {
-		super(output, lookupProvider, modId);
-		MATERIALS = materials;
+	public TEGMatLibBlockTagProvider(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
+		super(event.getGenerator().getPackOutput(), event.getLookupProvider(), materials.getModID());
+		MATERIALS = materials::getMaterials;
 	}
 
 	@Override

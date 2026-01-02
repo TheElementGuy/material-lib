@@ -1,5 +1,6 @@
 package com.github.theelementguy.tegmatlib.worldgen;
 
+import com.github.theelementguy.tegmatlib.core.FullyConfiguredMaterialHolder;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import com.github.theelementguy.tegmatlib.core.MaterialConfiguration;
@@ -9,13 +10,10 @@ import java.util.function.Supplier;
 
 public class TEGMatLibConfiguredFeatureProvider {
 
-	private final String MOD_ID;
-
 	private final Supplier<List<MaterialConfiguration>> MATERIALS;
 
-	public TEGMatLibConfiguredFeatureProvider(String modId, Supplier<List<MaterialConfiguration>> materials) {
-		MOD_ID = modId;
-		MATERIALS = materials;
+	public TEGMatLibConfiguredFeatureProvider(FullyConfiguredMaterialHolder materials) {
+		MATERIALS = materials::getMaterials;
 	}
 
 	public void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {

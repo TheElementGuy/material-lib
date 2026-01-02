@@ -24,6 +24,7 @@ import net.minecraft.world.item.equipment.trim.MaterialAssetGroup;
 import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.minecraft.world.item.equipment.trim.TrimMaterials;
 import com.github.theelementguy.tegmatlib.core.*;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +40,9 @@ public class TEGMatLibModelProvider extends ModelProvider {
 
 	protected String MOD_ID;
 
-	public TEGMatLibModelProvider(PackOutput output, String modId, Supplier<List<MaterialConfiguration>> materials) {
-		super(output, modId);
-		this.MATERIALS = materials;
+	public TEGMatLibModelProvider(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
+		super(event.getGenerator().getPackOutput(), materials.getModID());
+		this.MATERIALS = materials::getMaterials;
 		this.MOD_ID = modId;
 		ArrayList<ItemModelGenerators.TrimMaterialData> trimMaterialsToAdd = new ArrayList<>();
 		for (MaterialConfiguration config : MATERIALS.get()) {

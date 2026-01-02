@@ -12,6 +12,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
 import com.github.theelementguy.tegmatlib.core.*;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -37,15 +39,15 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 
 		private final String MOD_ID;
 
-		public Runner(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, String modName, Supplier<List<MaterialConfiguration>> materials, String modId) {
-			super(packOutput, registries);
+		public Runner(GatherDataEvent.Client event, String modName, FullyConfiguredMaterialHolder materials) {
+			super(event.getGenerator().getPackOutput(), event.getLookupProvider());
 			NAME = modName;
-			MATERIALS = materials;
-			MOD_ID = modId;
+			MATERIALS = materials::getMaterials;
+			MOD_ID = materials.getModID();
 		}
 
 		@Override
-		protected RecipeProvider createRecipeProvider(HolderLookup.Provider registries, RecipeOutput output) {
+		protected @NotNull RecipeProvider createRecipeProvider(HolderLookup.@NotNull Provider registries, @NotNull RecipeOutput output) {
 			return new TEGMatLibRecipeProvider(registries, output, MATERIALS, MOD_ID);
 		}
 

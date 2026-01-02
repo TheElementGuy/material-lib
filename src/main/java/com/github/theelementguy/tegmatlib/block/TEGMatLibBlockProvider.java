@@ -24,8 +24,8 @@ public class TEGMatLibBlockProvider {
 	 * @param modId the mod ID of the mod in question
 	 * @param materials a {@link FullyConfiguredMaterialHolder} holding the {@link MaterialConfiguration}s
 	 */
-	public TEGMatLibBlockProvider(String modId, FullyConfiguredMaterialHolder materials) {
-		MOD_ID = modId;
+	public TEGMatLibBlockProvider(FullyConfiguredMaterialHolder materials) {
+		MOD_ID = materials.getModID();
 		MATERIALS = materials;
 	}
 

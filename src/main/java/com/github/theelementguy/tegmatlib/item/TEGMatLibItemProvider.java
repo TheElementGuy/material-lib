@@ -16,8 +16,8 @@ public class TEGMatLibItemProvider {
 
 	private final FullyConfiguredMaterialHolder MATERIALS;
 
-	public TEGMatLibItemProvider(String modId, FullyConfiguredMaterialHolder materials) {
-		MOD_ID = modId;
+	public TEGMatLibItemProvider(FullyConfiguredMaterialHolder materials) {
+		MOD_ID = materials.getModID();
 		MATERIALS = materials;
 	}
 

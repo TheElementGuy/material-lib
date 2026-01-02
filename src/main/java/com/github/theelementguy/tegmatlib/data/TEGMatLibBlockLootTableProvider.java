@@ -18,6 +18,7 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import com.github.theelementguy.tegmatlib.core.*;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,8 +36,8 @@ public class TEGMatLibBlockLootTableProvider extends BlockLootSubProvider {
 		MATERIALS = materials;
 	}
 
-	public static LootTableProvider create(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, Supplier<List<MaterialConfiguration>> materials) {
-		return new LootTableProvider(output, Collections.emptySet(), List.of(new LootTableProvider.SubProviderEntry(p -> {return new TEGMatLibBlockLootTableProvider(p, materials);}, LootContextParamSets.BLOCK)), provider);
+	public static LootTableProvider create(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
+		return new LootTableProvider(event.getGenerator().getPackOutput(), Collections.emptySet(), List.of(new LootTableProvider.SubProviderEntry(p -> {return new TEGMatLibBlockLootTableProvider(p, materials::getMaterials);}, LootContextParamSets.BLOCK)), event.getLookupProvider());
 	}
 
 	@Override

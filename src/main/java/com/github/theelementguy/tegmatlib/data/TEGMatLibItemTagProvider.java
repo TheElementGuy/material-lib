@@ -1,5 +1,6 @@
 package com.github.theelementguy.tegmatlib.data;
 
+import com.github.theelementguy.tegmatlib.core.FullyConfiguredMaterialHolder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.ItemTags;
@@ -8,6 +9,7 @@ import net.neoforged.neoforge.common.data.ItemTagsProvider;
 import com.github.theelementguy.tegmatlib.core.CubicZirconiaTypeMaterialConfiguration;
 import com.github.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
 import com.github.theelementguy.tegmatlib.core.MaterialConfiguration;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -17,9 +19,9 @@ public class TEGMatLibItemTagProvider extends ItemTagsProvider {
 
 	protected final Supplier<List<MaterialConfiguration>> MATERIALS;
 
-	public TEGMatLibItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, String modId, Supplier<List<MaterialConfiguration>> materials) {
-		super(output, lookupProvider, modId);
-		MATERIALS = materials;
+	public TEGMatLibItemTagProvider(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
+		super(event.getGenerator().getPackOutput(), event.getLookupProvider(), materials.getModID());
+		MATERIALS = materials::getMaterials;
 	}
 
 	@Override

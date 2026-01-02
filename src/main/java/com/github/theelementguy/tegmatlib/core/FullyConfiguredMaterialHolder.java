@@ -12,4 +12,6 @@ public interface FullyConfiguredMaterialHolder {
 
 	List<MaterialConfiguration> getMaterials();
 
+	String getModID();
+
 }

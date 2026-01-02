@@ -1,11 +1,8 @@
 package com.github.theelementguy.tegmatlib.util;
 
+import com.github.theelementguy.tegmatlib.core.*;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import com.github.theelementguy.tegmatlib.core.CubicZirconiaTypeMaterialConfiguration;
-import com.github.theelementguy.tegmatlib.core.DiamondTypeMaterialConfiguration;
-import com.github.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
-import com.github.theelementguy.tegmatlib.core.MaterialConfiguration;
 
 import java.util.List;
 
@@ -13,12 +10,13 @@ public class TEGMatLibCreativeModeTabFiller {
 
 	/**
 	 * Automatically fills the inventory in creative mode.
-	 * @param materials A list of MaterialConfigurations, <b>in order of how they would appear relatively in the inventory</b>.
+	 * @param materialHolder A {@link FullyConfiguredMaterialHolder} with the materials <b>in order of how they would appear relatively in the inventory</b>.
 	 * @param event The BuildCreativeModeTabContentsEvent from the addCreative method.
-	 * @param modID The mod ID of the mod in question.
 	 */
-	public static void build(List<MaterialConfiguration> materials, BuildCreativeModeTabContentsEvent event, String modID) {
+	public static void build(FullyConfiguredMaterialHolder materialHolder, BuildCreativeModeTabContentsEvent event) {
 		//TODO: proper ordering
+		List<MaterialConfiguration> materials = materialHolder.getMaterials();
+		String modID = materialHolder.getModID();
 		if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
 			for (MaterialConfiguration m : materials) {
 				TEGMatLibUtil.inventoryAddAfter(m.getBaseItem(), m.getItemBefore(), event);
