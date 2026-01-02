@@ -17,7 +17,6 @@ import com.github.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import com.github.theelementguy.tegmatlib.core.tiers.MiningTier;
 import com.github.theelementguy.tegmatlib.worldgen.*;
 import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
-import com.github.theelementguy.*;
 
 import java.util.List;
 import java.util.function.Supplier;
