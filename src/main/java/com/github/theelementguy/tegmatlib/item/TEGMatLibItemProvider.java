@@ -28,7 +28,7 @@ public class TEGMatLibItemProvider {
 		ArrayList<Supplier<MaterialConfiguration>> configs = new ArrayList<>(MATERIALS.getMaterials().size());
 
 		for (MaterialConfiguration config : MATERIALS.getMaterials()) {
-			config.fillItems(itemsRegistry, MOD_ID);
+			config.fillItems(itemsRegistry);
 			configs.add(() -> config);
 		}
 
