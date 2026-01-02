@@ -3,6 +3,9 @@ package com.github.theelementguy.tegmatlib.core;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * The interface describing the requirements for a {@link MaterialConfiguration} holder. Used for the mod materials class.
+ */
 public interface FullyConfiguredMaterialHolder {
 
 	void setMaterialConfiguration(List<Supplier<MaterialConfiguration>> material);

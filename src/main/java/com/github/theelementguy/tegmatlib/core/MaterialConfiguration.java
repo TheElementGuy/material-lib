@@ -43,6 +43,9 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
+/**
+ * The base class for material configurations. Do not construct this class; instead, use one of the child classes.
+ */
 public abstract class MaterialConfiguration {
 
 	//TODO: use given mod ID instead of passed-in one
@@ -105,7 +108,7 @@ public abstract class MaterialConfiguration {
 	protected final Block BLOCK_BEFORE;
 	protected final String ORE_BEFORE;
 
-	public MaterialConfiguration(String modId, String baseName, String humanReadableName, MaterialType materialType, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String toolsBefore, String armorBefore, Item itemBefore, Block blockBefore, String oreBefore) {
+	protected MaterialConfiguration(String modId, String baseName, String humanReadableName, MaterialType materialType, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String toolsBefore, String armorBefore, Item itemBefore, Block blockBefore, String oreBefore) {
 		BASE_NAME = baseName;
 		MOD_ID = modId;
 		HUMAN_READABLE_NAME = humanReadableName;
@@ -151,7 +154,7 @@ public abstract class MaterialConfiguration {
 		return MATERIAL_TYPE;
 	}
 
-	public abstract void fillItems(DeferredRegister.Items register, String modId);
+	public abstract void fillItems(DeferredRegister.Items register);
 
 	public abstract void fillBlocks(DeferredRegister.Blocks register, Supplier<DeferredRegister.Items> itemsRegister);
 

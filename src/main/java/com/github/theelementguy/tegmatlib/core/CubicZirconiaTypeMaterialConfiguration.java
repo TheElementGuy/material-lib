@@ -17,6 +17,7 @@ import com.github.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import com.github.theelementguy.tegmatlib.core.tiers.MiningTier;
 import com.github.theelementguy.tegmatlib.worldgen.*;
 import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
+import com.github.theelementguy.*;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -41,10 +42,10 @@ public class CubicZirconiaTypeMaterialConfiguration extends MaterialConfiguratio
 	}
 
 	@Override
-	public void fillItems(DeferredRegister.Items register, String modId) {
-		BASE_MATERIAL = registerSimpleItemWithTrimMaterial(BASE_NAME, register, modId);
-		RAW_MATERIAL = registerSimpleItem("raw_" + BASE_NAME, register, modId);
-		fillBaseEquipment(register, modId);
+	public void fillItems(DeferredRegister.Items register) {
+		BASE_MATERIAL = registerSimpleItemWithTrimMaterial(BASE_NAME, register, MOD_ID);
+		RAW_MATERIAL = registerSimpleItem("raw_" + BASE_NAME, register, MOD_ID);
+		fillBaseEquipment(register, MOD_ID);
 	}
 
 	@Override

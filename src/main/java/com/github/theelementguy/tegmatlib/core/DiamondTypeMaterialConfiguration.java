@@ -19,6 +19,10 @@ import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * Subclass of {@link MaterialConfiguration} for diamond-type materials. Use the {@link DiamondTypeMaterialConfiguration.Builder} for construction.
+ * <p>Use this class for overworld materials with a diamond-type format: a gem as the final product.</p>
+ */
 public class DiamondTypeMaterialConfiguration extends MaterialConfiguration {
 
 	protected DeferredBlock<Block> ORE_BLOCK;
@@ -29,9 +33,9 @@ public class DiamondTypeMaterialConfiguration extends MaterialConfiguration {
 	}
 
 	@Override
-	public void fillItems(DeferredRegister.Items register, String modId) {
-		BASE_MATERIAL = registerSimpleItemWithTrimMaterial(BASE_NAME, register, modId);
-		fillBaseEquipment(register, modId);
+	public void fillItems(DeferredRegister.Items register) {
+		BASE_MATERIAL = registerSimpleItemWithTrimMaterial(BASE_NAME, register, MOD_ID);
+		fillBaseEquipment(register, MOD_ID);
 	}
 
 	@Override
@@ -59,8 +63,9 @@ public class DiamondTypeMaterialConfiguration extends MaterialConfiguration {
 		return DEEPSLATE_ORE_BLOCK.get();
 	}
 
-	//i got this far
-
+	/**
+	 * Builder used to construct {@link DiamondTypeMaterialConfiguration}s. Create a new instance and call methods until ready to call <code>build()</code>.
+	 */
 	public static class Builder {
 
 		protected String BASE_NAME;
@@ -105,26 +110,54 @@ public class DiamondTypeMaterialConfiguration extends MaterialConfiguration {
 		protected Block BLOCK_BEFORE;
 		protected String ORE_BEFORE;
 
+		/**
+		 * Sets the mod ID for the material.
+		 * @param modId your mod ID
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder modId(String modId) {
 			this.MOD_ID = modId;
 			return this;
 		}
 
+		/**
+		 * Sets the base name for the material. This should only use lowercase letters and underscores.
+		 * @param name the name to be used
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder baseName(String name) {
 			this.BASE_NAME = name;
 			return this;
 		}
 
+		/**
+		 * Sets the in-game name for the material. This will be capitalized appropriately.
+		 * @param name the in-game name to be used
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder inGameName(String name) {
 			this.HUMAN_READABLE_NAME = name;
 			return this;
 		}
 
+		/**
+		 * Sets the default properties of the items that are created (e.g. fire-proof).
+		 * @param properties a supplier of the default properties (for example, <code>() -> new Item.Properties().fireResistant()</code>
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder defaultProperties(Supplier<Item.Properties> properties) {
 			this.DEFAULT_PROPERTIES = properties;
 			return this;
 		}
 
+		/**
+		 * Sets the parameters for the tool material used for all tools of this material.
+		 * @param durability the number of uses
+		 * @param speed the efficiency, with higher numbers being faster
+		 * @param attackDamageBonus extra damage added to all tools
+		 * @param enchantmentValue how easily enchantable the tools are, with higher numbers being more enchantable
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder toolMaterial(int durability, float speed, float attackDamageBonus, int enchantmentValue) {
 			this.TOOL_DURABILITY = durability;
 			this.SPEED = speed;
@@ -133,6 +166,20 @@ public class DiamondTypeMaterialConfiguration extends MaterialConfiguration {
 			return this;
 		}
 
+		/**
+		 * Sets the parameters for the armor material used for all armor pieces of the material.
+		 * @param durability the number of hits that can be taken (approximately)
+		 * @param helmetDefense armor points from the helmet
+		 * @param chestplateDefense armor points from the chestplate
+		 * @param leggingsDefense armor points from the leggings
+		 * @param bootsDefense armor points from the boots
+		 * @param horseDefense armor points from the horse armor (note that horse armor is not created by this library)
+		 * @param enchantmentValue how easily enchantable the armor pieces are, with higher numbers being more enchantable
+		 * @param equipSound supplier of a <code>SoundEvent</code> that dictates in-game equip sound
+		 * @param toughness an additional source of defense
+		 * @param knockbackResistance sets a dampener on how far knockback launches the user, with higher being more protective
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder armorMaterial(int durability, int helmetDefense, int chestplateDefense, int leggingsDefense, int bootsDefense, int horseDefense, int enchantmentValue, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance) {
 			this.ARMOR_DURABILITY = durability;
 			this.HEAD_DEFENSE = helmetDefense;
@@ -147,6 +194,18 @@ public class DiamondTypeMaterialConfiguration extends MaterialConfiguration {
 			return this;
 		}
 
+		/**
+		 * Sets the parameters for the armor material used for all armor pieces of the material. Toughness and knockback resistance are assumed to be zero.
+		 * @param durability the number of hits that can be taken (approximately)
+		 * @param helmetDefense armor points from the helmet
+		 * @param chestplateDefense armor points from the chestplate
+		 * @param leggingsDefense armor points from the leggings
+		 * @param bootsDefense armor points from the boots
+		 * @param horseDefense armor points from the horse armor (note that horse armor is not created by this library)
+		 * @param enchantmentValue how easily enchantable the armor pieces are, with higher numbers being more enchantable
+		 * @param equipSound supplier of a <code>SoundEvent</code> that dictates in-game equip sound
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder armorMaterial(int durability, int helmetDefense, int chestplateDefense, int leggingsDefense, int bootsDefense, int horseDefense, int enchantmentValue, Supplier<Holder<SoundEvent>> equipSound) {
 			this.ARMOR_DURABILITY = durability;
 			this.HEAD_DEFENSE = helmetDefense;
@@ -159,70 +218,151 @@ public class DiamondTypeMaterialConfiguration extends MaterialConfiguration {
 			return this;
 		}
 
+		/**
+		 * Sets the amount of experience gained by smelting the raw form or ore
+		 * @param experience the amount of experience to be gained
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder smeltingExperience(float experience) {
 			this.SMELTING_EXPERIENCE = experience;
 			return this;
 		}
 
+		/**
+		 * Sets the properties used for the block.
+		 * @param color a supplier of the <code>MapColor</code> used on a map
+		 * @param stepSound a supplier of the <code>SoundType</code> corresponding to the noise made from stepping on the block
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder blockProperties(Supplier<MapColor> color, Supplier<SoundType> stepSound) {
 			this.MAP_COLOR = color;
 			this.SOUND_TYPE = stepSound;
 			return this;
 		}
 
+		/**
+		 * Sets the {@link OreGenConfig}s for the material, with a small, medium, large, and extra.
+		 * @param small a supplier for the <code>OreGenConfig</code> corresponding to the small vein
+		 * @param medium a supplier for the <code>OreGenConfig</code> corresponding to the medium vein
+		 * @param large a supplier for the <code>OreGenConfig</code> corresponding to the large vein
+		 * @param extra a supplier for the <code>OreGenConfig</code> corresponding to the extra vein
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder oreConfigAll(Supplier<OreGenConfig> small, Supplier<OreGenConfig> medium, Supplier<OreGenConfig> large, Supplier<OreGenConfig> extra) {
 			this.ORE_GEN_CONFIGS = new OreGenHolder<>(small, medium, large, extra);
 			return this;
 		}
 
+		/**
+		 * Sets the {@link OreGenConfig}s for the material, with a small, medium, and large.
+		 * @param small a supplier for the <code>OreGenConfig</code> corresponding to the small vein
+		 * @param medium a supplier for the <code>OreGenConfig</code> corresponding to the medium vein
+		 * @param large a supplier for the <code>OreGenConfig</code> corresponding to the large vein
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder oreConfigNoExtra(Supplier<OreGenConfig> small, Supplier<OreGenConfig> medium, Supplier<OreGenConfig> large) {
 			this.ORE_GEN_CONFIGS = new OreGenHolder<>(small, medium, large, null);
 			return this;
 		}
 
+		/**
+		 * Sets the {@link OreGenConfig}s for the material, with a small and large.
+		 * @param small a supplier for the <code>OreGenConfig</code> corresponding to the small vein
+		 * @param large a supplier for the <code>OreGenConfig</code> corresponding to the large vein
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder oreConfigSimple(Supplier<OreGenConfig> small, Supplier<OreGenConfig> large) {
 			this.ORE_GEN_CONFIGS = new OreGenHolder<>(small, null, large, null);
 			return this;
 		}
 
+		/**
+		 * Sets the {@link OreGenConfig}s for the material, with a small, large, and extra.
+		 * @param small a supplier for the <code>OreGenConfig</code> corresponding to the small vein
+		 * @param large a supplier for the <code>OreGenConfig</code> corresponding to the large vein
+		 * @param extra a supplier for the <code>OreGenConfig</code> corresponding to the extra vein
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder oreConfigSimpleWithExtra(Supplier<OreGenConfig> small, Supplier<OreGenConfig> large, Supplier<OreGenConfig> extra) {
 			this.ORE_GEN_CONFIGS = new OreGenHolder<OreGenConfig>(small, null, large, extra);
 			return this;
 		}
 
+		/**
+		 * Sets the number of drops per ore, with no variation
+		 * @param drops the number of drops per ore
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder dropsPerOre(int drops) {
 			this.DROPS_PER_ORE = drops;
 			return this;
 		}
 
+		/**
+		 * Sets the number of drops per ore, between a minimum and maximum, inclusive.
+		 * @param min the minimum number of drops per ore
+		 * @param max the maximum number of drops per ore
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder dropsPerOreMinMax(int min, int max) {
 			this.DROPS_PER_ORE = min;
 			this.EXTRA_DROPS = max - min;
 			return this;
 		}
 
+		/**
+		 * Sets the number of drops per ore, with a minimum base number of drops, and maximum extra added on
+		 * @param baseDrops the minimum, base number of drops
+		 * @param extra a maximum attainable extra number of drops
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder dropsPerOre(int baseDrops, int extra) {
 			this.DROPS_PER_ORE = baseDrops;
 			this.EXTRA_DROPS = extra;
 			return this;
 		}
 
+		/**
+		 * Sets the mining tier of the material. Note that the mineability tier will be set to <code>MineabilityTier.DEFAULT</code>.
+		 * @param tier the mining tier of the material. This is the level that the tools can mine.
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder tier(MiningTier tier) {
 			this.TIER = tier;
 			return this;
 		}
 
+		/**
+		 * Sets the mining tier and mineability tier of the material.
+		 * @param miningTier the mining tier of the material. This is the level that the tools can mine.
+		 * @param mineabilityTier the mineability tier of the material. This is the level needed to mine the ores and other blocks.
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder tier(MiningTier miningTier, MineabilityTier mineabilityTier) {
 			this.TIER = miningTier;
 			this.MINEABILITY_TIER = mineabilityTier;
 			return this;
 		}
 
+		/**
+		 * Sets the color that the trim material shows up in an armor pieces description.
+		 * @param colorHex the color, as a hex code string
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder trimMaterialDescriptionColor(String colorHex) {
 			this.TRIM_MATERIAL_DESCRIPTION_COLOR = colorHex;
 			return this;
 		}
 
+		/**
+		 * Sets the position of the material's items in the inventory, in relation to other items.
+		 * @param toolsBefore the tool set that this material will be placed after, as a string (for example, "stone")
+		 * @param armorBefore the armor set that this material will be placed after, as a string (for example, "chainmail")
+		 * @param itemBefore the item that the base material will be placed after
+		 * @param blockBefore the block that the base block will be placed after
+		 * @param oreBefore the ore that the stone and deepslate ores will be placed after, as a string (for example, "lapis")
+		 * @return the updated <code>Builder</code>
+		 */
 		public DiamondTypeMaterialConfiguration.Builder setBefore(String toolsBefore, String armorBefore, Item itemBefore, Block blockBefore, String oreBefore) {
 			this.TOOLS_BEFORE = toolsBefore;
 			this.ARMOR_BEFORE = armorBefore;
@@ -232,6 +372,10 @@ public class DiamondTypeMaterialConfiguration extends MaterialConfiguration {
 			return this;
 		}
 
+		/**
+		 * Builds the {@link DiamondTypeMaterialConfiguration} that has been specified.
+		 * @return the built <code>DiamondTypeMaterialConfiguration</code> object
+		 */
 		public DiamondTypeMaterialConfiguration build() {
 			return new DiamondTypeMaterialConfiguration(MOD_ID, BASE_NAME, HUMAN_READABLE_NAME, TRIM_MATERIAL_DESCRIPTION_COLOR, TOOL_DURABILITY, SPEED, ATTACK_DAMAGE_BONUS, TOOL_ENCHANTMENT, DEFAULT_PROPERTIES, ARMOR_DURABILITY, HEAD_DEFENSE, CHESTPLATE_DEFENSE, SMELTING_EXPERIENCE, LEGGINGS_DEFENSE, BOOTS_DEFENSE, HORSE_DEFENSE, EQUIP_SOUND, TOUGHNESS, KNOCKBACK_RESISTANCE, MAP_COLOR, SOUND_TYPE, ORE_GEN_CONFIGS, DROPS_PER_ORE, EXTRA_DROPS, TIER, MINEABILITY_TIER, TOOLS_BEFORE, ARMOR_BEFORE, ITEM_BEFORE, BLOCK_BEFORE, ORE_BEFORE);
 		}
