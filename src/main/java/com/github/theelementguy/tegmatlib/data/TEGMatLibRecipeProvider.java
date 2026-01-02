@@ -162,7 +162,7 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 	}
 
 	protected void nuggetRecipe(Item material, Item nugget) {
-		shapeless(RecipeCategory.MISC, material, 9).requires(nugget).unlockedBy("has_" + getItemName(material), has(nugget)).save(output);
+		shapeless(RecipeCategory.MISC, material, 9).requires(nugget).unlockedBy("has_" + getItemName(material), has(nugget)).save(output, MOD_ID + ":" + getItemName(material) + "_ingot_from_nugget");
 
 		shapeless(RecipeCategory.MISC, nugget).requires(material, 9).unlockedBy("has_" + getItemName(material) + "_nugget", has(nugget)).save(output);
 	}
