@@ -100,7 +100,7 @@ public class TEGMatLibModelProvider extends ModelProvider {
 					NetherDiamondTypeMaterialConfiguration netherDiamondMatConfig = (NetherDiamondTypeMaterialConfiguration) config;
 					blockModels.createTrivialCube(netherDiamondMatConfig.getNetherOre());
 				}
-				case END_IRON -> {
+				case END_DIAMOND -> {
 					EndDiamondTypeMaterialConfiguration endDiamondMatConfig = (EndDiamondTypeMaterialConfiguration) config;
 					blockModels.createTrivialCube(endDiamondMatConfig.getEndOre());
 				}
