@@ -80,6 +80,24 @@ public class OreGenConfig {
 		return () -> new OreGenConfig(OreGenSize.SMALL, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.RARE, chunksPerVein, dimension.getBiomesContained());
 	}
 
+	public static Supplier<OreGenConfig> smallAllBiomes(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int numberPerChunk, Dimension dimension, float discardOnAirChance) {
+		if (distributionType == OreDistribution.TRIANGLE) {
+			return () -> new OreGenConfig(OreGenSize.SMALL, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
+		} else if (distributionType == OreDistribution.UNIFORM) {
+			return () -> new OreGenConfig(OreGenSize.SMALL, HeightRangePlacement.uniform(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
+		}
+		return () -> new OreGenConfig(OreGenSize.SMALL, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
+	}
+
+	public static Supplier<OreGenConfig> rareSmallAllBiomes(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int chunksPerVein, Dimension dimension, float discardOnAirChance) {
+		if (distributionType == OreDistribution.TRIANGLE) {
+			return () -> new OreGenConfig(OreGenSize.SMALL, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.RARE, chunksPerVein, dimension.getBiomesContained());
+		} else if (distributionType == OreDistribution.UNIFORM) {
+			return () -> new OreGenConfig(OreGenSize.SMALL, HeightRangePlacement.uniform(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.RARE, chunksPerVein, dimension.getBiomesContained());
+		}
+		return () -> new OreGenConfig(OreGenSize.SMALL, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.RARE, chunksPerVein, dimension.getBiomesContained());
+	}
+
 	public static Supplier<OreGenConfig> mediumAllBiomes(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int numberPerChunk, Dimension dimension) {
 		if (distributionType == OreDistribution.TRIANGLE) {
 			return () -> new OreGenConfig(OreGenSize.MEDIUM, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
@@ -98,6 +116,24 @@ public class OreGenConfig {
 		return () -> new OreGenConfig(OreGenSize.MEDIUM, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.RARE, chunksPerVein, dimension.getBiomesContained());
 	}
 
+	public static Supplier<OreGenConfig> mediumAllBiomes(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int numberPerChunk, Dimension dimension, float discardOnAirChance) {
+		if (distributionType == OreDistribution.TRIANGLE) {
+			return () -> new OreGenConfig(OreGenSize.MEDIUM, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
+		} else if (distributionType == OreDistribution.UNIFORM) {
+			return () -> new OreGenConfig(OreGenSize.MEDIUM, HeightRangePlacement.uniform(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
+		}
+		return () -> new OreGenConfig(OreGenSize.MEDIUM, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
+	}
+
+	public static Supplier<OreGenConfig> rareMediumAllBiomes(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int chunksPerVein, Dimension dimension, float discardOnAirChance) {
+		if (distributionType == OreDistribution.TRIANGLE) {
+			return () -> new OreGenConfig(OreGenSize.MEDIUM, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.RARE, chunksPerVein, dimension.getBiomesContained());
+		} else if (distributionType == OreDistribution.UNIFORM) {
+			return () -> new OreGenConfig(OreGenSize.MEDIUM, HeightRangePlacement.uniform(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.RARE, chunksPerVein, dimension.getBiomesContained());
+		}
+		return () -> new OreGenConfig(OreGenSize.MEDIUM, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.RARE, chunksPerVein, dimension.getBiomesContained());
+	}
+
 	public static Supplier<OreGenConfig> largeAllBiomes(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int numberPerChunk, Dimension dimension) {
 		if (distributionType == OreDistribution.TRIANGLE) {
 			return () -> new OreGenConfig(OreGenSize.LARGE, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
@@ -114,6 +150,24 @@ public class OreGenConfig {
 			return () -> new OreGenConfig(OreGenSize.LARGE, HeightRangePlacement.uniform(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.RARE, chunksPerVein, dimension.getBiomesContained());
 		}
 		return () -> new OreGenConfig(OreGenSize.LARGE, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.RARE, chunksPerVein, dimension.getBiomesContained());
+	}
+
+	public static Supplier<OreGenConfig> largeAllBiomes(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int numberPerChunk, Dimension dimension, float discardOnAirChance) {
+		if (distributionType == OreDistribution.TRIANGLE) {
+			return () -> new OreGenConfig(OreGenSize.LARGE, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
+		} else if (distributionType == OreDistribution.UNIFORM) {
+			return () -> new OreGenConfig(OreGenSize.LARGE, HeightRangePlacement.uniform(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
+		}
+		return () -> new OreGenConfig(OreGenSize.LARGE, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.COMMON, numberPerChunk, dimension.getBiomesContained());
+	}
+
+	public static Supplier<OreGenConfig> rareLargeAllBiomes(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int chunksPerVein, Dimension dimension, float discardOnAirChance) {
+		if (distributionType == OreDistribution.TRIANGLE) {
+			return () -> new OreGenConfig(OreGenSize.LARGE, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.RARE, chunksPerVein, dimension.getBiomesContained());
+		} else if (distributionType == OreDistribution.UNIFORM) {
+			return () -> new OreGenConfig(OreGenSize.LARGE, HeightRangePlacement.uniform(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.RARE, chunksPerVein, dimension.getBiomesContained());
+		}
+		return () -> new OreGenConfig(OreGenSize.LARGE, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.RARE, chunksPerVein, dimension.getBiomesContained());
 	}
 
 	public static Supplier<OreGenConfig> extraWithTag(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int numberPerChunk, TagKey<Biome> biomes) {
@@ -150,6 +204,42 @@ public class OreGenConfig {
 			return () -> new OreGenConfig(OreGenSize.EXTRA, HeightRangePlacement.uniform(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.RARE, chunksPerVein, biome);
 		}
 		return () -> new OreGenConfig(OreGenSize.EXTRA, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, 0f, OreRarity.RARE, chunksPerVein, biome);
+	}
+
+	public static Supplier<OreGenConfig> extraWithTag(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int numberPerChunk, TagKey<Biome> biomes, float discardOnAirChance) {
+		if (distributionType == OreDistribution.TRIANGLE) {
+			return () -> new OreGenConfig(OreGenSize.EXTRA, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.COMMON, numberPerChunk, biomes);
+		} else if (distributionType == OreDistribution.UNIFORM) {
+			return () -> new OreGenConfig(OreGenSize.EXTRA, HeightRangePlacement.uniform(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.COMMON, numberPerChunk, biomes);
+		}
+		return () -> new OreGenConfig(OreGenSize.EXTRA, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.COMMON, numberPerChunk, biomes);
+	}
+
+	public static Supplier<OreGenConfig> rareExtraWithTag(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int chunksPerVein, TagKey<Biome> biomes, float discardOnAirChance) {
+		if (distributionType == OreDistribution.TRIANGLE) {
+			return () -> new OreGenConfig(OreGenSize.EXTRA, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.RARE, chunksPerVein, biomes);
+		} else if (distributionType == OreDistribution.UNIFORM) {
+			return () -> new OreGenConfig(OreGenSize.EXTRA, HeightRangePlacement.uniform(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.RARE, chunksPerVein, biomes);
+		}
+		return () -> new OreGenConfig(OreGenSize.EXTRA, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.RARE, chunksPerVein, biomes);
+	}
+
+	public static Supplier<OreGenConfig> extraWithBiome(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int numberPerChunk, ResourceKey<Biome> biome, float discardOnAirChance) {
+		if (distributionType == OreDistribution.TRIANGLE) {
+			return () -> new OreGenConfig(OreGenSize.EXTRA, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.COMMON, numberPerChunk, biome);
+		} else if (distributionType == OreDistribution.UNIFORM) {
+			return () -> new OreGenConfig(OreGenSize.EXTRA, HeightRangePlacement.uniform(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.COMMON, numberPerChunk, biome);
+		}
+		return () -> new OreGenConfig(OreGenSize.EXTRA, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.COMMON, numberPerChunk, biome);
+	}
+
+	public static Supplier<OreGenConfig> rareExtraWithBiome(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int chunksPerVein, ResourceKey<Biome> biome, float discardOnAirChance) {
+		if (distributionType == OreDistribution.TRIANGLE) {
+			return () -> new OreGenConfig(OreGenSize.EXTRA, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.RARE, chunksPerVein, biome);
+		} else if (distributionType == OreDistribution.UNIFORM) {
+			return () -> new OreGenConfig(OreGenSize.EXTRA, HeightRangePlacement.uniform(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.RARE, chunksPerVein, biome);
+		}
+		return () -> new OreGenConfig(OreGenSize.EXTRA, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.RARE, chunksPerVein, biome);
 	}
 	
 	public void registerConfiguredFeature(BootstrapContext<ConfiguredFeature<?, ?>> context, List<OreConfiguration.TargetBlockState> ores, ResourceKey<ConfiguredFeature<?, ?>> key) {
