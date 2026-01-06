@@ -104,11 +104,11 @@ public abstract class MaterialConfiguration {
 
 	protected final String TOOLS_BEFORE;
 	protected final String ARMOR_BEFORE;
-	protected final Item ITEM_BEFORE;
-	protected final Block BLOCK_BEFORE;
+	protected final Supplier<Item> ITEM_BEFORE;
+	protected final Supplier<Block> BLOCK_BEFORE;
 	protected final String ORE_BEFORE;
 
-	protected MaterialConfiguration(String modId, String baseName, String humanReadableName, MaterialType materialType, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String toolsBefore, String armorBefore, Item itemBefore, Block blockBefore, String oreBefore) {
+	protected MaterialConfiguration(String modId, String baseName, String humanReadableName, MaterialType materialType, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String toolsBefore, String armorBefore, Supplier<Item> itemBefore, Supplier<Block> blockBefore, String oreBefore) {
 		BASE_NAME = baseName;
 		MOD_ID = modId;
 		HUMAN_READABLE_NAME = humanReadableName;
@@ -378,11 +378,11 @@ public abstract class MaterialConfiguration {
 	}
 
 	public Item getItemBefore() {
-		return ITEM_BEFORE;
+		return ITEM_BEFORE.get();
 	}
 
 	public Block getBlockBefore() {
-		return BLOCK_BEFORE;
+		return BLOCK_BEFORE.get();
 	}
 
 	public String getOreBefore() {
