@@ -1,6 +1,8 @@
 package com.github.theelementguy.tegmatlib.core;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -27,7 +29,7 @@ public class NetherDiamondTypeMaterialConfiguration extends MaterialConfiguratio
 
 	protected DeferredBlock<Block> NETHER_ORE_BLOCK;
 
-	private NetherDiamondTypeMaterialConfiguration(String modId, String baseName, String humanReadableName, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String toolsBefore, String armorBefore, Item itemBefore, Block blockBefore, String oreBefore) {
+	private NetherDiamondTypeMaterialConfiguration(String modId, String baseName, String humanReadableName, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String toolsBefore, String armorBefore, Supplier<Item> itemBefore, Supplier<Block> blockBefore, String oreBefore) {
 		super(modId, baseName, humanReadableName, MaterialType.NETHER_DIAMOND, trimMaterialDescriptionColor, toolDurability, speed, attackDamageBonus, enchantmentValue, defaultProperties, armorDurability, helmetDefense, chestplateDefense, smeltingExperience, leggingsDefense, bootsDefense, horseDefense, equipSound, toughness, knockbackResistance, mapColor, soundType, oreGenConfigs, dropsPerOre, extraDrops, tier, mineabilityTier, toolsBefore, armorBefore, itemBefore, blockBefore, oreBefore);
 	}
 
@@ -100,8 +102,8 @@ public class NetherDiamondTypeMaterialConfiguration extends MaterialConfiguratio
 
 		protected String TOOLS_BEFORE;
 		protected String ARMOR_BEFORE;
-		protected Item ITEM_BEFORE;
-		protected Block BLOCK_BEFORE;
+		protected Supplier<Item> ITEM_BEFORE;
+		protected Supplier<Block> BLOCK_BEFORE;
 		protected String ORE_BEFORE;
 
 		/**
@@ -360,8 +362,26 @@ public class NetherDiamondTypeMaterialConfiguration extends MaterialConfiguratio
 		public NetherDiamondTypeMaterialConfiguration.Builder setBefore(String toolsBefore, String armorBefore, Item itemBefore, Block blockBefore, String oreBefore) {
 			this.TOOLS_BEFORE = toolsBefore;
 			this.ARMOR_BEFORE = armorBefore;
-			this.ITEM_BEFORE = itemBefore;
-			this.BLOCK_BEFORE = blockBefore;
+			this.ITEM_BEFORE = () -> itemBefore;
+			this.BLOCK_BEFORE = () -> blockBefore;
+			this.ORE_BEFORE = oreBefore;
+			return this;
+		}
+
+		/**
+		 * Sets the position of the material's items in the inventory, in relation to other items.
+		 * @param toolsBefore the tool set that this material will be placed after, as a string (for example, "stone")
+		 * @param armorBefore the armor set that this material will be placed after, as a string (for example, "chainmail")
+		 * @param itemBefore <code>ResourceLocation</code> of the item that the base material will be placed after
+		 * @param blockBefore <code>ResourceLocation</code> of the block that the base block will be placed after
+		 * @param oreBefore the ore that the stone and deepslate ores will be placed after, as a string (for example, "lapis")
+		 * @return the updated <code>Builder</code>
+		 */
+		public NetherDiamondTypeMaterialConfiguration.Builder setBefore(String toolsBefore, String armorBefore, ResourceLocation itemBefore, ResourceLocation blockBefore, String oreBefore) {
+			this.TOOLS_BEFORE = toolsBefore;
+			this.ARMOR_BEFORE = armorBefore;
+			this.ITEM_BEFORE = () -> BuiltInRegistries.ITEM.get(itemBefore).orElseThrow().value();
+			this.BLOCK_BEFORE = () -> BuiltInRegistries.BLOCK.get(blockBefore).orElseThrow().value();
 			this.ORE_BEFORE = oreBefore;
 			return this;
 		}
