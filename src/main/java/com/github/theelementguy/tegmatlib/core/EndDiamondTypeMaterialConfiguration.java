@@ -356,7 +356,7 @@ public class EndDiamondTypeMaterialConfiguration extends MaterialConfiguration {
 		 * @param armorBefore the armor set that this material will be placed after, as a string (for example, "chainmail")
 		 * @param itemBefore the item that the base material will be placed after
 		 * @param blockBefore the block that the base block will be placed after
-		 * @param oreBefore the ore that the stone and deepslate ores will be placed after, as a string (for example, "lapis")
+		 * @param oreBefore the ore that the ore will be placed after, as a full string (for example, "ancient_debris" or "end_aquaite_ore")
 		 * @return the updated <code>Builder</code>
 		 */
 		public EndDiamondTypeMaterialConfiguration.Builder setBefore(String toolsBefore, String armorBefore, Item itemBefore, Block blockBefore, String oreBefore) {
@@ -374,7 +374,7 @@ public class EndDiamondTypeMaterialConfiguration extends MaterialConfiguration {
 		 * @param armorBefore the armor set that this material will be placed after, as a string (for example, "chainmail")
 		 * @param itemBefore <code>ResourceLocation</code> of the item that the base material will be placed after
 		 * @param blockBefore <code>ResourceLocation</code> of the block that the base block will be placed after
-		 * @param oreBefore the ore that the stone and deepslate ores will be placed after, as a string (for example, "lapis")
+		 * @param oreBefore the ore that the ore will be placed after, as a full string (for example, "ancient_debris" or "end_aquaite_ore")
 		 * @return the updated <code>Builder</code>
 		 */
 		public EndDiamondTypeMaterialConfiguration.Builder setBefore(String toolsBefore, String armorBefore, ResourceLocation itemBefore, ResourceLocation blockBefore, String oreBefore) {
