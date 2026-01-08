@@ -35,7 +35,7 @@ public class TEGMatLibEquipmentAssetProvider extends EquipmentAssetProvider {
 		for (MaterialConfiguration config : MATERIALS.get()) {
 			config.bootstrapEquipmentAsset((key, model) -> {
 				if (MAP.putIfAbsent(key, model) != null) {
-					throw new IllegalStateException("Duplicate equipment asset for:" + key.location());
+					throw new IllegalStateException("Duplicate equipment asset for:" + key.identifier());
 				}
 			});
 		}

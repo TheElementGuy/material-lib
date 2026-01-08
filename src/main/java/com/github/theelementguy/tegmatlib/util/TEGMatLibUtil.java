@@ -4,7 +4,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.CreativeModeTab;
@@ -33,19 +33,19 @@ public class TEGMatLibUtil {
 	private static HashMap<Character, Character> upsideDown = new HashMap<>(mapOf('a', 'ɐ', 'b', 'q', 'c', 'ɔ', 'd', 'p', 'e', 'ǝ', 'f', 'ɟ', 'g', 'ᵷ', 'h', 'ɥ', 'i', 'ᴉ', 'k', 'ʞ', 'C', 'Ɔ', 'u', 'n', 'n', 'u', ' ', ' ', 'z', 'z', 'Z', 'Z', 'q', 'b', 'p', 'd', 'r', 'ɹ', 'o', 'o', 'l', 'l', 's', 's', 'R', 'ᴚ', 'S', 'S', 'B', 'ᗺ', 'A', 'Ɐ', 'w', 'ʍ', 'W', 'M', 'x', 'x', 'P', 'Ԁ', 'T', '⟘', 'H', 'H', 'v', 'ʌ', 'D', 'ᗡ', 'N', 'N', 'E', 'Ǝ', 'O', 'O', 'm', 'ɯ', 't', 'ʇ', 'L', 'Ꞁ', 'I', 'I'));
 
 	public static ResourceKey<Item> createItemResourceKey(String name, String modId) {
-		return ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(modId, name));
+		return ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(modId, name));
 	}
 
 	public static ResourceKey<Block> createBlockResourceKey(String name, String modId) {
-		return ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(modId, name));
+		return ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(modId, name));
 	}
 
 	public static ResourceKey<Recipe<?>> createRecipeResourceKey(String name, String modId) {
-		return ResourceKey.create(Registries.RECIPE, ResourceLocation.fromNamespaceAndPath(modId, name));
+		return ResourceKey.create(Registries.RECIPE, Identifier.fromNamespaceAndPath(modId, name));
 	}
 
 	public static ResourceKey<EquipmentAsset> createEquipmentAssetResourceKey(String name, String modId) {
-		return ResourceKey.create(ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath("minecraft", "equipment_asset")), ResourceLocation.fromNamespaceAndPath(modId, name));
+		return ResourceKey.create(ResourceKey.createRegistryKey(Identifier.fromNamespaceAndPath("minecraft", "equipment_asset")), Identifier.fromNamespaceAndPath(modId, name));
 	}
 
 	public static void inventoryAddAfter(Item item, Item referenceItem, BuildCreativeModeTabContentsEvent event) {
@@ -75,6 +75,7 @@ public class TEGMatLibUtil {
 	public static void setAddAfter(String set, String tools, String armor, BuildCreativeModeTabContentsEvent event, String modId) {
 		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_sword", modId), TEGMatLibUtil.getItemFromKey(tools + "_sword", modId), event);
 		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_axe", modId), TEGMatLibUtil.getItemFromKey(tools + "_axe", modId), event);
+		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_spear", modId), TEGMatLibUtil.getItemFromKey(tools + "_axe", modId), event);
 		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_helmet", modId), TEGMatLibUtil.getItemFromKey(armor + "_boots", modId), event);
 		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_chestplate", modId), TEGMatLibUtil.getItemFromKey(set + "_helmet", modId), event);
 		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_leggings", modId), TEGMatLibUtil.getItemFromKey(set + "_chestplate", modId), event);
@@ -99,7 +100,7 @@ public class TEGMatLibUtil {
 	}
 
 	public static Item getItemFromKeyMinecraft(String key) {
-		return BuiltInRegistries.ITEM.get(ResourceKey.create(Registries.ITEM, ResourceLocation.withDefaultNamespace(key))).get().value();
+		return BuiltInRegistries.ITEM.get(ResourceKey.create(Registries.ITEM, Identifier.withDefaultNamespace(key))).get().value();
 	}
 
 	public static Block getBlockFromKey(String key, String modId) {
@@ -162,15 +163,15 @@ public class TEGMatLibUtil {
 	}
 
 	public static ResourceKey<ConfiguredFeature<?, ?>> createConfiguredFeatureResourceKey(String modId, String name) {
-		return ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(modId, name));
+		return ResourceKey.create(Registries.CONFIGURED_FEATURE, Identifier.fromNamespaceAndPath(modId, name));
 	}
 
 	public static ResourceKey<PlacedFeature> createPlacedFeatureResourceKey(String modId, String name) {
-		return ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(modId, name));
+		return ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(modId, name));
 	}
 
 	public static ResourceKey<BiomeModifier> createBiomeModifierResourceKey(String modId, String name) {
-		return ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(modId, name));
+		return ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, Identifier.fromNamespaceAndPath(modId, name));
 	}
 
 	public static TagKey<Block> getTagForTierUnder(MiningTier tier) {
@@ -230,7 +231,7 @@ public class TEGMatLibUtil {
 	}
 
 	public static ResourceKey<TrimMaterial> createTrimMaterialResourceKey(String name, String modId) {
-		return ResourceKey.create(Registries.TRIM_MATERIAL, ResourceLocation.fromNamespaceAndPath(modId, name));
+		return ResourceKey.create(Registries.TRIM_MATERIAL, Identifier.fromNamespaceAndPath(modId, name));
 	}
 
 }
