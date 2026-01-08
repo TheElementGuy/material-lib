@@ -1,7 +1,7 @@
 package com.github.theelementguy.tegmatlib.data;
 
 import com.github.theelementguy.tegmatlib.core.*;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.client.main.GameConfig;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
@@ -30,6 +30,7 @@ public class TEGMatLibLanguageProvider extends LanguageProvider {
 			add(config.getPickaxe(), config.getHumanReadableName() + " Pickaxe");
 			add(config.getShovel(), config.getHumanReadableName() + " Shovel");
 			add(config.getHoe(), config.getHumanReadableName() + " Hoe");
+			add(config.getSpear(), config.getHumanReadableName() + "Spear");
 
 			add(config.getHelmet(), config.getHumanReadableName() + " Helmet");
 			add(config.getChestplate(), config.getHumanReadableName() + " Chestplate");
@@ -38,7 +39,7 @@ public class TEGMatLibLanguageProvider extends LanguageProvider {
 
 			add(config.getBaseBlock(), "Block of " + config.getHumanReadableName());
 
-			add(Util.makeDescriptionId("trim_material", config.getTrimMaterial().location()), config.getHumanReadableName());
+			add(Util.makeDescriptionId("trim_material", config.getTrimMaterial().identifier()), config.getHumanReadableName());
 
 			switch (config.getType()) {
 				case IRON -> {

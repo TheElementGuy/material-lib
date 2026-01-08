@@ -69,6 +69,7 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 			pickaxeRecipe(config.getPickaxe(), config.getBaseItem(), "has_" + config.getBaseName());
 			shovelRecipe(config.getShovel(), config.getBaseItem(), "has_" + config.getBaseName());
 			hoeRecipe(config.getHoe(), config.getBaseItem(), "has_" + config.getBaseName());
+			spearRecipe(config.getSpear(), config.getBaseItem(), "has_" + config.getBaseName());
 
 			helmetRecipe(config.getHelmet(), config.getBaseItem(), "has_" + config.getBaseName());
 			chestplateRecipe(config.getChestplate(), config.getBaseItem(), "has_" + config.getBaseName());
@@ -136,7 +137,11 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 	}
 
 	protected void hoeRecipe(Item result, Item ingredient, String advancementName) {
-		shaped(RecipeCategory.COMBAT, result).pattern("II ").pattern(" S ").pattern(" S ").define('I', ingredient).define('S', Items.STICK).unlockedBy(advancementName, has(ingredient)).save(output);
+		shaped(RecipeCategory.TOOLS, result).pattern("II ").pattern(" S ").pattern(" S ").define('I', ingredient).define('S', Items.STICK).unlockedBy(advancementName, has(ingredient)).save(output);
+	}
+
+	protected void spearRecipe(Item result, Item ingredient, String advancementName) {
+		shaped(RecipeCategory.COMBAT, result).pattern("  I").pattern(" S ").pattern("S  ").define('I', ingredient).define('S', Items.STICK).unlockedBy(advancementName, has(ingredient)).save(output);
 	}
 
 	protected void helmetRecipe(Item result, Item ingredient, String advancementName) {

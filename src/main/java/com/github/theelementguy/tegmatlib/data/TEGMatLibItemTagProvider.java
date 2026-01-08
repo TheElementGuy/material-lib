@@ -33,12 +33,13 @@ public class TEGMatLibItemTagProvider extends ItemTagsProvider {
 			tag(ItemTags.PICKAXES).add(config.getPickaxe());
 			tag(ItemTags.SHOVELS).add(config.getShovel());
 			tag(ItemTags.HOES).add(config.getHoe());
+			tag(ItemTags.SPEARS).add(config.getSpear());
 			tag(config.getRepairables()).add(config.getBaseItem());
 			tag(ItemTags.HEAD_ARMOR).add(config.getHelmet());
 			tag(ItemTags.CHEST_ARMOR).add(config.getChestplate());
 			tag(ItemTags.LEG_ARMOR).add(config.getLeggings());
 			tag(ItemTags.FOOT_ARMOR).add(config.getBoots());
-			tag(Tags.Items.MELEE_WEAPON_TOOLS).add(config.getSword(), config.getAxe());
+			tag(Tags.Items.MELEE_WEAPON_TOOLS).add(config.getSword(), config.getAxe(), config.getSpear());
 			tag(Tags.Items.MINING_TOOL_TOOLS).add(config.getPickaxe());
 			switch (config.getType()) {
 				case DIAMOND, NETHER_DIAMOND, END_DIAMOND -> {

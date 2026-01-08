@@ -1,19 +1,24 @@
 package com.github.theelementguy.tegmatlib.core;
 
+import com.github.theelementguy.tegmatlib.core.tiers.MineabilityTier;
+import com.github.theelementguy.tegmatlib.core.tiers.MiningTier;
+import com.github.theelementguy.tegmatlib.item.SpearMaterial;
+import com.github.theelementguy.tegmatlib.util.TEGMatLibUtil;
 import com.github.theelementguy.tegmatlib.worldgen.OreGenHolder;
-import net.minecraft.Util;
+import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
 import net.minecraft.client.resources.model.EquipmentClientInfo;
 import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Util;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.equipment.ArmorMaterial;
@@ -32,11 +37,6 @@ import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import com.github.theelementguy.tegmatlib.core.tiers.MineabilityTier;
-import com.github.theelementguy.tegmatlib.core.tiers.MiningTier;
-import com.github.theelementguy.tegmatlib.util.TEGMatLibUtil;
-import com.github.theelementguy.tegmatlib.worldgen.*;
-import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
 
 import java.util.EnumMap;
 import java.util.List;
@@ -67,6 +67,7 @@ public abstract class MaterialConfiguration {
 	protected DeferredItem<Item> PICKAXE;
 	protected DeferredItem<Item> SHOVEL;
 	protected DeferredItem<Item> HOE;
+	protected DeferredItem<Item> SPEAR;
 	protected DeferredItem<Item> HELMET;
 	protected DeferredItem<Item> CHESTPLATE;
 	protected DeferredItem<Item> LEGGINGS;
@@ -80,6 +81,7 @@ public abstract class MaterialConfiguration {
 	protected final String TRIM_MATERIAL_DESCRIPTION_COLOR;
 
 	protected Supplier<ToolMaterial> TOOL_MATERIAL;
+	protected Supplier<SpearMaterial> SPEAR_MATERIAL;
 	protected Supplier<ArmorMaterial> ARMOR_MATERIAL;
 
 	protected Supplier<TagKey<Block>> INCORRECT_FOR_MATERIAL;
@@ -108,7 +110,7 @@ public abstract class MaterialConfiguration {
 	protected final Supplier<Block> BLOCK_BEFORE;
 	protected final String ORE_BEFORE;
 
-	protected MaterialConfiguration(String modId, String baseName, String humanReadableName, MaterialType materialType, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String toolsBefore, String armorBefore, Supplier<Item> itemBefore, Supplier<Block> blockBefore, String oreBefore) {
+	protected MaterialConfiguration(String modId, String baseName, String humanReadableName, MaterialType materialType, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String toolsBefore, String armorBefore, Supplier<Item> itemBefore, Supplier<Block> blockBefore, String oreBefore, float swingDuration, float damageMultiplier, float delay, float dismountMaxDuration, float dismountMinSpeed, float knockbackMaxDuration, float knockbackMinSpeed, float damageMaxDuration, float damageMinSpeed) {
 		BASE_NAME = baseName;
 		MOD_ID = modId;
 		HUMAN_READABLE_NAME = humanReadableName;
@@ -128,9 +130,9 @@ public abstract class MaterialConfiguration {
 		ITEM_BEFORE = itemBefore;
 		BLOCK_BEFORE = blockBefore;
 		ORE_BEFORE = oreBefore;
-		INCORRECT_FOR_MATERIAL = () -> BlockTags.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, "incorrect_for_" + BASE_NAME + "_tool"));
-		NEEDS_MATERIAL = () -> BlockTags.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, "needs_" + BASE_NAME));
-		REPAIRABLES = () -> ItemTags.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, BASE_NAME + "_repairables"));
+		INCORRECT_FOR_MATERIAL = () -> BlockTags.create(Identifier.fromNamespaceAndPath(MOD_ID, "incorrect_for_" + BASE_NAME + "_tool"));
+		NEEDS_MATERIAL = () -> BlockTags.create(Identifier.fromNamespaceAndPath(MOD_ID, "needs_" + BASE_NAME));
+		REPAIRABLES = () -> ItemTags.create(Identifier.fromNamespaceAndPath(MOD_ID, BASE_NAME + "_repairables"));
 		EQUIPMENT_ASSET = () -> TEGMatLibUtil.createEquipmentAssetResourceKey(BASE_NAME, MOD_ID);
 		TOOL_MATERIAL = () -> new ToolMaterial(INCORRECT_FOR_MATERIAL.get(), toolDurability, speed, attackDamageBonus, enchantmentValue, REPAIRABLES.get());
 		ARMOR_MATERIAL = () -> new ArmorMaterial(armorDurability, Util.make(new EnumMap<ArmorType, Integer>(ArmorType.class), attribute -> {
@@ -140,6 +142,7 @@ public abstract class MaterialConfiguration {
 			attribute.put(ArmorType.BOOTS, bootsDefense);
 			attribute.put(ArmorType.BODY, horseDefense);
 		}), enchantmentValue, equipSound.get(), toughness, knockbackResistance, REPAIRABLES.get(), EQUIPMENT_ASSET.get());
+		SPEAR_MATERIAL = () -> new SpearMaterial(swingDuration, damageMultiplier, delay, dismountMaxDuration, dismountMinSpeed, knockbackMaxDuration, knockbackMinSpeed, damageMaxDuration, damageMinSpeed);
 		fillTrimMaterialKeys();
 		fillConfiguredFeatureKeys();
 		fillPlacedFeatureKeys();
@@ -227,6 +230,11 @@ public abstract class MaterialConfiguration {
 		return register.register(BASE_NAME + "_hoe", () -> new Item(DEFAULT_PROPERTIES.get().hoe(TOOL_MATERIAL.get(), -2f, -1f).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_hoe", modId))));
 	}
 
+	protected DeferredItem<Item> registerSpear(DeferredRegister.Items register, String modId) {
+		SpearMaterial material = SPEAR_MATERIAL.get();
+		return register.register(BASE_NAME + "_spear", () -> new Item(DEFAULT_PROPERTIES.get().spear(TOOL_MATERIAL.get(), material.swingDuration(), material.damageMultiplier(), material.delay(), material.dismountMaxDuration(), material.dismountMinSpeed(), material.knockbackMaxDuration(), material.knockbackMinSpeed(), material.damageMaxDuration(), material.damageMinSpeed()).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_spear", modId))));
+	}
+
 	protected DeferredItem<Item> registerHelmet(DeferredRegister.Items register) {
 		return register.register(BASE_NAME + "_helmet", () -> new Item(DEFAULT_PROPERTIES.get().humanoidArmor(ARMOR_MATERIAL.get(), ArmorType.HELMET).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_helmet", MOD_ID))));
 	}
@@ -249,6 +257,7 @@ public abstract class MaterialConfiguration {
 		PICKAXE = registerPickaxe(register, modId);
 		SHOVEL = registerShovel(register, modId);
 		HOE = registerHoe(register, modId);
+		SPEAR = registerSpear(register, modId);
 
 		HELMET = registerHelmet(register);
 		CHESTPLATE = registerChestplate(register);
@@ -291,7 +300,7 @@ public abstract class MaterialConfiguration {
 	}
 
 	public void bootstrapEquipmentAsset(BiConsumer<ResourceKey<EquipmentAsset>, EquipmentClientInfo> consumer) {
-		consumer.accept(EQUIPMENT_ASSET.get(), EquipmentClientInfo.builder().addHumanoidLayers(ResourceLocation.fromNamespaceAndPath(MOD_ID, EQUIPMENT_ASSET.get().location().getPath())).build());
+		consumer.accept(EQUIPMENT_ASSET.get(), EquipmentClientInfo.builder().addHumanoidLayers(Identifier.fromNamespaceAndPath(MOD_ID, EQUIPMENT_ASSET.get().identifier().getPath())).build());
 	}
 
 	public abstract List<Block> getBlocks();
@@ -314,6 +323,10 @@ public abstract class MaterialConfiguration {
 
 	public Item getHoe() {
 		return HOE.get();
+	}
+
+	public Item getSpear() {
+		return SPEAR.get();
 	}
 
 	public TagKey<Item> getRepairables() {
@@ -341,7 +354,7 @@ public abstract class MaterialConfiguration {
 	}
 
 	public void bootstrapTrimMaterial(BootstrapContext<TrimMaterial> context) {
-		context.register(TRIM_MATERIAL.get(), new TrimMaterial(MATERIAL_ASSET_GROUP.get(), Component.translatable(Util.makeDescriptionId("trim_material", TRIM_MATERIAL.get().location())).withStyle(Style.EMPTY.withColor(TextColor.parseColor(TRIM_MATERIAL_DESCRIPTION_COLOR).getOrThrow()))));
+		context.register(TRIM_MATERIAL.get(), new TrimMaterial(MATERIAL_ASSET_GROUP.get(), Component.translatable(Util.makeDescriptionId("trim_material", TRIM_MATERIAL.get().identifier())).withStyle(Style.EMPTY.withColor(TextColor.parseColor(TRIM_MATERIAL_DESCRIPTION_COLOR).getOrThrow()))));
 	}
 
 	public void fillTrimMaterialKeys() {

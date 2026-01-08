@@ -21,7 +21,6 @@ public class TEGMatLibBlockProvider {
 
 	/**
 	 * Constructor for the {@link TEGMatLibBlockProvider} class. Meant to be called in mod constructor.
-	 * @param modId the mod ID of the mod in question
 	 * @param materials a {@link FullyConfiguredMaterialHolder} holding the {@link MaterialConfiguration}s
 	 */
 	public TEGMatLibBlockProvider(FullyConfiguredMaterialHolder materials) {
