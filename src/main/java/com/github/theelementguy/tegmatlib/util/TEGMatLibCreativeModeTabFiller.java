@@ -71,6 +71,12 @@ public class TEGMatLibCreativeModeTabFiller {
 		if (event.getTabKey() == CreativeModeTabs.COMBAT) {
 			for (MaterialConfiguration m : materials) {
 				TEGMatLibUtil.setAddAfter(m.getBaseName(), m.getToolsBefore(), m.getArmorBefore(), event, modID);
+				if (m.getHorseArmor().isUsing()) {
+					TEGMatLibUtil.inventoryAddAfter(m.getHorseArmor().get().get().get(), TEGMatLibUtil.getItemFromKey(m.getAnimalArmorBefore() + "_horse_armor", materialHolder.getModID()), event);
+				}
+				if (m.getNautilusArmor().isUsing()) {
+					TEGMatLibUtil.inventoryAddAfter(m.getNautilusArmor().get().get().get(), TEGMatLibUtil.getItemFromKey(m.getAnimalArmorBefore() + "_nautilus_armor", materialHolder.getModID()), event);
+				}
 			}
 		}
 		if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {

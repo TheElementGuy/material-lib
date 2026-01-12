@@ -41,6 +41,12 @@ public class TEGMatLibItemTagProvider extends ItemTagsProvider {
 			tag(ItemTags.FOOT_ARMOR).add(config.getBoots());
 			tag(Tags.Items.MELEE_WEAPON_TOOLS).add(config.getSword(), config.getAxe(), config.getSpear());
 			tag(Tags.Items.MINING_TOOL_TOOLS).add(config.getPickaxe());
+			if (config.getHorseArmor().isUsing()) {
+				tag(Tags.Items.ARMORS_HORSE).add(config.getHorseArmor().get().get().asItem());
+			}
+			if (config.getNautilusArmor().isUsing()) {
+				tag(Tags.Items.ARMORS_NAUTILUS).add(config.getNautilusArmor().get().get().asItem());
+			}
 			switch (config.getType()) {
 				case DIAMOND, NETHER_DIAMOND, END_DIAMOND -> {
 					tag(Tags.Items.GEMS).add(config.getBaseItem());

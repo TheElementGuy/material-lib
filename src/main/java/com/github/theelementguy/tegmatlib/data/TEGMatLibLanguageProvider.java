@@ -4,6 +4,7 @@ import com.github.theelementguy.tegmatlib.core.*;
 import net.minecraft.util.Util;
 import net.minecraft.client.main.GameConfig;
 import net.minecraft.data.PackOutput;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import com.github.theelementguy.tegmatlib.core.*;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
@@ -36,6 +37,13 @@ public class TEGMatLibLanguageProvider extends LanguageProvider {
 			add(config.getChestplate(), config.getHumanReadableName() + " Chestplate");
 			add(config.getLeggings(), config.getHumanReadableName() + " Leggings");
 			add(config.getBoots(), config.getHumanReadableName() + " Boots");
+
+			if (config.getHorseArmor().isUsing()) {
+				add(config.getHorseArmor().get().get().asItem(), config.getHumanReadableName() + " Horse Armor");
+			}
+			if (config.getNautilusArmor().isUsing()) {
+				add(config.getNautilusArmor().get().get().asItem(), config.getHumanReadableName() + " Nautilus Armor");
+			}
 
 			add(config.getBaseBlock(), "Block of " + config.getHumanReadableName());
 
