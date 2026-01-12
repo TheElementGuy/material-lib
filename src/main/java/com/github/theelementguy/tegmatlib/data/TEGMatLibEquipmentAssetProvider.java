@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 public class TEGMatLibEquipmentAssetProvider extends EquipmentAssetProvider {
@@ -30,15 +31,9 @@ public class TEGMatLibEquipmentAssetProvider extends EquipmentAssetProvider {
 	}
 
 	@Override
-	public CompletableFuture<?> run(CachedOutput p_387304_) {
-		Map<ResourceKey<EquipmentAsset>, EquipmentClientInfo> MAP = new HashMap<>();
-		for (MaterialConfiguration config : MATERIALS.get()) {
-			config.bootstrapEquipmentAsset((key, model) -> {
-				if (MAP.putIfAbsent(key, model) != null) {
-					throw new IllegalStateException("Duplicate equipment asset for:" + key.identifier());
-				}
-			});
+	protected void registerModels(BiConsumer<ResourceKey<EquipmentAsset>, EquipmentClientInfo> output) {
+		for (MaterialConfiguration m : MATERIALS.get()) {
+			m.bootstrapEquipmentAsset(output);
 		}
-		return DataProvider.saveAll(p_387304_, EquipmentClientInfo.CODEC, this.pathProvider::json, MAP);
 	}
 }

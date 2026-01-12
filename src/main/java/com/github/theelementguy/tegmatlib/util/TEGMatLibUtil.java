@@ -45,7 +45,7 @@ public class TEGMatLibUtil {
 	}
 
 	public static ResourceKey<EquipmentAsset> createEquipmentAssetResourceKey(String name, String modId) {
-		return ResourceKey.create(ResourceKey.createRegistryKey(Identifier.fromNamespaceAndPath("minecraft", "equipment_asset")), Identifier.fromNamespaceAndPath(modId, name));
+		return ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath(modId, name));
 	}
 
 	public static void inventoryAddAfter(Item item, Item referenceItem, BuildCreativeModeTabContentsEvent event) {
