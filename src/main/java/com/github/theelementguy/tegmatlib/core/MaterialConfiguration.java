@@ -42,6 +42,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
@@ -323,7 +324,7 @@ public abstract class MaterialConfiguration {
 	public void bootstrapEquipmentAsset(BiConsumer<ResourceKey<EquipmentAsset>, EquipmentClientInfo> consumer) {
 		EquipmentClientInfo.Builder builder = EquipmentClientInfo.builder().addHumanoidLayers(Identifier.fromNamespaceAndPath(MOD_ID, EQUIPMENT_ASSET.get().identifier().getPath()));
 		if (HORSE_ARMOR.isUsing()) {
-			builder.addLayers(EquipmentClientInfo.LayerType.HORSE_BODY, new EquipmentClientInfo.Layer(EQUIPMENT_ASSET.get().identifier()));
+			builder.addLayers(EquipmentClientInfo.LayerType.HORSE_BODY, new EquipmentClientInfo.Layer(EQUIPMENT_ASSET.get().identifier(), Optional.empty(), true));
 		}
 		if (NAUTILUS_ARMOR.isUsing()) {
 			builder.addLayers(EquipmentClientInfo.LayerType.NAUTILUS_BODY, new EquipmentClientInfo.Layer(EQUIPMENT_ASSET.get().identifier()));
