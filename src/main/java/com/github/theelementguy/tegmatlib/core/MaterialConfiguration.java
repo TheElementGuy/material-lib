@@ -321,7 +321,14 @@ public abstract class MaterialConfiguration {
 	}
 
 	public void bootstrapEquipmentAsset(BiConsumer<ResourceKey<EquipmentAsset>, EquipmentClientInfo> consumer) {
-		consumer.accept(EQUIPMENT_ASSET.get(), EquipmentClientInfo.builder().addHumanoidLayers(Identifier.fromNamespaceAndPath(MOD_ID, EQUIPMENT_ASSET.get().identifier().getPath())).build());
+		EquipmentClientInfo.Builder builder = EquipmentClientInfo.builder().addHumanoidLayers(Identifier.fromNamespaceAndPath(MOD_ID, EQUIPMENT_ASSET.get().identifier().getPath()));
+		if (HORSE_ARMOR.isUsing()) {
+			builder.addLayers(EquipmentClientInfo.LayerType.HORSE_BODY, new EquipmentClientInfo.Layer(EQUIPMENT_ASSET.get().identifier()));
+		}
+		if (NAUTILUS_ARMOR.isUsing()) {
+			builder.addLayers(EquipmentClientInfo.LayerType.NAUTILUS_BODY, new EquipmentClientInfo.Layer(EQUIPMENT_ASSET.get().identifier()));
+		}
+		consumer.accept(EQUIPMENT_ASSET.get(), builder.build());
 	}
 
 	public abstract List<Block> getBlocks();
