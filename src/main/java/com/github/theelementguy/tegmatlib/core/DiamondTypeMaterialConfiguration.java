@@ -1,5 +1,8 @@
 package com.github.theelementguy.tegmatlib.core;
 
+import com.github.theelementguy.tegmatlib.loot.LootItemSlot;
+import com.github.theelementguy.tegmatlib.loot.LootModifierType;
+import com.github.theelementguy.tegmatlib.loot.PreLootModifierInfo;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
@@ -18,6 +21,7 @@ import com.github.theelementguy.tegmatlib.core.tiers.MiningTier;
 import com.github.theelementguy.tegmatlib.worldgen.OreGenHolder;
 import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -30,8 +34,8 @@ public class DiamondTypeMaterialConfiguration extends MaterialConfiguration {
 	protected DeferredBlock<Block> ORE_BLOCK;
 	protected DeferredBlock<Block> DEEPSLATE_ORE_BLOCK;
 
-	public DiamondTypeMaterialConfiguration(String modId, String baseName, String humanReadableName, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String toolsBefore, String armorBefore, Supplier<Item> itemBefore, Supplier<Block> blockBefore, String oreBefore, float swingDuration, float damageMultiplier, float delay, float dismountMaxDuration, float dismountMinSpeed, float knockbackMaxDuration, float knockbackMinSpeed, float damageMaxDuration, float damageMinSpeed, boolean usingHorseArmor, boolean usingNautilusArmor, String animalArmorBefore) {
-		super(modId, baseName, humanReadableName, MaterialType.DIAMOND, trimMaterialDescriptionColor, toolDurability, speed, attackDamageBonus, enchantmentValue, defaultProperties, armorDurability, helmetDefense, chestplateDefense, smeltingExperience, leggingsDefense, bootsDefense, horseDefense, equipSound, toughness, knockbackResistance, mapColor, soundType, oreGenConfigs, dropsPerOre, extraDrops, tier, mineabilityTier, toolsBefore, armorBefore, itemBefore, blockBefore, oreBefore, swingDuration, damageMultiplier, delay, dismountMaxDuration, dismountMinSpeed, knockbackMaxDuration, knockbackMinSpeed, damageMaxDuration, damageMinSpeed, usingHorseArmor, usingNautilusArmor, animalArmorBefore);
+	public DiamondTypeMaterialConfiguration(String modId, String baseName, String humanReadableName, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String toolsBefore, String armorBefore, Supplier<Item> itemBefore, Supplier<Block> blockBefore, String oreBefore, float swingDuration, float damageMultiplier, float delay, float dismountMaxDuration, float dismountMinSpeed, float knockbackMaxDuration, float knockbackMinSpeed, float damageMaxDuration, float damageMinSpeed, boolean usingHorseArmor, boolean usingNautilusArmor, String animalArmorBefore, List<PreLootModifierInfo> lootModifiers) {
+		super(modId, baseName, humanReadableName, MaterialType.DIAMOND, trimMaterialDescriptionColor, toolDurability, speed, attackDamageBonus, enchantmentValue, defaultProperties, armorDurability, helmetDefense, chestplateDefense, smeltingExperience, leggingsDefense, bootsDefense, horseDefense, equipSound, toughness, knockbackResistance, mapColor, soundType, oreGenConfigs, dropsPerOre, extraDrops, tier, mineabilityTier, toolsBefore, armorBefore, itemBefore, blockBefore, oreBefore, swingDuration, damageMultiplier, delay, dismountMaxDuration, dismountMinSpeed, knockbackMaxDuration, knockbackMinSpeed, damageMaxDuration, damageMinSpeed, usingHorseArmor, usingNautilusArmor, animalArmorBefore, lootModifiers);
 	}
 
 	@Override
@@ -126,6 +130,8 @@ public class DiamondTypeMaterialConfiguration extends MaterialConfiguration {
 		protected boolean USING_NAUTILUS_ARMOR = false;
 
 		protected String ANIMAL_ARMOR_BEFORE = null;
+
+		protected List<PreLootModifierInfo> LOOT_MODIFIERS = new ArrayList<>();
 
 		/**
 		 * Sets the mod ID for the material.
@@ -462,11 +468,24 @@ public class DiamondTypeMaterialConfiguration extends MaterialConfiguration {
 		}
 
 		/**
+		 * Adds a loot modifier.
+		 * @param slot the item to add
+		 * @param type either <code>LootModifierType.ADD</code> or <code>LootModifierType.EXTRA</code>. Sets whether to give the item (<code>ADD</code>), or add the item to the current loot (<code>EXTRA</code>).
+		 * @param table a string representing the table to add to
+		 * @param chance the chance that the item will be added
+		 * @return the updated <code>Builder</code>
+		 */
+		public Builder addLoot(LootItemSlot slot, LootModifierType type, String table, float chance) {
+			this.LOOT_MODIFIERS.add(new PreLootModifierInfo(slot, type, table, chance));
+			return this;
+		}
+
+		/**
 		 * Builds the {@link DiamondTypeMaterialConfiguration} that has been specified.
 		 * @return the built <code>DiamondTypeMaterialConfiguration</code> object
 		 */
 		public DiamondTypeMaterialConfiguration build() {
-			return new DiamondTypeMaterialConfiguration(MOD_ID, BASE_NAME, HUMAN_READABLE_NAME, TRIM_MATERIAL_DESCRIPTION_COLOR, TOOL_DURABILITY, SPEED, ATTACK_DAMAGE_BONUS, TOOL_ENCHANTMENT, DEFAULT_PROPERTIES, ARMOR_DURABILITY, HEAD_DEFENSE, CHESTPLATE_DEFENSE, SMELTING_EXPERIENCE, LEGGINGS_DEFENSE, BOOTS_DEFENSE, HORSE_DEFENSE, EQUIP_SOUND, TOUGHNESS, KNOCKBACK_RESISTANCE, MAP_COLOR, SOUND_TYPE, ORE_GEN_CONFIGS, DROPS_PER_ORE, EXTRA_DROPS, TIER, MINEABILITY_TIER, TOOLS_BEFORE, ARMOR_BEFORE, ITEM_BEFORE, BLOCK_BEFORE, ORE_BEFORE, SWING_DURATION, DAMAGE_MULTIPLIER, DELAY, DISMOUNT_MAX_DURATION, DISMOUNT_MIN_SPEED, KNOCKBACK_MAX_DURATION, KNOCKBACK_MIN_SPEED, DAMAGE_MAX_DURATION, DAMAGE_MIN_SPEED, USING_HORSE_ARMOR, USING_NAUTILUS_ARMOR, ANIMAL_ARMOR_BEFORE);
+			return new DiamondTypeMaterialConfiguration(MOD_ID, BASE_NAME, HUMAN_READABLE_NAME, TRIM_MATERIAL_DESCRIPTION_COLOR, TOOL_DURABILITY, SPEED, ATTACK_DAMAGE_BONUS, TOOL_ENCHANTMENT, DEFAULT_PROPERTIES, ARMOR_DURABILITY, HEAD_DEFENSE, CHESTPLATE_DEFENSE, SMELTING_EXPERIENCE, LEGGINGS_DEFENSE, BOOTS_DEFENSE, HORSE_DEFENSE, EQUIP_SOUND, TOUGHNESS, KNOCKBACK_RESISTANCE, MAP_COLOR, SOUND_TYPE, ORE_GEN_CONFIGS, DROPS_PER_ORE, EXTRA_DROPS, TIER, MINEABILITY_TIER, TOOLS_BEFORE, ARMOR_BEFORE, ITEM_BEFORE, BLOCK_BEFORE, ORE_BEFORE, SWING_DURATION, DAMAGE_MULTIPLIER, DELAY, DISMOUNT_MAX_DURATION, DISMOUNT_MIN_SPEED, KNOCKBACK_MAX_DURATION, KNOCKBACK_MIN_SPEED, DAMAGE_MAX_DURATION, DAMAGE_MIN_SPEED, USING_HORSE_ARMOR, USING_NAUTILUS_ARMOR, ANIMAL_ARMOR_BEFORE, LOOT_MODIFIERS);
 		}
 
 	}

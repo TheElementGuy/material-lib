@@ -4,6 +4,8 @@ import com.github.theelementguy.tegmatlib.core.component.OptionalComponent;
 import com.github.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import com.github.theelementguy.tegmatlib.core.tiers.MiningTier;
 import com.github.theelementguy.tegmatlib.item.SpearMaterial;
+import com.github.theelementguy.tegmatlib.loot.LootModifierInfo;
+import com.github.theelementguy.tegmatlib.loot.PreLootModifierInfo;
 import com.github.theelementguy.tegmatlib.util.TEGMatLibUtil;
 import com.github.theelementguy.tegmatlib.worldgen.OreGenHolder;
 import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
@@ -35,6 +37,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguratio
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.event.level.PistonEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -118,7 +121,9 @@ public abstract class MaterialConfiguration {
 
 	protected final String ANIMAL_ARMOR_BEFORE;
 
-	protected MaterialConfiguration(String modId, String baseName, String humanReadableName, MaterialType materialType, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String toolsBefore, String armorBefore, Supplier<Item> itemBefore, Supplier<Block> blockBefore, String oreBefore, float swingDuration, float damageMultiplier, float delay, float dismountMaxDuration, float dismountMinSpeed, float knockbackMaxDuration, float knockbackMinSpeed, float damageMaxDuration, float damageMinSpeed, boolean usingHorseArmor, boolean usingNautilusArmor, String animalArmorBefore) {
+	protected final List<PreLootModifierInfo> LOOT_MODIFIERS;
+
+	protected MaterialConfiguration(String modId, String baseName, String humanReadableName, MaterialType materialType, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String toolsBefore, String armorBefore, Supplier<Item> itemBefore, Supplier<Block> blockBefore, String oreBefore, float swingDuration, float damageMultiplier, float delay, float dismountMaxDuration, float dismountMinSpeed, float knockbackMaxDuration, float knockbackMinSpeed, float damageMaxDuration, float damageMinSpeed, boolean usingHorseArmor, boolean usingNautilusArmor, String animalArmorBefore, List<PreLootModifierInfo> lootModifiers) {
 		BASE_NAME = baseName;
 		MOD_ID = modId;
 		HUMAN_READABLE_NAME = humanReadableName;
@@ -139,6 +144,7 @@ public abstract class MaterialConfiguration {
 		BLOCK_BEFORE = blockBefore;
 		ORE_BEFORE = oreBefore;
 		ANIMAL_ARMOR_BEFORE = animalArmorBefore;
+		LOOT_MODIFIERS = lootModifiers;
 		INCORRECT_FOR_MATERIAL = () -> BlockTags.create(Identifier.fromNamespaceAndPath(MOD_ID, "incorrect_for_" + BASE_NAME + "_tool"));
 		NEEDS_MATERIAL = () -> BlockTags.create(Identifier.fromNamespaceAndPath(MOD_ID, "needs_" + BASE_NAME));
 		REPAIRABLES = () -> ItemTags.create(Identifier.fromNamespaceAndPath(MOD_ID, BASE_NAME + "_repairables"));
@@ -445,5 +451,9 @@ public abstract class MaterialConfiguration {
 
 	public String getAnimalArmorBefore() {
 		return ANIMAL_ARMOR_BEFORE;
+	}
+
+	public List<LootModifierInfo> getLootModifiers() {
+		return LOOT_MODIFIERS.stream().map((modifier) -> {return modifier.convert(this);}).toList();
 	}
 }
