@@ -33,7 +33,7 @@ public class TEGMatLibModelProvider extends ModelProvider {
 
 	protected Supplier<List<MaterialConfiguration>> MATERIALS;
 
-	public static final List<ItemModelGenerators.TrimMaterialData> TRIM_MATERIAL_MODELS_WITH_MODDED = List.of(new ItemModelGenerators.TrimMaterialData("quartz", TrimMaterials.QUARTZ, Map.of()), new ItemModelGenerators.TrimMaterialData("iron", TrimMaterials.IRON, Map.of(EquipmentAssets.IRON, "iron_darker")), new ItemModelGenerators.TrimMaterialData("netherite", TrimMaterials.NETHERITE, Map.of(EquipmentAssets.NETHERITE, "netherite_darker")), new ItemModelGenerators.TrimMaterialData("redstone", TrimMaterials.REDSTONE, Map.of()), new ItemModelGenerators.TrimMaterialData("copper", TrimMaterials.COPPER, Map.of()), new ItemModelGenerators.TrimMaterialData("gold", TrimMaterials.GOLD, Map.of(EquipmentAssets.GOLD, "gold_darker")), new ItemModelGenerators.TrimMaterialData("emerald", TrimMaterials.EMERALD, Map.of()), new ItemModelGenerators.TrimMaterialData("diamond", TrimMaterials.DIAMOND, Map.of(EquipmentAssets.DIAMOND, "diamond_darker")), new ItemModelGenerators.TrimMaterialData("lapis", TrimMaterials.LAPIS, Map.of()), new ItemModelGenerators.TrimMaterialData("amethyst", TrimMaterials.AMETHYST, Map.of()), new ItemModelGenerators.TrimMaterialData("resin", TrimMaterials.RESIN, Map.of()));
+	public static List<ItemModelGenerators.TrimMaterialData> TRIM_MATERIAL_MODELS_WITH_MODDED = new ArrayList<>(List.of(new ItemModelGenerators.TrimMaterialData("quartz", TrimMaterials.QUARTZ, Map.of()), new ItemModelGenerators.TrimMaterialData("iron", TrimMaterials.IRON, Map.of(EquipmentAssets.IRON, "iron_darker")), new ItemModelGenerators.TrimMaterialData("netherite", TrimMaterials.NETHERITE, Map.of(EquipmentAssets.NETHERITE, "netherite_darker")), new ItemModelGenerators.TrimMaterialData("redstone", TrimMaterials.REDSTONE, Map.of()), new ItemModelGenerators.TrimMaterialData("copper", TrimMaterials.COPPER, Map.of()), new ItemModelGenerators.TrimMaterialData("gold", TrimMaterials.GOLD, Map.of(EquipmentAssets.GOLD, "gold_darker")), new ItemModelGenerators.TrimMaterialData("emerald", TrimMaterials.EMERALD, Map.of()), new ItemModelGenerators.TrimMaterialData("diamond", TrimMaterials.DIAMOND, Map.of(EquipmentAssets.DIAMOND, "diamond_darker")), new ItemModelGenerators.TrimMaterialData("lapis", TrimMaterials.LAPIS, Map.of()), new ItemModelGenerators.TrimMaterialData("amethyst", TrimMaterials.AMETHYST, Map.of()), new ItemModelGenerators.TrimMaterialData("resin", TrimMaterials.RESIN, Map.of())));
 
 
 	protected String MOD_ID;
@@ -47,7 +47,7 @@ public class TEGMatLibModelProvider extends ModelProvider {
 			MaterialConfiguration concrete;
 			trimMaterialsToAdd.add(new ItemModelGenerators.TrimMaterialData(config.getBaseName(), config.getTrimMaterial(), Map.of()));
 		}
-		TRIM_MATERIAL_MODELS.addAll(trimMaterialsToAdd);
+		TRIM_MATERIAL_MODELS_WITH_MODDED.addAll(trimMaterialsToAdd);
 	}
 
 	@Override
@@ -152,7 +152,7 @@ public class TEGMatLibModelProvider extends ModelProvider {
 		for (ItemModelGenerators.TrimMaterialData itemmodelgenerators$trimmaterialdata : TRIM_MATERIAL_MODELS_WITH_MODDED) {
 			ResourceLocation resourcelocation3 = resourcelocation.withSuffix("_" + itemmodelgenerators$trimmaterialdata.name() + "_trim");
 			ResourceLocation resourcelocation4 = ResourceLocation.fromNamespaceAndPath(
-					(itemmodelgenerators$trimmaterialdata.textureName(key).contains("rubidium") || itemmodelgenerators$trimmaterialdata.textureName(key).contains("starshard") || itemmodelgenerators$trimmaterialdata.textureName(key).contains("cubic_zirconia") || itemmodelgenerators$trimmaterialdata.textureName(key).contains("tin") || itemmodelgenerators$trimmaterialdata.textureName(key).contains("bronze")) ? "minecraft" : "minecraft", "trims/items/" + name + "_trim_" + itemmodelgenerators$trimmaterialdata.textureName(key)
+					"minecraft", "trims/items/" + name + "_trim_" + itemmodelgenerators$trimmaterialdata.textureName(key)
 			);
 			ItemModel.Unbaked itemmodel$unbaked;
 			if (dyeable) {
