@@ -69,7 +69,6 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 			pickaxeRecipe(config.getPickaxe(), config.getBaseItem(), "has_" + config.getBaseName());
 			shovelRecipe(config.getShovel(), config.getBaseItem(), "has_" + config.getBaseName());
 			hoeRecipe(config.getHoe(), config.getBaseItem(), "has_" + config.getBaseName());
-			spearRecipe(config.getSpear(), config.getBaseItem(), "has_" + config.getBaseName());
 
 			helmetRecipe(config.getHelmet(), config.getBaseItem(), "has_" + config.getBaseName());
 			chestplateRecipe(config.getChestplate(), config.getBaseItem(), "has_" + config.getBaseName());

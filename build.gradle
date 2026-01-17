@@ -3,7 +3,7 @@
 // and the standard Java plugins for building and publishing a library.
 plugins {
     // This plugin provides the "magic" to find Minecraft classes
-    id 'net.neoforged.gradle.userdev' version '7.1.4' // Use a recent NeoGradle version
+    id 'net.neoforged.gradle.userdev' version '7.1.20' // Use a recent NeoGradle version
 
     // These plugins handle building and publishing a standard library JAR
     id 'java-library'
@@ -19,7 +19,7 @@ def library_artifact_id = project.findProperty("library_artifact") ?: "material-
 // 3. JAVA CONFIGURATION
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(25) // Required for MC 1.21.x
+        languageVersion = JavaLanguageVersion.of(java_version) // Required for MC 1.21.x
     }
     // Automatically creates a '-sources.jar' for publishing
     withSourcesJar()
@@ -33,7 +33,7 @@ repositories {
 
 // 6. DEPENDENCIES
 dependencies {
-    compileOnly "net.neoforged:neoforge:21.11.33-beta"
+    compileOnly "net.neoforged:neoforge:21.4.156"
     // You can add other *non-Minecraft* dependencies here if your library needs them.
     // Example:
     // api 'com.google.guava:guava:33.2.0-jre'

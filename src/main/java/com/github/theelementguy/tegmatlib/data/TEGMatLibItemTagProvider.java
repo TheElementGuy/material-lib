@@ -3,12 +3,13 @@ package com.github.theelementguy.tegmatlib.data;
 import com.github.theelementguy.tegmatlib.core.FullyConfiguredMaterialHolder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.data.ItemTagsProvider;
 import com.github.theelementguy.tegmatlib.core.CubicZirconiaTypeMaterialConfiguration;
 import com.github.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
 import com.github.theelementguy.tegmatlib.core.MaterialConfiguration;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public class TEGMatLibItemTagProvider extends ItemTagsProvider {
 
 	protected final Supplier<List<MaterialConfiguration>> MATERIALS;
 
-	public TEGMatLibItemTagProvider(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
-		super(event.getGenerator().getPackOutput(), event.getLookupProvider(), materials.getModID());
+	public TEGMatLibItemTagProvider(GatherDataEvent.Client event, BlockTagsProvider blocks, FullyConfiguredMaterialHolder materials) {
+		super(event.getGenerator().getPackOutput(), event.getLookupProvider(), blocks.contentsGetter(), materials.getModID());
 		MATERIALS = materials::getMaterials;
 	}
 
@@ -33,20 +34,13 @@ public class TEGMatLibItemTagProvider extends ItemTagsProvider {
 			tag(ItemTags.PICKAXES).add(config.getPickaxe());
 			tag(ItemTags.SHOVELS).add(config.getShovel());
 			tag(ItemTags.HOES).add(config.getHoe());
-			tag(ItemTags.SPEARS).add(config.getSpear());
 			tag(config.getRepairables()).add(config.getBaseItem());
 			tag(ItemTags.HEAD_ARMOR).add(config.getHelmet());
 			tag(ItemTags.CHEST_ARMOR).add(config.getChestplate());
 			tag(ItemTags.LEG_ARMOR).add(config.getLeggings());
 			tag(ItemTags.FOOT_ARMOR).add(config.getBoots());
-			tag(Tags.Items.MELEE_WEAPON_TOOLS).add(config.getSword(), config.getAxe(), config.getSpear());
+			tag(Tags.Items.MELEE_WEAPON_TOOLS).add(config.getSword(), config.getAxe());
 			tag(Tags.Items.MINING_TOOL_TOOLS).add(config.getPickaxe());
-			if (config.getHorseArmor().isUsing()) {
-				tag(Tags.Items.ARMORS_HORSE).add(config.getHorseArmor().get().get().asItem());
-			}
-			if (config.getNautilusArmor().isUsing()) {
-				tag(Tags.Items.ARMORS_NAUTILUS).add(config.getNautilusArmor().get().get().asItem());
-			}
 			switch (config.getType()) {
 				case DIAMOND, NETHER_DIAMOND, END_DIAMOND -> {
 					tag(Tags.Items.GEMS).add(config.getBaseItem());

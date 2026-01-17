@@ -5,7 +5,7 @@ import com.github.theelementguy.tegmatlib.loot.LootModifierType;
 import com.github.theelementguy.tegmatlib.loot.PreLootModifierInfo;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Item;
@@ -41,7 +41,7 @@ public class DiamondTypeMaterialConfiguration extends MaterialConfiguration {
 	@Override
 	public void fillItems(DeferredRegister.Items register) {
 		BASE_MATERIAL = registerSimpleItemWithTrimMaterial(BASE_NAME, register, MOD_ID);
-		fillBaseEquipment(register, MOD_ID);
+		fillBaseEquipment(register);
 	}
 
 	@Override
@@ -404,7 +404,7 @@ public class DiamondTypeMaterialConfiguration extends MaterialConfiguration {
 		 * @param oreBefore the ore that the stone and deepslate ores will be placed after, as a string (for example, "lapis")
 		 * @return the updated <code>Builder</code>
 		 */
-		public DiamondTypeMaterialConfiguration.Builder setBefore(String toolsBefore, String armorBefore, Identifier itemBefore, Identifier blockBefore, String oreBefore) {
+		public DiamondTypeMaterialConfiguration.Builder setBefore(String toolsBefore, String armorBefore, ResourceLocation itemBefore, ResourceLocation blockBefore, String oreBefore) {
 			this.TOOLS_BEFORE = toolsBefore;
 			this.ARMOR_BEFORE = armorBefore;
 			this.ITEM_BEFORE = () -> BuiltInRegistries.ITEM.get(itemBefore).orElseThrow().value();

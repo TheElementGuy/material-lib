@@ -3,7 +3,6 @@ package com.github.theelementguy.tegmatlib.core;
 import com.github.theelementguy.tegmatlib.core.component.OptionalComponent;
 import com.github.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import com.github.theelementguy.tegmatlib.core.tiers.MiningTier;
-import com.github.theelementguy.tegmatlib.item.SpearMaterial;
 import com.github.theelementguy.tegmatlib.loot.LootModifierInfo;
 import com.github.theelementguy.tegmatlib.loot.PreLootModifierInfo;
 import com.github.theelementguy.tegmatlib.util.TEGMatLibUtil;
@@ -15,19 +14,17 @@ import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.Util;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.Util;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.EquipmentAsset;
-import net.minecraft.world.item.equipment.trim.MaterialAssetGroup;
 import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -45,6 +42,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
@@ -68,29 +66,25 @@ public abstract class MaterialConfiguration {
 
 	protected DeferredBlock<@NotNull Block> BLOCK;
 
-	protected DeferredItem<@NotNull Item> SWORD;
-	protected DeferredItem<@NotNull Item> AXE;
-	protected DeferredItem<@NotNull Item> PICKAXE;
-	protected DeferredItem<@NotNull Item> SHOVEL;
-	protected DeferredItem<@NotNull Item> HOE;
-	protected DeferredItem<@NotNull Item> SPEAR;
-	protected DeferredItem<@NotNull Item> HELMET;
-	protected DeferredItem<@NotNull Item> CHESTPLATE;
-	protected DeferredItem<@NotNull Item> LEGGINGS;
-	protected DeferredItem<@NotNull Item> BOOTS;
+	protected DeferredItem<@NotNull SwordItem> SWORD;
+	protected DeferredItem<@NotNull AxeItem> AXE;
+	protected DeferredItem<@NotNull PickaxeItem> PICKAXE;
+	protected DeferredItem<@NotNull ShovelItem> SHOVEL;
+	protected DeferredItem<@NotNull HoeItem> HOE;
+	protected DeferredItem<@NotNull ArmorItem> HELMET;
+	protected DeferredItem<@NotNull ArmorItem> CHESTPLATE;
+	protected DeferredItem<@NotNull ArmorItem> LEGGINGS;
+	protected DeferredItem<@NotNull ArmorItem> BOOTS;
 
-	protected OptionalComponent<DeferredItem<@NotNull Item>> HORSE_ARMOR;
-	protected OptionalComponent<DeferredItem<@NotNull Item>> NAUTILUS_ARMOR;
+	protected OptionalComponent<DeferredItem<@NotNull AnimalArmorItem>> HORSE_ARMOR;
 
 	protected final float SMELTING_EXPERIENCE;
 
 	protected Supplier<ResourceKey<TrimMaterial>> TRIM_MATERIAL;
-	protected Supplier<MaterialAssetGroup> MATERIAL_ASSET_GROUP;
 
 	protected final String TRIM_MATERIAL_DESCRIPTION_COLOR;
 
 	protected Supplier<ToolMaterial> TOOL_MATERIAL;
-	protected Supplier<SpearMaterial> SPEAR_MATERIAL;
 	protected Supplier<ArmorMaterial> ARMOR_MATERIAL;
 
 	protected Supplier<TagKey<Block>> INCORRECT_FOR_MATERIAL;
@@ -145,9 +139,9 @@ public abstract class MaterialConfiguration {
 		ORE_BEFORE = oreBefore;
 		ANIMAL_ARMOR_BEFORE = animalArmorBefore;
 		LOOT_MODIFIERS = lootModifiers;
-		INCORRECT_FOR_MATERIAL = () -> BlockTags.create(Identifier.fromNamespaceAndPath(MOD_ID, "incorrect_for_" + BASE_NAME + "_tool"));
-		NEEDS_MATERIAL = () -> BlockTags.create(Identifier.fromNamespaceAndPath(MOD_ID, "needs_" + BASE_NAME));
-		REPAIRABLES = () -> ItemTags.create(Identifier.fromNamespaceAndPath(MOD_ID, BASE_NAME + "_repairables"));
+		INCORRECT_FOR_MATERIAL = () -> BlockTags.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, "incorrect_for_" + BASE_NAME + "_tool"));
+		NEEDS_MATERIAL = () -> BlockTags.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, "needs_" + BASE_NAME));
+		REPAIRABLES = () -> ItemTags.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, BASE_NAME + "_repairables"));
 		EQUIPMENT_ASSET = () -> TEGMatLibUtil.createEquipmentAssetResourceKey(BASE_NAME, MOD_ID);
 		TOOL_MATERIAL = () -> new ToolMaterial(INCORRECT_FOR_MATERIAL.get(), toolDurability, speed, attackDamageBonus, enchantmentValue, REPAIRABLES.get());
 		ARMOR_MATERIAL = () -> new ArmorMaterial(armorDurability, Util.make(new EnumMap<ArmorType, Integer>(ArmorType.class), attribute -> {
@@ -157,13 +151,11 @@ public abstract class MaterialConfiguration {
 			attribute.put(ArmorType.BOOTS, bootsDefense);
 			attribute.put(ArmorType.BODY, horseDefense);
 		}), enchantmentValue, equipSound.get(), toughness, knockbackResistance, REPAIRABLES.get(), EQUIPMENT_ASSET.get());
-		SPEAR_MATERIAL = () -> new SpearMaterial(swingDuration, damageMultiplier, delay, dismountMaxDuration, dismountMinSpeed, knockbackMaxDuration, knockbackMinSpeed, damageMaxDuration, damageMinSpeed);
 		fillTrimMaterialKeys();
 		fillConfiguredFeatureKeys();
 		fillPlacedFeatureKeys();
 		fillBiomeModifierKeys();
 		HORSE_ARMOR = OptionalComponent.horseArmor(usingHorseArmor);
-		NAUTILUS_ARMOR = OptionalComponent.nautilusArmor(usingNautilusArmor);
 	}
 
 	public String getBaseName() {
@@ -218,71 +210,61 @@ public abstract class MaterialConfiguration {
 	}
 
 	protected DeferredItem<@NotNull Item> registerSimpleItemWithTrimMaterial(String name, DeferredRegister.Items register, String modId) {
-		return register.register(name, () -> new Item(DEFAULT_PROPERTIES.get().trimMaterial(TRIM_MATERIAL.get()).setId(TEGMatLibUtil.createItemResourceKey(name, modId))));
+		return register.register(name, () -> new Item(DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(name, modId))));
 	}
 
 	protected DeferredBlock<@NotNull Block> registerSimpleBlock(String name, DeferredRegister.Blocks register, Supplier<DeferredRegister.Items> itemsRegister, float destroyTime, float explosionResistance, MapColor color, SoundType soundType) {
 		DeferredBlock<@NotNull Block> blockToReturn = register.register(name, () -> new Block(BlockBehaviour.Properties.of().destroyTime(destroyTime).explosionResistance(explosionResistance).mapColor(color).sound(soundType).requiresCorrectToolForDrops().setId(TEGMatLibUtil.createBlockResourceKey(name, MOD_ID))));
-		itemsRegister.get().registerSimpleBlockItem(name, blockToReturn, DEFAULT_PROPERTIES);
+		itemsRegister.get().registerSimpleBlockItem(name, blockToReturn, DEFAULT_PROPERTIES.get());
 		return blockToReturn;
 	}
 
-	protected DeferredItem<@NotNull Item> registerSword(DeferredRegister.Items register, String modId) {
-		return register.register(BASE_NAME + "_sword", () -> new Item(DEFAULT_PROPERTIES.get().sword(TOOL_MATERIAL.get(), 3.0f, -2.4f).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_sword", modId))));
+	protected DeferredItem<@NotNull SwordItem> registerSword(DeferredRegister.Items register) {
+		return register.register(BASE_NAME + "_sword", () -> new SwordItem(TOOL_MATERIAL.get(), 3f, -2.4f, DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_sword", MOD_ID))));
 	}
 
-	protected DeferredItem<@NotNull Item> registerAxe(DeferredRegister.Items register, String modId) {
-		return register.register(BASE_NAME + "_axe", () -> new Item(DEFAULT_PROPERTIES.get().axe(TOOL_MATERIAL.get(), 6.0f, -3.1f).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_axe", modId))));
+	protected DeferredItem<@NotNull AxeItem> registerAxe(DeferredRegister.Items register) {
+		return register.register(BASE_NAME + "_axe", () -> new AxeItem(TOOL_MATERIAL.get(), 6f, -3.1f, DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_axe", MOD_ID))));
 	}
 
-	protected DeferredItem<@NotNull Item> registerPickaxe(DeferredRegister.Items register, String modId) {
-		return register.register(BASE_NAME + "_pickaxe", () -> new Item(DEFAULT_PROPERTIES.get().pickaxe(TOOL_MATERIAL.get(), 1.0f, -2.0f).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_pickaxe", modId))));
+	protected DeferredItem<@NotNull PickaxeItem> registerPickaxe(DeferredRegister.Items register) {
+		return register.register(BASE_NAME + "_pickaxe", () -> new PickaxeItem(TOOL_MATERIAL.get(), 1f, -2f, DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_pickaxe", MOD_ID))));
 	}
 
-	protected DeferredItem<@NotNull Item> registerShovel(DeferredRegister.Items register, String modId) {
-		return register.register(BASE_NAME + "_shovel", () -> new Item(DEFAULT_PROPERTIES.get().shovel(TOOL_MATERIAL.get(), 1.5f, -3f).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_shovel", modId))));
+	protected DeferredItem<@NotNull ShovelItem> registerShovel(DeferredRegister.Items register) {
+		return register.register(BASE_NAME + "_shovel", () -> new ShovelItem(TOOL_MATERIAL.get(), 1.5f, -3f, DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_shovel", MOD_ID))));
 	}
 
-	protected DeferredItem<@NotNull Item> registerHoe(DeferredRegister.Items register, String modId) {
-		return register.register(BASE_NAME + "_hoe", () -> new Item(DEFAULT_PROPERTIES.get().hoe(TOOL_MATERIAL.get(), -2f, -1f).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_hoe", modId))));
+	protected DeferredItem<@NotNull HoeItem> registerHoe(DeferredRegister.Items register) {
+		return register.register(BASE_NAME + "_hoe", () -> new HoeItem(TOOL_MATERIAL.get(), -2f, -1f, DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_hoe", MOD_ID))));
 	}
 
-	protected DeferredItem<@NotNull Item> registerSpear(DeferredRegister.Items register, String modId) {
-		SpearMaterial material = SPEAR_MATERIAL.get();
-		return register.register(BASE_NAME + "_spear", () -> new Item(DEFAULT_PROPERTIES.get().spear(TOOL_MATERIAL.get(), material.swingDuration(), material.damageMultiplier(), material.delay(), material.dismountMaxDuration(), material.dismountMinSpeed(), material.knockbackMaxDuration(), material.knockbackMinSpeed(), material.damageMaxDuration(), material.damageMinSpeed()).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_spear", modId))));
+	protected DeferredItem<@NotNull ArmorItem> registerHelmet(DeferredRegister.Items register) {
+		return register.register(BASE_NAME + "_helmet", () -> new ArmorItem(ARMOR_MATERIAL.get(), ArmorType.HELMET, DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_helmet", MOD_ID))));
 	}
 
-	protected DeferredItem<@NotNull Item> registerHelmet(DeferredRegister.Items register) {
-		return register.register(BASE_NAME + "_helmet", () -> new Item(DEFAULT_PROPERTIES.get().humanoidArmor(ARMOR_MATERIAL.get(), ArmorType.HELMET).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_helmet", MOD_ID))));
+	protected DeferredItem<@NotNull ArmorItem> registerChestplate(DeferredRegister.Items register) {
+		return register.register(BASE_NAME + "_chestplate", () -> new ArmorItem(ARMOR_MATERIAL.get(), ArmorType.CHESTPLATE, DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_chestplate", MOD_ID))));
 	}
 
-	protected DeferredItem<@NotNull Item> registerChestplate(DeferredRegister.Items register) {
-		return register.register(BASE_NAME + "_chestplate", () -> new Item(DEFAULT_PROPERTIES.get().humanoidArmor(ARMOR_MATERIAL.get(), ArmorType.CHESTPLATE).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_chestplate", MOD_ID))));
+	protected DeferredItem<@NotNull ArmorItem> registerLeggings(DeferredRegister.Items register) {
+		return register.register(BASE_NAME + "_leggings", () -> new ArmorItem(ARMOR_MATERIAL.get(), ArmorType.LEGGINGS, DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_leggings", MOD_ID))));
 	}
 
-	protected DeferredItem<@NotNull Item> registerLeggings(DeferredRegister.Items register) {
-		return register.register(BASE_NAME + "_leggings", () -> new Item(DEFAULT_PROPERTIES.get().humanoidArmor(ARMOR_MATERIAL.get(), ArmorType.LEGGINGS).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_leggings", MOD_ID))));
+	protected DeferredItem<@NotNull ArmorItem> registerBoots(DeferredRegister.Items register) {
+		return register.register(BASE_NAME + "_boots", () -> new ArmorItem(ARMOR_MATERIAL.get(), ArmorType.BOOTS, DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_boots", MOD_ID))));
 	}
 
-	protected DeferredItem<@NotNull Item> registerBoots(DeferredRegister.Items register) {
-		return register.register(BASE_NAME + "_boots", () -> new Item(DEFAULT_PROPERTIES.get().humanoidArmor(ARMOR_MATERIAL.get(), ArmorType.BOOTS).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_boots", MOD_ID))));
+	protected DeferredItem<@NotNull AnimalArmorItem> registerHorseArmor(DeferredRegister.Items register) {
+		return register.register(BASE_NAME + "_horse_armor", () -> new AnimalArmorItem(ARMOR_MATERIAL.get(), AnimalArmorItem.BodyType.EQUESTRIAN, DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_boots", MOD_ID))));
 	}
 
-	protected DeferredItem<@NotNull Item> registerHorseArmor(DeferredRegister.Items register) {
-		return register.register(BASE_NAME + "_horse_armor", () -> new Item(DEFAULT_PROPERTIES.get().horseArmor(ARMOR_MATERIAL.get()).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_horse_armor", MOD_ID))));
-	}
-
-	protected DeferredItem<@NotNull Item> registerNautilusArmor(DeferredRegister.Items register) {
-		return register.register(BASE_NAME + "_nautilus_armor", () -> new Item(DEFAULT_PROPERTIES.get().nautilusArmor(ARMOR_MATERIAL.get()).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_nautilus_armor", MOD_ID))));
-	}
-
-	protected void fillBaseEquipment(DeferredRegister.Items register, String modId) {
-		SWORD = registerSword(register, modId);
-		AXE = registerAxe(register, modId);
-		PICKAXE = registerPickaxe(register, modId);
-		SHOVEL = registerShovel(register, modId);
-		HOE = registerHoe(register, modId);
-		SPEAR = registerSpear(register, modId);
+	protected void fillBaseEquipment(DeferredRegister.Items register) {
+		SWORD = registerSword(register);
+		AXE = registerAxe(register);
+		PICKAXE = registerPickaxe(register);
+		SHOVEL = registerShovel(register);
+		HOE = registerHoe(register);
 
 		HELMET = registerHelmet(register);
 		CHESTPLATE = registerChestplate(register);
@@ -290,7 +272,6 @@ public abstract class MaterialConfiguration {
 		BOOTS = registerBoots(register);
 
 		HORSE_ARMOR.fillIfUsing(() -> registerHorseArmor(register));
-		NAUTILUS_ARMOR.fillIfUsing(() -> registerNautilusArmor(register));
 	}
 
 	protected void fillBaseBlock(DeferredRegister.Blocks register, Supplier<DeferredRegister.Items> itemsRegister) {
@@ -328,40 +309,33 @@ public abstract class MaterialConfiguration {
 	}
 
 	public void bootstrapEquipmentAsset(BiConsumer<ResourceKey<EquipmentAsset>, EquipmentClientInfo> consumer) {
-		EquipmentClientInfo.Builder builder = EquipmentClientInfo.builder().addHumanoidLayers(Identifier.fromNamespaceAndPath(MOD_ID, EQUIPMENT_ASSET.get().identifier().getPath()));
+		EquipmentClientInfo.Builder builder = EquipmentClientInfo.builder().addHumanoidLayers(ResourceLocation.fromNamespaceAndPath(MOD_ID, EQUIPMENT_ASSET.get().location().getPath()));
 		if (HORSE_ARMOR.isUsing()) {
-			builder.addLayers(EquipmentClientInfo.LayerType.HORSE_BODY, new EquipmentClientInfo.Layer(EQUIPMENT_ASSET.get().identifier(), Optional.empty(), true));
-		}
-		if (NAUTILUS_ARMOR.isUsing()) {
-			builder.addLayers(EquipmentClientInfo.LayerType.NAUTILUS_BODY, new EquipmentClientInfo.Layer(EQUIPMENT_ASSET.get().identifier()));
+			builder.addLayers(EquipmentClientInfo.LayerType.HORSE_BODY, new EquipmentClientInfo.Layer(EQUIPMENT_ASSET.get().location(), Optional.empty(), true));
 		}
 		consumer.accept(EQUIPMENT_ASSET.get(), builder.build());
 	}
 
 	public abstract List<Block> getBlocks();
 
-	public Item getSword() {
+	public SwordItem getSword() {
 		return SWORD.get();
 	}
 
-	public Item getAxe() {
+	public AxeItem getAxe() {
 		return AXE.get();
 	}
 
-	public Item getPickaxe() {
+	public PickaxeItem getPickaxe() {
 		return PICKAXE.get();
 	}
 
-	public Item getShovel() {
+	public ShovelItem getShovel() {
 		return SHOVEL.get();
 	}
 
-	public Item getHoe() {
+	public HoeItem getHoe() {
 		return HOE.get();
-	}
-
-	public Item getSpear() {
-		return SPEAR.get();
 	}
 
 	public TagKey<Item> getRepairables() {
@@ -389,16 +363,11 @@ public abstract class MaterialConfiguration {
 	}
 
 	public void bootstrapTrimMaterial(BootstrapContext<TrimMaterial> context) {
-		context.register(TRIM_MATERIAL.get(), new TrimMaterial(MATERIAL_ASSET_GROUP.get(), Component.translatable(Util.makeDescriptionId("trim_material", TRIM_MATERIAL.get().identifier())).withStyle(Style.EMPTY.withColor(TextColor.parseColor(TRIM_MATERIAL_DESCRIPTION_COLOR).getOrThrow()))));
+		context.register(TRIM_MATERIAL.get(), TrimMaterial.create(BASE_NAME, BASE_MATERIAL.get(), Component.translatable(Util.makeDescriptionId("trim_material", TRIM_MATERIAL.get().location())).withStyle(Style.EMPTY.withColor(TextColor.parseColor(TRIM_MATERIAL_DESCRIPTION_COLOR).getOrThrow())), Map.of()));
 	}
 
 	public void fillTrimMaterialKeys() {
 		TRIM_MATERIAL = () -> TEGMatLibUtil.createTrimMaterialResourceKey(BASE_NAME, MOD_ID);
-		MATERIAL_ASSET_GROUP = () -> MaterialAssetGroup.create(BASE_NAME);
-	}
-
-	public MaterialAssetGroup getMaterialAssetGroup() {
-		return MATERIAL_ASSET_GROUP.get();
 	}
 
 	public ResourceKey<TrimMaterial> getTrimMaterial() {
@@ -441,11 +410,7 @@ public abstract class MaterialConfiguration {
 		return MINEABILITY_TIER;
 	}
 
-	public OptionalComponent<DeferredItem<@NotNull Item>> getNautilusArmor() {
-		return NAUTILUS_ARMOR;
-	}
-
-	public OptionalComponent<DeferredItem<@NotNull Item>> getHorseArmor() {
+	public OptionalComponent<DeferredItem<@NotNull AnimalArmorItem>> getHorseArmor() {
 		return HORSE_ARMOR;
 	}
 

@@ -5,7 +5,7 @@ import com.github.theelementguy.tegmatlib.loot.LootModifierType;
 import com.github.theelementguy.tegmatlib.loot.PreLootModifierInfo;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -41,7 +41,7 @@ public class NetherDiamondTypeMaterialConfiguration extends MaterialConfiguratio
 	@Override
 	public void fillItems(DeferredRegister.Items register) {
 		BASE_MATERIAL = registerSimpleItemWithTrimMaterial(BASE_NAME, register, MOD_ID);
-		fillBaseEquipment(register, MOD_ID);
+		fillBaseEquipment(register);
 	}
 
 	@Override
@@ -394,12 +394,12 @@ public class NetherDiamondTypeMaterialConfiguration extends MaterialConfiguratio
 		 * Sets the position of the material's items in the inventory, in relation to other items.
 		 * @param toolsBefore the tool set that this material will be placed after, as a string (for example, "stone")
 		 * @param armorBefore the armor set that this material will be placed after, as a string (for example, "chainmail")
-		 * @param itemBefore <code>Identifier</code> of the item that the base material will be placed after
-		 * @param blockBefore <code>Identifier</code> of the block that the base block will be placed after
+		 * @param itemBefore <code>ResourceLocation</code> of the item that the base material will be placed after
+		 * @param blockBefore <code>ResourceLocation</code> of the block that the base block will be placed after
 		 * @param oreBefore the ore that the ore will be placed after, as a string (for example, "quartz")
 		 * @return the updated <code>Builder</code>
 		 */
-		public NetherDiamondTypeMaterialConfiguration.Builder setBefore(String toolsBefore, String armorBefore, Identifier itemBefore, Identifier blockBefore, String oreBefore) {
+		public NetherDiamondTypeMaterialConfiguration.Builder setBefore(String toolsBefore, String armorBefore, ResourceLocation itemBefore, ResourceLocation blockBefore, String oreBefore) {
 			this.TOOLS_BEFORE = toolsBefore;
 			this.ARMOR_BEFORE = armorBefore;
 			this.ITEM_BEFORE = () -> BuiltInRegistries.ITEM.get(itemBefore).orElseThrow().value();

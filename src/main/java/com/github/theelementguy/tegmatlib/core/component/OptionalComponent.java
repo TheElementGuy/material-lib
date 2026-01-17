@@ -1,5 +1,6 @@
 package com.github.theelementguy.tegmatlib.core.component;
 
+import net.minecraft.world.item.AnimalArmorItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredItem;
 import org.jetbrains.annotations.NotNull;
@@ -19,12 +20,8 @@ public class OptionalComponent<T> {
 		TYPE = type;
 	}
 
-	public static OptionalComponent<DeferredItem<@NotNull Item>> horseArmor(boolean using) {
+	public static OptionalComponent<DeferredItem<@NotNull AnimalArmorItem>> horseArmor(boolean using) {
 		return new OptionalComponent<>(using, ComponentType.HORSE_ARMOR);
-	}
-
-	public static OptionalComponent<DeferredItem<@NotNull Item>> nautilusArmor(boolean using) {
-		return new OptionalComponent<>(using, ComponentType.NAUTILUS_ARMOR);
 	}
 
 	public boolean isUsing() {

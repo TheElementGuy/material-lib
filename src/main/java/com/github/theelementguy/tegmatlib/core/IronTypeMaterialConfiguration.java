@@ -6,7 +6,7 @@ import com.github.theelementguy.tegmatlib.loot.PreLootModifierInfo;
 import com.github.theelementguy.tegmatlib.worldgen.OreGenHolder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Item;
@@ -52,7 +52,7 @@ public class IronTypeMaterialConfiguration extends MaterialConfiguration {
 		BASE_MATERIAL = registerSimpleItemWithTrimMaterial(BASE_NAME + "_ingot", register, MOD_ID);
 		RAW_MATERIAL = registerSimpleItem("raw_" + BASE_NAME, register, MOD_ID);
 		NUGGET = registerSimpleItem(BASE_NAME + "_nugget", register, MOD_ID);
-		fillBaseEquipment(register, MOD_ID);
+		fillBaseEquipment(register);
 	}
 
 	@Override
@@ -430,13 +430,13 @@ public class IronTypeMaterialConfiguration extends MaterialConfiguration {
 		 * Sets the position of the material's items in the inventory, in relation to other items.
 		 * @param toolsBefore the tool set that this material will be placed after, as a string (for example, "stone")
 		 * @param armorBefore the armor set that this material will be placed after, as a string (for example, "chainmail")
-		 * @param itemBefore <code>Identifier</code> of the item that the base material will be placed after
-		 * @param blockBefore <code>Identifier</code> of the block that the base block will be placed after
+		 * @param itemBefore <code>ResourceLocation</code> of the item that the base material will be placed after
+		 * @param blockBefore <code>ResourceLocation</code> of the block that the base block will be placed after
 		 * @param rawBefore the raw item/block that the raw material/block will be placed after, as a string (for example, "gold")
 		 * @param oreBefore the ore that the stone and deepslate ores will be placed after, as a string (for example, "lapis")
 		 * @return the updated <code>Builder</code>
 		 */
-		public IronTypeMaterialConfiguration.Builder setBefore(String toolsBefore, String armorBefore, Identifier itemBefore, Identifier blockBefore, String rawBefore, String oreBefore) {
+		public IronTypeMaterialConfiguration.Builder setBefore(String toolsBefore, String armorBefore, ResourceLocation itemBefore, ResourceLocation blockBefore, String rawBefore, String oreBefore) {
 			this.TOOLS_BEFORE = toolsBefore;
 			this.ARMOR_BEFORE = armorBefore;
 			this.ITEM_BEFORE = () -> BuiltInRegistries.ITEM.get(itemBefore).orElseThrow().value();
