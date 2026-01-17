@@ -256,7 +256,7 @@ public abstract class MaterialConfiguration {
 	}
 
 	protected DeferredItem<@NotNull AnimalArmorItem> registerHorseArmor(DeferredRegister.Items register) {
-		return register.register(BASE_NAME + "_horse_armor", () -> new AnimalArmorItem(ARMOR_MATERIAL.get(), AnimalArmorItem.BodyType.EQUESTRIAN, DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_boots", MOD_ID))));
+		return register.register(BASE_NAME + "_horse_armor", () -> new AnimalArmorItem(ARMOR_MATERIAL.get(), AnimalArmorItem.BodyType.EQUESTRIAN, DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_horse_armor", MOD_ID))));
 	}
 
 	protected void fillBaseEquipment(DeferredRegister.Items register) {
