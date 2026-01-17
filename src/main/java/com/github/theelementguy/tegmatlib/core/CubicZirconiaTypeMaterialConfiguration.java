@@ -22,6 +22,7 @@ import com.github.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import com.github.theelementguy.tegmatlib.core.tiers.MiningTier;
 import com.github.theelementguy.tegmatlib.worldgen.*;
 import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,15 +34,15 @@ import java.util.function.Supplier;
  */
 public class CubicZirconiaTypeMaterialConfiguration extends MaterialConfiguration {
 
-	protected DeferredItem<Item> RAW_MATERIAL;
+	protected DeferredItem<@NotNull Item> RAW_MATERIAL;
 
-	protected DeferredBlock<Block> RAW_BLOCK;
-	protected DeferredBlock<Block> ORE_BLOCK;
-	protected DeferredBlock<Block> DEEPSLATE_ORE_BLOCK;
+	protected DeferredBlock<@NotNull Block> RAW_BLOCK;
+	protected DeferredBlock<@NotNull Block> ORE_BLOCK;
+	protected DeferredBlock<@NotNull Block> DEEPSLATE_ORE_BLOCK;
 
 	protected String RAW_BEFORE;
 
-	private CubicZirconiaTypeMaterialConfiguration(String modId, String baseName, String humanReadableName, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String toolsBefore, String armorBefore, Supplier<Item> itemBefore, Supplier<Block> blockBefore, String oreBefore, String rawBefore, float swingDuration, float damageMultiplier, float delay, float dismountMaxDuration, float dismountMinSpeed, float knockbackMaxDuration, float knockbackMinSpeed, float damageMaxDuration, float damageMinSpeed, boolean usingHorseArmor, boolean usingNautilusArmor, String animalArmorBefore, List<PreLootModifierInfo> lootModifiers) {
+	private CubicZirconiaTypeMaterialConfiguration(String modId, String baseName, String humanReadableName, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<@NotNull SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String toolsBefore, String armorBefore, Supplier<Item> itemBefore, Supplier<Block> blockBefore, String oreBefore, String rawBefore, float swingDuration, float damageMultiplier, float delay, float dismountMaxDuration, float dismountMinSpeed, float knockbackMaxDuration, float knockbackMinSpeed, float damageMaxDuration, float damageMinSpeed, boolean usingHorseArmor, boolean usingNautilusArmor, String animalArmorBefore, List<PreLootModifierInfo> lootModifiers) {
 		super(modId, baseName, humanReadableName, MaterialType.CUBIC_ZIRCONIA, trimMaterialDescriptionColor, toolDurability, speed, attackDamageBonus, enchantmentValue, defaultProperties, armorDurability, helmetDefense, chestplateDefense, smeltingExperience, leggingsDefense, bootsDefense, horseDefense, equipSound, toughness, knockbackResistance, mapColor, soundType, oreGenConfigs, dropsPerOre, extraDrops, tier, mineabilityTier, toolsBefore, armorBefore, itemBefore, blockBefore, oreBefore, swingDuration, damageMultiplier, delay, dismountMaxDuration, dismountMinSpeed, knockbackMaxDuration, knockbackMinSpeed, damageMaxDuration, damageMinSpeed, usingHorseArmor, usingNautilusArmor, animalArmorBefore, lootModifiers);
 		this.RAW_BEFORE = rawBefore;
 	}
@@ -140,7 +141,7 @@ public class CubicZirconiaTypeMaterialConfiguration extends MaterialConfiguratio
 		protected int ARMOR_ENCHANTMENT;
 		protected float TOUGHNESS = 0f;
 		protected float KNOCKBACK_RESISTANCE = 0f;
-		protected Supplier<Holder<SoundEvent>> EQUIP_SOUND;
+		protected Supplier<Holder<@NotNull SoundEvent>> EQUIP_SOUND;
 
 		protected String TOOLS_BEFORE;
 		protected String ARMOR_BEFORE;
@@ -225,7 +226,7 @@ public class CubicZirconiaTypeMaterialConfiguration extends MaterialConfiguratio
 		 * @param knockbackResistance sets a dampener on how far knockback launches the user, with higher being more protective
 		 * @return the updated <code>Builder</code>
 		 */
-		public Builder armorMaterial(int durability, int helmetDefense, int chestplateDefense, int leggingsDefense, int bootsDefense, int horseDefense, int enchantmentValue, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance) {
+		public Builder armorMaterial(int durability, int helmetDefense, int chestplateDefense, int leggingsDefense, int bootsDefense, int horseDefense, int enchantmentValue, Supplier<Holder<@NotNull SoundEvent>> equipSound, float toughness, float knockbackResistance) {
 			this.ARMOR_DURABILITY = durability;
 			this.HEAD_DEFENSE = helmetDefense;
 			this.CHESTPLATE_DEFENSE = chestplateDefense;
@@ -251,7 +252,7 @@ public class CubicZirconiaTypeMaterialConfiguration extends MaterialConfiguratio
 		 * @param equipSound supplier of a <code>SoundEvent</code> that dictates in-game equip sound
 		 * @return the updated <code>Builder</code>
 		 */
-		public Builder armorMaterial(int durability, int helmetDefense, int chestplateDefense, int leggingsDefense, int bootsDefense, int horseDefense, int enchantmentValue, Supplier<Holder<SoundEvent>> equipSound) {
+		public Builder armorMaterial(int durability, int helmetDefense, int chestplateDefense, int leggingsDefense, int bootsDefense, int horseDefense, int enchantmentValue, Supplier<Holder<@NotNull SoundEvent>> equipSound) {
 			this.ARMOR_DURABILITY = durability;
 			this.HEAD_DEFENSE = helmetDefense;
 			this.CHESTPLATE_DEFENSE = chestplateDefense;

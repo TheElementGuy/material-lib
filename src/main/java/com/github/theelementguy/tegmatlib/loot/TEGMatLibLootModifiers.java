@@ -1,5 +1,6 @@
 package com.github.theelementguy.tegmatlib.loot;
 
+import com.github.theelementguy.tegmatlib.core.FullyConfiguredMaterialHolder;
 import com.mojang.serialization.MapCodec;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
@@ -16,8 +17,8 @@ public class TEGMatLibLootModifiers {
 	public Supplier<MapCodec<? extends IGlobalLootModifier>> ADD_ITEM_ROLL_MODIFIER;
 	public Supplier<MapCodec<? extends IGlobalLootModifier>> EXTRA_ITEM_ROLL_MODIFIER;
 
-	public TEGMatLibLootModifiers(String modId) {
-		MOD_ID = modId;
+	public TEGMatLibLootModifiers(FullyConfiguredMaterialHolder materialHolder) {
+		MOD_ID = materialHolder.getModID();
 	}
 
 	public void registerModifiers(DeferredRegister<@NotNull MapCodec<? extends IGlobalLootModifier>> register) {
