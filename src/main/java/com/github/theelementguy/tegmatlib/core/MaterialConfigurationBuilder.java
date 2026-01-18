@@ -212,6 +212,32 @@ public abstract class MaterialConfigurationBuilder<T extends MaterialConfigurati
 	}
 
 	/**
+	 * Sets the parameters for the spear. Note that I do not know what most of these do; see the vanilla code for typical values.
+	 * @param swingDuration sets the swing duration
+	 * @param damageMultiplier sets the damage multiplier
+	 * @param delay sets the delay
+	 * @param dismountMaxDuration sets the maximum duration for dismount
+	 * @param dismountMinSpeed sets the minimum speed for dismount
+	 * @param knockbackMaxDuration sets the maximum duration for knockback
+	 * @param knockbackMinSpeed sets the minimum speed for knockback
+	 * @param damageMaxDuration sets the maximum duration for damage
+	 * @param damageMinSpeed sets the minimum speed for damage
+	 * @return the updated <code>Builder</code>
+	 */
+	public T spearMaterial(float swingDuration, float damageMultiplier, float delay, float dismountMaxDuration, float dismountMinSpeed, float knockbackMaxDuration, float knockbackMinSpeed, float damageMaxDuration, float damageMinSpeed) {
+		this.SWING_DURATION = swingDuration;
+		this.DAMAGE_MULTIPLIER = damageMultiplier;
+		this.DELAY = delay;
+		this.DISMOUNT_MAX_DURATION = dismountMaxDuration;
+		this.DISMOUNT_MIN_SPEED = dismountMinSpeed;
+		this.KNOCKBACK_MAX_DURATION = knockbackMaxDuration;
+		this.KNOCKBACK_MIN_SPEED = knockbackMinSpeed;
+		this.DAMAGE_MAX_DURATION = damageMaxDuration;
+		this.DAMAGE_MIN_SPEED = damageMinSpeed;
+		return self();
+	}
+
+	/**
 	 * Sets the {@link OreGenConfig}s for the material, with a small, medium, large, and extra.
 	 * @param small a supplier for the <code>OreGenConfig</code> corresponding to the small vein
 	 * @param medium a supplier for the <code>OreGenConfig</code> corresponding to the medium vein
