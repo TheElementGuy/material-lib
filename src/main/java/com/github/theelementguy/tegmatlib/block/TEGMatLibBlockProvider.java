@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import com.github.theelementguy.tegmatlib.core.FullyConfiguredMaterialHolder;
 import com.github.theelementguy.tegmatlib.core.MaterialConfiguration;
+import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
