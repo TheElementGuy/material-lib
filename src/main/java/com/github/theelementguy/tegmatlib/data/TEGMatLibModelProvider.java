@@ -70,7 +70,7 @@ public class TEGMatLibModelProvider extends ModelProvider {
 				itemModels.generateFlatItem(config.getHorseArmor().get().get().asItem(), ModelTemplates.FLAT_ITEM);
 			}
 			if (config.getNautilusArmor().isUsing()) {
-				itemModels.generateFlatItem(config.getHorseArmor().get().get().get(), ModelTemplates.FLAT_ITEM);
+				itemModels.generateFlatItem(config.getNautilusArmor().get().get().get(), ModelTemplates.FLAT_ITEM);
 			}
 
 			generateTrimmableItemWithModdedMaterials(itemModels, config.getHelmet(), config.getEquipmentAsset(), false);
