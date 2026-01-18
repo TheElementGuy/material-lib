@@ -2,6 +2,10 @@ package com.github.theelementguy.tegmatlib.core;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+
+import java.util.function.Supplier;
 
 /**
  * Builder used to construct {@link IronTypeMaterialConfiguration}s. Create a new instance and call methods until ready to call <code>build()</code>.
@@ -19,17 +23,17 @@ public class IronTypeBuilder extends MaterialConfigurationBuilder<IronTypeBuilde
 	 * Sets the position of the material's items in the inventory, in relation to other items.
 	 * @param toolsBefore the tool set that this material will be placed after, as a string (for example, "stone")
 	 * @param armorBefore the armor set that this material will be placed after, as a string (for example, "chainmail")
-	 * @param itemBefore <code>Identifier</code> of the item that the base material will be placed after
-	 * @param blockBefore <code>Identifier</code> of the block that the base block will be placed after
+	 * @param itemBefore a supplier of the item that the base material will be placed after
+	 * @param blockBefore a supplier of the block that the base block will be placed after
 	 * @param rawBefore the raw item/block that the raw material/block will be placed after, as a string (for example, "gold")
 	 * @param oreBefore the ore that the stone and deepslate ores will be placed after, as a string (for example, "lapis")
 	 * @return the updated <code>MaterialConfigurationBuilder</code>
 	 */
-	public IronTypeBuilder setBefore(String toolsBefore, String armorBefore, Identifier itemBefore, Identifier blockBefore, String rawBefore, String oreBefore) {
+	public IronTypeBuilder setBefore(String toolsBefore, String armorBefore, Supplier<Item> itemBefore, Supplier<Block> blockBefore, String rawBefore, String oreBefore) {
 		this.TOOLS_BEFORE = toolsBefore;
 		this.ARMOR_BEFORE = armorBefore;
-		this.ITEM_BEFORE = () -> BuiltInRegistries.ITEM.get(itemBefore).orElseThrow().value();
-		this.BLOCK_BEFORE = () -> BuiltInRegistries.BLOCK.get(blockBefore).orElseThrow().value();
+		this.ITEM_BEFORE = itemBefore;
+		this.BLOCK_BEFORE = blockBefore;
 		this.ORE_BEFORE = oreBefore;
 		this.RAW_BEFORE = rawBefore;
 		return this;

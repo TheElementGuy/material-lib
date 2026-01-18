@@ -21,8 +21,8 @@ public class CubicZirconiaTypeBuilder extends MaterialConfigurationBuilder<Cubic
 	 * Sets the position of the material's items in the inventory, in relation to other items.
 	 * @param toolsBefore the tool set that this material will be placed after, as a string (for example, "stone")
 	 * @param armorBefore the armor set that this material will be placed after, as a string (for example, "chainmail")
-	 * @param itemBefore the item that the base material will be placed after
-	 * @param blockBefore the block that the base block will be placed after
+	 * @param itemBefore a supplier of the item that the base material will be placed after
+	 * @param blockBefore a supplier of the block that the base block will be placed after
 	 * @param rawBefore the raw item/block that the raw material/block will be placed after, as a string (for example, "gold")
 	 * @param oreBefore the ore that the stone and deepslate ores will be placed after, as a string (for example, "lapis")
 	 * @return the updated <code>MaterialConfigurationBuilder</code>
