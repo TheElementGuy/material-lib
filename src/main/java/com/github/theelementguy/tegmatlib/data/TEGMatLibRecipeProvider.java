@@ -111,16 +111,16 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 	}
 
 	protected void oreSmelting(List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTIme, String pGroup) {
-		oreCooking(RecipeSerializer.SMELTING_RECIPE, SmeltingRecipe::new, pIngredients, pCategory, pResult, pExperience, pCookingTIme, pGroup, "_from_smelting");
+		oreCooking(SmeltingRecipe::new, pIngredients, pCategory, CookingBookCategory.BLOCKS, pResult, pExperience, pCookingTIme, pGroup, "_from_smelting");
 	}
 
 	protected void oreBlasting(List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTime, String pGroup) {
-		oreCooking(RecipeSerializer.BLASTING_RECIPE, BlastingRecipe::new, pIngredients, pCategory, pResult, pExperience, pCookingTime, pGroup, "_from_blasting");
+		oreCooking(BlastingRecipe::new, pIngredients, pCategory, CookingBookCategory.BLOCKS, pResult, pExperience, pCookingTime, pGroup, "_from_blasting");
 	}
 
-	protected <T extends AbstractCookingRecipe> void oreCooking(RecipeSerializer<T> pCookingSerializer, AbstractCookingRecipe.Factory<T> factory, List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTime, String pGroup, String pRecipeName) {
+	protected <T extends AbstractCookingRecipe> void oreCooking(AbstractCookingRecipe.Factory<T> factory, List<ItemLike> pIngredients, RecipeCategory pCategory, CookingBookCategory category, ItemLike pResult, float pExperience, int pCookingTime, String pGroup, String pRecipeName) {
 		for(ItemLike itemlike : pIngredients) {
-			SimpleCookingRecipeBuilder.generic(Ingredient.of(itemlike), pCategory, pResult, pExperience, pCookingTime, pCookingSerializer, factory).group(pGroup).unlockedBy(getHasName(itemlike), has(itemlike)).save(this.output, MOD_ID + ":" + getItemName(pResult) + pRecipeName + "_" + getItemName(itemlike));
+			SimpleCookingRecipeBuilder.generic(Ingredient.of(itemlike), pCategory, category, pResult, pExperience, pCookingTime, factory).group(pGroup).unlockedBy(getHasName(itemlike), has(itemlike)).save(this.output, MOD_ID + ":" + getItemName(pResult) + pRecipeName + "_" + getItemName(itemlike));
 		}
 	}
 
