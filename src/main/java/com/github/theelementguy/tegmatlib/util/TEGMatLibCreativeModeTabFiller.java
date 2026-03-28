@@ -1,13 +1,11 @@
 package com.github.theelementguy.tegmatlib.util;
 
 import com.github.theelementguy.tegmatlib.core.*;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
-import java.util.List;
+import javax.swing.text.html.Option;
+import java.util.*;
 
 public class TEGMatLibCreativeModeTabFiller {
 
@@ -68,6 +66,11 @@ public class TEGMatLibCreativeModeTabFiller {
 						EndDiamondTypeMaterialConfiguration endDiamondMatConfig = (EndDiamondTypeMaterialConfiguration) m;
 						TEGMatLibUtil.inventoryAddAfter(endDiamondMatConfig.getEndOre(), TEGMatLibUtil.getBlockFromKey(endDiamondMatConfig.getOreBefore(), modID), event);
 					}
+					case END_IRON -> {
+						EndIronTypeMaterialConfiguration endIronMatConfig = (EndIronTypeMaterialConfiguration) m;
+						TEGMatLibUtil.inventoryAddAfter(endIronMatConfig.getEndOre(), TEGMatLibUtil.getBlockFromKey(endIronMatConfig.getOreBefore(), modID), event);
+						TEGMatLibUtil.inventoryAddAfter(endIronMatConfig.getRawBlock(), TEGMatLibUtil.getBlockFromKey("raw_" + endIronMatConfig.getRawBefore() + "_block", modID), event);
+					}
 				}
 			}
 		}
@@ -78,7 +81,7 @@ public class TEGMatLibCreativeModeTabFiller {
 					TEGMatLibUtil.inventoryAddAfter(m.getHorseArmor().get().get().get(), TEGMatLibUtil.getItemFromKey(m.getAnimalArmorBefore() + "_horse_armor", materialHolder.getModID()), event);
 				}
 				if (m.getNautilusArmor().isUsing()) {
-					if (m.getAnimalArmorBefore() == "leather") {
+					if (Objects.equals(m.getAnimalArmorBefore(), "leather")) {
 						event.insertBefore(new ItemStack(Items.COPPER_NAUTILUS_ARMOR, 1), new ItemStack(m.getNautilusArmor().get().get().asItem()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 					} else {
 						TEGMatLibUtil.inventoryAddAfter(m.getNautilusArmor().get().get().get(), TEGMatLibUtil.getItemFromKey(m.getAnimalArmorBefore() + "_nautilus_armor", materialHolder.getModID()), event);
@@ -91,6 +94,10 @@ public class TEGMatLibCreativeModeTabFiller {
 				TEGMatLibUtil.toolsAddAfter(m.getBaseName(), m.getToolsBefore(), event, modID);
 			}
 		}
+
+	}
+
+	private record Entry(Item toAdd, Optional<Item> reference) {
 
 	}
 

@@ -113,6 +113,15 @@ public class TEGMatLibModelProvider extends ModelProvider {
 					EndDiamondTypeMaterialConfiguration endDiamondMatConfig = (EndDiamondTypeMaterialConfiguration) config;
 					blockModels.createTrivialCube(endDiamondMatConfig.getEndOre());
 				}
+				case END_IRON -> {
+					EndIronTypeMaterialConfiguration ironMatConfig = (EndIronTypeMaterialConfiguration) config;
+
+					itemModels.generateFlatItem(ironMatConfig.getRawItem(), ModelTemplates.FLAT_ITEM);
+					itemModels.generateFlatItem(ironMatConfig.getNugget(), ModelTemplates.FLAT_ITEM);
+
+					blockModels.createTrivialCube(ironMatConfig.getRawBlock());
+					blockModels.createTrivialCube(ironMatConfig.getEndOre());
+				}
 			}
 
 		}

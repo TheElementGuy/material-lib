@@ -39,8 +39,8 @@ public class EndDiamondTypeMaterialConfiguration extends MaterialConfiguration {
 
 	@Override
 	public void fillItems(DeferredRegister.Items register) {
-		BASE_MATERIAL = registerSimpleItemWithTrimMaterial(BASE_NAME, register, MOD_ID);
-		fillBaseEquipment(register, MOD_ID);
+		BASE_MATERIAL = registerSimpleItemWithTrimMaterial(BASE_NAME, register);
+		fillBaseEquipment(register);
 	}
 
 	@Override

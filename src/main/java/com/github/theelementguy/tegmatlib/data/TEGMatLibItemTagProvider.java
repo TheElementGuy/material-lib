@@ -1,14 +1,11 @@
 package com.github.theelementguy.tegmatlib.data;
 
-import com.github.theelementguy.tegmatlib.core.FullyConfiguredMaterialHolder;
+import com.github.theelementguy.tegmatlib.core.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.ItemTags;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ItemTagsProvider;
-import com.github.theelementguy.tegmatlib.core.CubicZirconiaTypeMaterialConfiguration;
-import com.github.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
-import com.github.theelementguy.tegmatlib.core.MaterialConfiguration;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.List;
@@ -61,6 +58,12 @@ public class TEGMatLibItemTagProvider extends ItemTagsProvider {
 					CubicZirconiaTypeMaterialConfiguration mat = (CubicZirconiaTypeMaterialConfiguration) config;
 					tag(Tags.Items.GEMS).add(mat.getBaseItem());
 					tag(Tags.Items.RAW_MATERIALS).add(mat.getRawItem());
+				}
+				case END_IRON -> {
+					EndIronTypeMaterialConfiguration mat = (EndIronTypeMaterialConfiguration) config;
+					tag(Tags.Items.INGOTS).add(mat.getBaseItem());
+					tag(Tags.Items.RAW_MATERIALS).add(mat.getRawItem());
+					tag(Tags.Items.NUGGETS).add(mat.getNugget());
 				}
 			}
 		}

@@ -105,6 +105,16 @@ public class TEGMatLibBlockLootTableProvider extends BlockLootSubProvider {
 					add(mat.getEndOre(), b -> createMultipleOreDrops(mat.getEndOre(), mat.getBaseItem(), mat));
 				}
 			}
+			case END_IRON -> {
+				EndIronTypeMaterialConfiguration mat = (EndIronTypeMaterialConfiguration) config;
+				dropSelf(mat.getBaseBlock());
+				dropSelf(mat.getRawBlock());
+				if (config.isSingleOre()) {
+					add(mat.getEndOre(), b -> createOreDrop(mat.getEndOre(), mat.getBaseItem()));
+				} else {
+					add(mat.getEndOre(), b -> createMultipleOreDrops(mat.getEndOre(), mat.getBaseItem(), mat));
+				}
+			}
 		}
 
 	}
