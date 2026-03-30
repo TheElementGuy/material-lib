@@ -123,6 +123,10 @@ public class TEGMatLibModelProvider extends ModelProvider {
 					blockModels.createTrivialCube(ironMatConfig.getRawBlock());
 					blockModels.createTrivialCube(ironMatConfig.getEndOre());
 				}
+				case SAND_DIAMOND -> {
+					SandDiamondTypeMaterialConfiguration sandDiamondMatConfig = (SandDiamondTypeMaterialConfiguration) config;
+					blockModels.createTrivialCube(sandDiamondMatConfig.getSandOre());
+				}
 			}
 
 		}

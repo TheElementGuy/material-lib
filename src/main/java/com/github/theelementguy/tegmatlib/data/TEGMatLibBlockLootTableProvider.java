@@ -115,6 +115,15 @@ public class TEGMatLibBlockLootTableProvider extends BlockLootSubProvider {
 					add(mat.getEndOre(), b -> createMultipleOreDrops(mat.getEndOre(), mat.getBaseItem(), mat));
 				}
 			}
+			case SAND_DIAMOND -> {
+				SandDiamondTypeMaterialConfiguration mat = (SandDiamondTypeMaterialConfiguration) config;
+				dropSelf(mat.getBaseBlock());
+				if (config.isSingleOre()) {
+					add(mat.getSandOre(), b -> createOreDrop(mat.getSandOre(), mat.getBaseItem()));
+				} else {
+					add(mat.getSandOre(), b -> createMultipleOreDrops(mat.getSandOre(), mat.getBaseItem(), mat));
+				}
+			}
 		}
 
 	}

@@ -104,6 +104,10 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 					EndIronTypeMaterialConfiguration endIronMatConfig = (EndIronTypeMaterialConfiguration) config;
 					allOreSmelting(endIronMatConfig.getBaseItem(), List.of(endIronMatConfig.getEndOre()), endIronMatConfig.getSmeltingExperience(), endIronMatConfig.getBaseName());
 				}
+				case SAND_DIAMOND -> {
+					SandDiamondTypeMaterialConfiguration sandDiamondMatConfig = (SandDiamondTypeMaterialConfiguration) config;
+					allOreSmelting(sandDiamondMatConfig.getBaseItem(), List.of(sandDiamondMatConfig.getSandOre()), sandDiamondMatConfig.getSmeltingExperience(), sandDiamondMatConfig.getBaseName());
+				}
 			}
 
 		}

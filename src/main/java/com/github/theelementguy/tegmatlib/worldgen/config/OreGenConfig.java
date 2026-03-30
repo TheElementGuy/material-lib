@@ -23,20 +23,20 @@ import java.util.function.Supplier;
 
 public class OreGenConfig {
 
-	private final OreGenSize SIZE;
+	protected final OreGenSize SIZE;
 
-	private final HeightRangePlacement PLACEMENT;
+	protected final HeightRangePlacement PLACEMENT;
 
-	private final int SIZE_INT;
-	private final float DISCARD_ON_AIR_CHANCE;
+	protected final int SIZE_INT;
+	protected final float DISCARD_ON_AIR_CHANCE;
 
-	private final OreRarity RARITY;
-	private final int PLACEMENT_INT;
+	protected final OreRarity RARITY;
+	protected final int PLACEMENT_INT;
 
-	private final TagKey<Biome> BIOMES;
-	private final ResourceKey<Biome> BIOME;
+	protected final TagKey<Biome> BIOMES;
+	protected final ResourceKey<Biome> BIOME;
 
-	private final SingleOrMultiple BIOME_HOLDING_TYPE;
+	protected final SingleOrMultiple BIOME_HOLDING_TYPE;
 
 	public OreGenConfig(OreGenSize size, HeightRangePlacement placement, int sizeInt, float discardOnAirChance, OreRarity rarity, int placementInt, TagKey<Biome> biomes) {
 		SIZE = size;
