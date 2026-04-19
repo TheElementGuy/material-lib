@@ -106,7 +106,7 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 				}
 				case SAND_DIAMOND -> {
 					SandDiamondTypeMaterialConfiguration sandDiamondMatConfig = (SandDiamondTypeMaterialConfiguration) config;
-					allOreSmelting(sandDiamondMatConfig.getBaseItem(), List.of(sandDiamondMatConfig.getSandOre()), sandDiamondMatConfig.getSmeltingExperience(), sandDiamondMatConfig.getBaseName());
+					allOreSmelting(sandDiamondMatConfig.getBaseItem(), List.of(sandDiamondMatConfig.getSandOre(), sandDiamondMatConfig.getGravelOre()), sandDiamondMatConfig.getSmeltingExperience(), sandDiamondMatConfig.getBaseName());
 				}
 			}
 

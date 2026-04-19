@@ -1,6 +1,7 @@
 package com.github.theelementguy.tegmatlib.util;
 
 import com.github.theelementguy.tegmatlib.core.*;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.*;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
@@ -29,6 +30,10 @@ public class TEGMatLibCreativeModeTabFiller {
 					case CUBIC_ZIRCONIA -> {
 						CubicZirconiaTypeMaterialConfiguration cubicMatConfig = (CubicZirconiaTypeMaterialConfiguration) m;
 						TEGMatLibUtil.inventoryAddAfter(cubicMatConfig.getRawItem(), TEGMatLibUtil.getItemFromKey("raw_" + cubicMatConfig.getRawBefore(), modID), event);
+					}
+					case END_IRON -> {
+						EndIronTypeMaterialConfiguration endIronMatConfig = (EndIronTypeMaterialConfiguration) m;
+						TEGMatLibUtil.inventoryAddAfter(endIronMatConfig.getRawItem(), TEGMatLibUtil.getItemFromKey("raw_" + endIronMatConfig.getRawBefore(), modID), event);
 					}
 				}
 			}
@@ -70,6 +75,11 @@ public class TEGMatLibCreativeModeTabFiller {
 						EndIronTypeMaterialConfiguration endIronMatConfig = (EndIronTypeMaterialConfiguration) m;
 						TEGMatLibUtil.inventoryAddAfter(endIronMatConfig.getEndOre(), TEGMatLibUtil.getBlockFromKey(endIronMatConfig.getOreBefore(), modID), event);
 						TEGMatLibUtil.inventoryAddAfter(endIronMatConfig.getRawBlock(), TEGMatLibUtil.getBlockFromKey("raw_" + endIronMatConfig.getRawBefore() + "_block", modID), event);
+					}
+					case SAND_DIAMOND -> {
+						SandDiamondTypeMaterialConfiguration sandDiamondTypeMatConfig = (SandDiamondTypeMaterialConfiguration) m;
+						TEGMatLibUtil.inventoryAddAfter(sandDiamondTypeMatConfig.getSandOre(), TEGMatLibUtil.getBlockFromKey(sandDiamondTypeMatConfig.getOreBefore(), modID), event);
+						TEGMatLibUtil.inventoryAddAfter(sandDiamondTypeMatConfig.getGravelOre(), sandDiamondTypeMatConfig.getSandOre(), event);
 					}
 				}
 			}

@@ -185,24 +185,24 @@ public class TEGMatLibBlockTagProvider extends BlockTagsProvider {
 			case SAND_DIAMOND -> {
 				SandDiamondTypeMaterialConfiguration mat = (SandDiamondTypeMaterialConfiguration) material;
 				if (tier == MineabilityTier.ALL) {
-					tag(BlockTags.MINEABLE_WITH_SHOVEL).add(mat.getBaseBlock(), mat.getSandOre());
+					tag(BlockTags.MINEABLE_WITH_SHOVEL).add(mat.getBaseBlock(), mat.getSandOre(), mat.getGravelOre());
 					tag(mat.getIncorrectForMaterial()).addTag(BlockTags.INCORRECT_FOR_WOODEN_TOOL);
 					tag(mat.getNeedsMaterial()).addTag(Tags.Blocks.NEEDS_WOOD_TOOL);
 				} else if (tier == MineabilityTier.NETHERITE) {
-					tag(BlockTags.MINEABLE_WITH_SHOVEL).add(mat.getBaseBlock(), mat.getSandOre());
-					tag(Tags.Blocks.NEEDS_NETHERITE_TOOL).add(mat.getBaseBlock(), mat.getSandOre());
+					tag(BlockTags.MINEABLE_WITH_SHOVEL).add(mat.getBaseBlock(), mat.getSandOre(), mat.getGravelOre());
+					tag(Tags.Blocks.NEEDS_NETHERITE_TOOL).add(mat.getBaseBlock(), mat.getSandOre(), mat.getGravelOre());
 					tag(mat.getNeedsMaterial()).addTag(Tags.Blocks.NEEDS_NETHERITE_TOOL);
 					tag(mat.getIncorrectForMaterial()).addTag(BlockTags.INCORRECT_FOR_NETHERITE_TOOL).remove(mat.getNeedsMaterial());
 				} else {
-					tag(BlockTags.MINEABLE_WITH_SHOVEL).add(mat.getBaseBlock(), mat.getSandOre());
-					tag(TEGMatLibUtil.getNeedsTagForMineability(tier)).add(mat.getBaseBlock(), mat.getSandOre());
+					tag(BlockTags.MINEABLE_WITH_SHOVEL).add(mat.getBaseBlock(), mat.getSandOre(), mat.getGravelOre());
+					tag(TEGMatLibUtil.getNeedsTagForMineability(tier)).add(mat.getBaseBlock(), mat.getSandOre(), mat.getGravelOre());
 					tag(mat.getIncorrectForMaterial()).addTag(TEGMatLibUtil.getTagForTierIncorrect(mat.getMiningLevel()));
 					tag(mat.getNeedsMaterial()).addTag(TEGMatLibUtil.getTagForTierNeeds(mat.getMiningLevel()));
 				}
 				if (mat.isSingleOre()) {
-					tag(Tags.Blocks.ORE_RATES_SINGULAR).add(mat.getSandOre());
+					tag(Tags.Blocks.ORE_RATES_SINGULAR).add(mat.getSandOre(), mat.getGravelOre());
 				} else {
-					tag(Tags.Blocks.ORE_RATES_DENSE).add(mat.getSandOre());
+					tag(Tags.Blocks.ORE_RATES_DENSE).add(mat.getSandOre(), mat.getGravelOre());
 				}
 			}
 		}
