@@ -11,6 +11,7 @@ import com.github.theelementguy.tegmatlib.util.TEGMatLibUtil;
 import com.github.theelementguy.tegmatlib.worldgen.OreGenHolder;
 import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
 import net.minecraft.client.data.models.model.ModelTemplate;
+import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.client.resources.model.EquipmentClientInfo;
 import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -44,6 +45,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import java.util.EnumMap;
 import java.util.List;
@@ -460,7 +462,7 @@ public abstract class MaterialConfiguration {
 		return LOOT_MODIFIERS.stream().map((modifier) -> {return modifier.convert(this);}).toList();
 	}
 
-	public ModelTemplate applyException(String name, ModelTemplate preferred) {
+	public TexturedModel.Provider applyException(String name, TexturedModel.Provider preferred) {
 		for (ModelException m : MODEL_EXCEPTIONS) {
 			if (m.name().equals(name)) {
 				return m.overrideTemplate();

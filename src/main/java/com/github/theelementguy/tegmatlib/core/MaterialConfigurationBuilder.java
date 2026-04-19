@@ -9,6 +9,7 @@ import com.github.theelementguy.tegmatlib.loot.PreLootModifierInfo;
 import com.github.theelementguy.tegmatlib.worldgen.OreGenHolder;
 import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
 import net.minecraft.client.data.models.model.ModelTemplate;
+import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
@@ -402,7 +403,7 @@ public abstract class MaterialConfigurationBuilder<T extends MaterialConfigurati
 	 * @param overrideTemplate the new {@link ModelTemplate} to use
 	 * @return the updated <code>MaterialConfigurationBuilder</code>
 	 */
-	public T addModelException(String name, ModelTemplate overrideTemplate) {
+	public T addModelException(String name, TexturedModel overrideTemplate) {
 		MODEL_EXCEPTIONS.add(new ModelException(name, overrideTemplate));
 		return self();
 	}
