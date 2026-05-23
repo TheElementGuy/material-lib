@@ -21,6 +21,10 @@ public class TEGMatLibLootModifiers {
 		MOD_ID = materialHolder.getModID();
 	}
 
+	public TEGMatLibLootModifiers(String modID) {
+		MOD_ID = modID;
+	}
+
 	public void registerModifiers(DeferredRegister<@NotNull MapCodec<? extends IGlobalLootModifier>> register) {
 		ADD_ITEM_ROLL_MODIFIER = register.register("add_item_roll_modifier", () -> AddItemRollModifier.CODEC);
 		EXTRA_ITEM_ROLL_MODIFIER = register.register("extra_item_roll_modifier", () -> ExtraItemRollModifier.CODEC);
