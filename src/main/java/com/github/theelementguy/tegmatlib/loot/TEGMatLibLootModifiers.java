@@ -26,8 +26,8 @@ public class TEGMatLibLootModifiers {
 	}
 
 	public void registerModifiers(DeferredRegister<@NotNull MapCodec<? extends IGlobalLootModifier>> register) {
-		ADD_ITEM_ROLL_MODIFIER = register.register("add_item_roll_modifier", () -> AddItemRollModifier.CODEC);
-		EXTRA_ITEM_ROLL_MODIFIER = register.register("extra_item_roll_modifier", () -> ExtraItemRollModifier.CODEC);
+		ADD_ITEM_ROLL_MODIFIER = register.register("add_item_roll_modifier", AddItemRollModifier::getCodec);
+		EXTRA_ITEM_ROLL_MODIFIER = register.register("extra_item_roll_modifier", ExtraItemRollModifier::getCodec);
 	}
 
 }

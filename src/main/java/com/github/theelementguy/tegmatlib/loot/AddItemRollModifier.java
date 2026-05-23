@@ -15,7 +15,9 @@ import net.neoforged.neoforge.common.loot.LootModifier;
 
 public class AddItemRollModifier extends LootModifier {
 
-    public static final MapCodec<AddItemRollModifier> CODEC = RecordCodecBuilder.mapCodec(addItemModifierInstance -> LootModifier.codecStart(addItemModifierInstance).and(BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(e -> e.item)).and(Codec.FLOAT.fieldOf("chance").forGetter(e -> e.chance)).apply(addItemModifierInstance, AddItemRollModifier::new));
+	public static MapCodec<AddItemRollModifier> getCodec() {
+		return RecordCodecBuilder.mapCodec(addItemModifierInstance -> LootModifier.codecStart(addItemModifierInstance).and(BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(e -> e.item)).and(Codec.FLOAT.fieldOf("chance").forGetter(e -> e.chance)).apply(addItemModifierInstance, AddItemRollModifier::new));
+	}
 
     private final Item item;
 
@@ -47,6 +49,6 @@ public class AddItemRollModifier extends LootModifier {
 
     @Override
     public MapCodec<? extends IGlobalLootModifier> codec() {
-        return CODEC;
+        return getCodec();
     }
 }
