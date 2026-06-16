@@ -2,12 +2,14 @@ package com.github.theelementguy.tegmatlib.core;
 
 import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
 import net.minecraft.world.item.Item;
+import com.github.theelementguy.tegmatlib.worldgen.config.SandOreGenConfig;
 import net.minecraft.world.level.block.Block;
 
 import java.util.function.Supplier;
 
 /**
  * Builder used to construct {@link SandDiamondTypeMaterialConfiguration}s. Create a new instance and call methods until ready to call <code>build()</code>.
+ * Note that {@link SandOreGenConfig}s should be used for ore, not {@link OreGenConfig}s.
  */
 public class SandDiamondTypeBuilder extends MaterialConfigurationBuilder<SandDiamondTypeBuilder> {
 
