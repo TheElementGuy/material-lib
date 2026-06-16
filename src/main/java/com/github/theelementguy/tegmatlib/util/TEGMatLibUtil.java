@@ -15,6 +15,7 @@ import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.neoforged.neoforge.common.Tags;
@@ -46,6 +47,14 @@ public class TEGMatLibUtil {
 
 	public static ResourceKey<EquipmentAsset> createEquipmentAssetResourceKey(String name, String modId) {
 		return ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath(modId, name));
+	}
+
+	public static ResourceKey<Block> getResourceKeyFromBlock(Block block) {
+		return BuiltInRegistries.BLOCK.getResourceKey(block).orElseThrow();
+	}
+
+	public static ResourceKey<Item> getResourceKeyFromItem(Item item) {
+		return BuiltInRegistries.ITEM.getResourceKey(item).orElseThrow();
 	}
 
 	public static void inventoryAddAfter(Item item, Item referenceItem, BuildCreativeModeTabContentsEvent event) {
