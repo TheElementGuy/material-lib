@@ -25,7 +25,6 @@ public class TEGMatLibItemTagProvider extends ItemTagsProvider {
 	protected void addTags(HolderLookup.Provider provider) {
 
 		for (MaterialConfiguration config : MATERIALS.get()) {
-			tag(ItemTags.TRIM_MATERIALS).add(config.getBaseItem());
 			tag(ItemTags.SWORDS).add(config.getSword());
 			tag(ItemTags.AXES).add(config.getAxe());
 			tag(ItemTags.PICKAXES).add(config.getPickaxe());
