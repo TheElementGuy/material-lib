@@ -184,7 +184,7 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 		for (ItemLike i : equipment) {
 			if (i != null) {
 				SimpleCookingRecipeBuilder.smelting(Ingredient.of(i), RecipeCategory.MISC, CookingBookCategory.MISC, nugget, 0.1f, 200).unlockedBy("has_" + getItemName(material), has(material)).save(output, MOD_ID + ":" + getItemName(nugget) + "_from_smelting_" + getItemName(i));
-				SimpleCookingRecipeBuilder.blasting(Ingredient.of(i), RecipeCategory.MISC, CookingBookCategory.MISC, nugget, 0.1f, 100).unlockedBy("has_" + getItemName(material), has(material)).save(output, MOD_ID + ":" + getItemName(nugget) + "_from_smelting_" + getItemName(i));
+				SimpleCookingRecipeBuilder.blasting(Ingredient.of(i), RecipeCategory.MISC, CookingBookCategory.MISC, nugget, 0.1f, 100).unlockedBy("has_" + getItemName(material), has(material)).save(output, MOD_ID + ":" + getItemName(nugget) + "_from_blasting_" + getItemName(i));
 			}
 		}
 	}
