@@ -35,6 +35,7 @@ public class TEGMatLibCreativeModeTabFiller {
 					case END_IRON -> {
 						EndIronTypeMaterialConfiguration endIronMatConfig = (EndIronTypeMaterialConfiguration) m;
 						TEGMatLibUtil.inventoryAddAfter(endIronMatConfig.getRawItem(), TEGMatLibUtil.getItemFromKey("raw_" + endIronMatConfig.getRawBefore(), modID), event);
+						TEGMatLibUtil.inventoryAddAfter(endIronMatConfig.getNugget(), TEGMatLibUtil.getItemFromKey(endIronMatConfig.getRawBefore() + "_nugget", modID), event);
 					}
 				}
 			}
