@@ -45,10 +45,10 @@ public class TEGMatLibGlobalLootModifierProvider extends GlobalLootModifierProvi
 	}
 
 	protected void addTo(String table, Item item, float chance) {
-		this.add(BuiltInRegistries.ITEM.getKey(item).getPath() + "_to_" + table.substring(table.lastIndexOf("/") + 1), new AddItemRollModifier(new LootItemCondition[] {new LootTableIdCondition.Builder(Identifier.withDefaultNamespace(table)).build()}, 1000, item, chance));
+		this.add(BuiltInRegistries.ITEM.getKey(item).getPath() + "_to_" + table.substring(table.lastIndexOf("/") + 1), new AddItemRollModifier(new LootItemCondition[] {new LootTableIdCondition.Builder(Identifier.withDefaultNamespace(table)).build()}, item, chance));
 	}
 
 	protected void extraTo(String table, Item item, float chance) {
-		this.add(BuiltInRegistries.ITEM.getKey(item).getPath() + "_to_" + table.substring(table.lastIndexOf("/") + 1), new ExtraItemRollModifier(new LootItemCondition[] {new LootTableIdCondition.Builder(Identifier.withDefaultNamespace(table)).build()}, 1000, item, chance));
+		this.add(BuiltInRegistries.ITEM.getKey(item).getPath() + "_to_" + table.substring(table.lastIndexOf("/") + 1), new ExtraItemRollModifier(new LootItemCondition[] {new LootTableIdCondition.Builder(Identifier.withDefaultNamespace(table)).build()}, item, chance));
 	}
 }

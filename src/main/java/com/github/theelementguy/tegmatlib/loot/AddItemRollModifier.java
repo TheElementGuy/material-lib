@@ -21,8 +21,8 @@ public class AddItemRollModifier extends LootModifier {
 
     private final float chance;
 
-    public AddItemRollModifier(LootItemCondition[] conditionsIn, int priority, Item item, float chance) {
-        super(conditionsIn, priority);
+    public AddItemRollModifier(LootItemCondition[] conditionsIn, Item item, float chance) {
+        super(conditionsIn);
         this.item = item;
         this.chance = chance;
     }
