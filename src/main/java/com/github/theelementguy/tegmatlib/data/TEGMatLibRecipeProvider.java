@@ -80,7 +80,7 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 				case IRON -> {
 					IronTypeMaterialConfiguration ironConfig = (IronTypeMaterialConfiguration) config;
 					blockRecipe(ironConfig.getRawItem(), ironConfig.getRawBlock().asItem());
-					nuggetRecipe(ironConfig.getBaseItem(), ironConfig.getNugget());
+					nuggetRecipe(ironConfig.getBaseItem(), ironConfig.getNugget(), List.of(ironConfig.getSword(), ironConfig.getAxe(), ironConfig.getPickaxe(), ironConfig.getShovel(), ironConfig.getHoe(), ironConfig.getSpear(), ironConfig.getHelmet(), ironConfig.getChestplate(), ironConfig.getLeggings(), ironConfig.getBoots(), ironConfig.getNautilusArmor().get().orElse(null), ironConfig.getHorseArmor().get().orElse(null)));
 					allOreSmelting(ironConfig.getBaseItem(), List.of(ironConfig.getOre(), ironConfig.getDeepslateOre(), ironConfig.getRawItem()), ironConfig.getSmeltingExperience(), ironConfig.getBaseName());
 				}
 				case DIAMOND -> {
@@ -102,6 +102,8 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 				}
 				case END_IRON -> {
 					EndIronTypeMaterialConfiguration endIronMatConfig = (EndIronTypeMaterialConfiguration) config;
+					blockRecipe(endIronMatConfig.getRawItem(), endIronMatConfig.getRawBlock().asItem());
+					nuggetRecipe(endIronMatConfig.getBaseItem(), endIronMatConfig.getNugget(), List.of(endIronMatConfig.getSword(), endIronMatConfig.getAxe(), endIronMatConfig.getPickaxe(), endIronMatConfig.getShovel(), endIronMatConfig.getHoe(), endIronMatConfig.getSpear(), endIronMatConfig.getHelmet(), endIronMatConfig.getChestplate(), endIronMatConfig.getLeggings(), endIronMatConfig.getBoots(), endIronMatConfig.getNautilusArmor().get().orElse(null), endIronMatConfig.getHorseArmor().get().orElse(null)));
 					allOreSmelting(endIronMatConfig.getBaseItem(), List.of(endIronMatConfig.getEndOre()), endIronMatConfig.getSmeltingExperience(), endIronMatConfig.getBaseName());
 				}
 				case SAND_DIAMOND -> {
@@ -174,10 +176,17 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 		shapeless(RecipeCategory.MISC, block).requires(material, 9).unlockedBy("has_" + getItemName(material) + "_block", has(block)).save(output);
 	}
 
-	protected void nuggetRecipe(Item material, Item nugget) {
+	protected void nuggetRecipe(Item material, Item nugget, List<ItemLike> equipment) {
 		shapeless(RecipeCategory.MISC, nugget, 9).requires(material).unlockedBy("has_" + getItemName(material), has(nugget)).save(output);
 
 		shapeless(RecipeCategory.MISC, material).requires(nugget, 9).unlockedBy("has_" + getItemName(material) + "_nugget", has(nugget)).save(output, MOD_ID + ":" + getItemName(material) + "_ingot_from_nugget");
+
+		for (ItemLike i : equipment) {
+			if (i != null) {
+				SimpleCookingRecipeBuilder.smelting(Ingredient.of(i), RecipeCategory.MISC, CookingBookCategory.MISC, nugget, 0.1f, 200);
+				SimpleCookingRecipeBuilder.blasting(Ingredient.of(i), RecipeCategory.MISC, CookingBookCategory.MISC, nugget, 0.1f, 100);
+			}
+		}
 	}
 
 	protected void allOreSmelting(Item material, List<ItemLike> smeltables, float experience, String group) {
