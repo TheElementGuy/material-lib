@@ -51,7 +51,7 @@ public class SandDiamondTypeMaterialConfiguration extends MaterialConfiguration 
 		SAND_ORE_BLOCK = register.registerBlock("sand_" + BASE_NAME + "_ore", (p) -> new ColoredFallingBlock(new ColorRGBA(14406560), p), () -> BlockBehaviour.Properties.of().destroyTime(1.5f).explosionResistance(1f).mapColor(MapColor.SAND).sound(SoundType.SAND).requiresCorrectToolForDrops().setId(TEGMatLibUtil.createBlockResourceKey("sand_" + BASE_NAME + "_ore", MOD_ID)));
 		itemsRegister.get().registerSimpleBlockItem("sand_" + BASE_NAME + "_ore", () -> SAND_ORE_BLOCK.get());
 		GRAVEL_ORE_BLOCK = register.registerBlock("gravel_" + BASE_NAME + "_ore", (p) -> new ColoredFallingBlock(new ColorRGBA(14406560), p), () -> BlockBehaviour.Properties.of().destroyTime(1.5f).explosionResistance(1f).mapColor(MapColor.STONE).sound(SoundType.GRAVEL).requiresCorrectToolForDrops().setId(TEGMatLibUtil.createBlockResourceKey("gravel_" + BASE_NAME + "_ore", MOD_ID)));
-		itemsRegister.get().registerSimpleBlockItem("gravel_" + BASE_NAME + "_ore", () -> GRAVEL_ORE_BLOCK.get());
+		itemsRegister.get().registerSimpleBlockItem("gravel_" + BASE_NAME + "_ore", () -> SAND_ORE_BLOCK.get());
 		fillBaseBlock(register, itemsRegister);
 	}
 
