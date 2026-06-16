@@ -403,7 +403,7 @@ public abstract class MaterialConfigurationBuilder<T extends MaterialConfigurati
 	 * @param overrideTemplate the new {@link ModelTemplate} to use
 	 * @return the updated <code>MaterialConfigurationBuilder</code>
 	 */
-	public T addModelException(String name, TexturedModel.Provider overrideTemplate) {
+	public T addModelException(String name, TexturedModel overrideTemplate) {
 		MODEL_EXCEPTIONS.add(new ModelException(name, overrideTemplate));
 		return self();
 	}
