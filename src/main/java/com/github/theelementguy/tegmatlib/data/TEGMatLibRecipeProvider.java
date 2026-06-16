@@ -179,12 +179,12 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 	protected void nuggetRecipe(Item material, Item nugget, List<ItemLike> equipment) {
 		shapeless(RecipeCategory.MISC, nugget, 9).requires(material).unlockedBy("has_" + getItemName(material), has(nugget)).save(output);
 
-		shapeless(RecipeCategory.MISC, material).requires(nugget, 9).unlockedBy("has_" + getItemName(material) + "_nugget", has(nugget)).save(output, MOD_ID + ":" + getItemName(material) + "_ingot_from_nugget");
+		shapeless(RecipeCategory.MISC, material).requires(nugget, 9).unlockedBy("has_" + getItemName(material) + "_nugget", has(nugget)).save(output, MOD_ID + ":" + getItemName(material) + "_from_nugget");
 
 		for (ItemLike i : equipment) {
 			if (i != null) {
-				SimpleCookingRecipeBuilder.smelting(Ingredient.of(i), RecipeCategory.MISC, CookingBookCategory.MISC, nugget, 0.1f, 200);
-				SimpleCookingRecipeBuilder.blasting(Ingredient.of(i), RecipeCategory.MISC, CookingBookCategory.MISC, nugget, 0.1f, 100);
+				SimpleCookingRecipeBuilder.smelting(Ingredient.of(i), RecipeCategory.MISC, CookingBookCategory.MISC, nugget, 0.1f, 200).unlockedBy("has_" + getItemName(material), has(material)).save(output, MOD_ID + ":" + getItemName(nugget) + "_from_smelting_" + getItemName(i));
+				SimpleCookingRecipeBuilder.blasting(Ingredient.of(i), RecipeCategory.MISC, CookingBookCategory.MISC, nugget, 0.1f, 100).unlockedBy("has_" + getItemName(material), has(material)).save(output, MOD_ID + ":" + getItemName(nugget) + "_from_smelting_" + getItemName(i));
 			}
 		}
 	}
