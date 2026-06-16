@@ -175,9 +175,9 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 	}
 
 	protected void nuggetRecipe(Item material, Item nugget) {
-		shapeless(RecipeCategory.MISC, material, 9).requires(nugget).unlockedBy("has_" + getItemName(material), has(nugget)).save(output, MOD_ID + ":" + getItemName(material) + "_ingot_from_nugget");
+		shapeless(RecipeCategory.MISC, nugget, 9).requires(material).unlockedBy("has_" + getItemName(material), has(nugget)).save(output, MOD_ID + ":" + getItemName(material) + "_ingot_from_nugget");
 
-		shapeless(RecipeCategory.MISC, nugget).requires(material, 9).unlockedBy("has_" + getItemName(material) + "_nugget", has(nugget)).save(output);
+		shapeless(RecipeCategory.MISC, material).requires(nugget, 9).unlockedBy("has_" + getItemName(material) + "_nugget", has(nugget)).save(output);
 	}
 
 	protected void allOreSmelting(Item material, List<ItemLike> smeltables, float experience, String group) {
