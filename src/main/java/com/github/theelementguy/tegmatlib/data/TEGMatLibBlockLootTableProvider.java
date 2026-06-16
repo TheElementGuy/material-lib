@@ -112,7 +112,7 @@ public class TEGMatLibBlockLootTableProvider extends BlockLootSubProvider {
 				if (config.isSingleOre()) {
 					add(mat.getEndOre(), b -> createOreDrop(mat.getEndOre(), mat.getBaseItem()));
 				} else {
-					add(mat.getEndOre(), b -> createMultipleOreDrops(mat.getEndOre(), mat.getRawItem(), mat));
+					add(mat.getEndOre(), b -> createMultipleOreDrops(mat.getEndOre(), mat.getBaseItem(), mat));
 				}
 			}
 			case SAND_DIAMOND -> {
@@ -120,10 +120,8 @@ public class TEGMatLibBlockLootTableProvider extends BlockLootSubProvider {
 				dropSelf(mat.getBaseBlock());
 				if (config.isSingleOre()) {
 					add(mat.getSandOre(), b -> createOreDrop(mat.getSandOre(), mat.getBaseItem()));
-					add(mat.getGravelOre(), b -> createOreDrop(mat.getGravelOre(), mat.getBaseItem()));
 				} else {
 					add(mat.getSandOre(), b -> createMultipleOreDrops(mat.getSandOre(), mat.getBaseItem(), mat));
-					add(mat.getGravelOre(), b -> createMultipleOreDrops(mat.getGravelOre(), mat.getBaseItem(), mat));
 				}
 			}
 		}

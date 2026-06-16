@@ -34,7 +34,6 @@ import java.util.function.Supplier;
 public class SandDiamondTypeMaterialConfiguration extends MaterialConfiguration {
 
 	protected DeferredBlock<Block> SAND_ORE_BLOCK;
-	protected DeferredBlock<Block> GRAVEL_ORE_BLOCK;
 
 	public SandDiamondTypeMaterialConfiguration(String modId, String baseName, String humanReadableName, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String toolsBefore, String armorBefore, Supplier<Item> itemBefore, Supplier<Block> blockBefore, String oreBefore, float swingDuration, float damageMultiplier, float delay, float dismountMaxDuration, float dismountMinSpeed, float knockbackMaxDuration, float knockbackMinSpeed, float damageMaxDuration, float damageMinSpeed, boolean usingHorseArmor, boolean usingNautilusArmor, String animalArmorBefore, List<PreLootModifierInfo> lootModifiers, List<ModelException> modelExceptions) {
 		super(modId, baseName, humanReadableName, MaterialType.SAND_DIAMOND, trimMaterialDescriptionColor, toolDurability, speed, attackDamageBonus, enchantmentValue, defaultProperties, armorDurability, helmetDefense, chestplateDefense, smeltingExperience, leggingsDefense, bootsDefense, horseDefense, equipSound, toughness, knockbackResistance, mapColor, soundType, oreGenConfigs, dropsPerOre, extraDrops, tier, mineabilityTier, toolsBefore, armorBefore, itemBefore, blockBefore, oreBefore, swingDuration, damageMultiplier, delay, dismountMaxDuration, dismountMinSpeed, knockbackMaxDuration, knockbackMinSpeed, damageMaxDuration, damageMinSpeed, usingHorseArmor, usingNautilusArmor, animalArmorBefore, lootModifiers, modelExceptions);
@@ -49,28 +48,22 @@ public class SandDiamondTypeMaterialConfiguration extends MaterialConfiguration 
 	@Override
 	public void fillBlocks(DeferredRegister.Blocks register, Supplier<DeferredRegister.Items> itemsRegister) {
 		SAND_ORE_BLOCK = register.registerBlock("sand_" + BASE_NAME + "_ore", (p) -> new ColoredFallingBlock(new ColorRGBA(14406560), p), () -> BlockBehaviour.Properties.of().destroyTime(1.5f).explosionResistance(1f).mapColor(MapColor.SAND).sound(SoundType.SAND).requiresCorrectToolForDrops().setId(TEGMatLibUtil.createBlockResourceKey("sand_" + BASE_NAME + "_ore", MOD_ID)));
-		itemsRegister.get().registerSimpleBlockItem("sand_" + BASE_NAME + "_ore", () -> SAND_ORE_BLOCK.get());
-		GRAVEL_ORE_BLOCK = register.registerBlock("gravel_" + BASE_NAME + "_ore", (p) -> new ColoredFallingBlock(new ColorRGBA(14406560), p), () -> BlockBehaviour.Properties.of().destroyTime(1.5f).explosionResistance(1f).mapColor(MapColor.STONE).sound(SoundType.GRAVEL).requiresCorrectToolForDrops().setId(TEGMatLibUtil.createBlockResourceKey("gravel_" + BASE_NAME + "_ore", MOD_ID)));
-		itemsRegister.get().registerSimpleBlockItem("gravel_" + BASE_NAME + "_ore", () -> SAND_ORE_BLOCK.get());
+		itemsRegister.get().registerSimpleBlockItem("sand" + BASE_NAME + "ore", () -> SAND_ORE_BLOCK.get());
 		fillBaseBlock(register, itemsRegister);
 	}
 
 	@Override
 	public List<OreConfiguration.TargetBlockState> getOreStates() {
-		return List.of(OreConfiguration.target(new BlockMatchTest(Blocks.SAND), SAND_ORE_BLOCK.get().defaultBlockState()), OreConfiguration.target(new BlockMatchTest(Blocks.GRAVEL), GRAVEL_ORE_BLOCK.get().defaultBlockState()));
+		return List.of(OreConfiguration.target(new BlockMatchTest(Blocks.SAND), SAND_ORE_BLOCK.get().defaultBlockState()));
 	}
 
 	@Override
 	public List<Block> getBlocks() {
-		return List.of(BLOCK.get(), SAND_ORE_BLOCK.get(), GRAVEL_ORE_BLOCK.get());
+		return List.of(BLOCK.get(), SAND_ORE_BLOCK.get());
 	}
 
 	public Block getSandOre() {
 		return SAND_ORE_BLOCK.get();
-	}
-
-	public Block getGravelOre() {
-		return GRAVEL_ORE_BLOCK.get();
 	}
 
 }
