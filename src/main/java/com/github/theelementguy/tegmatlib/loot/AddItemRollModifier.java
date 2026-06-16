@@ -16,12 +16,17 @@ import net.neoforged.neoforge.common.loot.LootModifier;
 public class AddItemRollModifier extends LootModifier {
 
 	public static MapCodec<AddItemRollModifier> getCodec() {
-		return RecordCodecBuilder.mapCodec(addItemModifierInstance -> LootModifier.codecStart(addItemModifierInstance).and(BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(e -> e.item)).and(Codec.FLOAT.fieldOf("chance").forGetter(e -> e.chance)).apply(addItemModifierInstance, AddItemRollModifier::new));
+		if (CODEC == null) {
+			CODEC = RecordCodecBuilder.mapCodec(addItemModifierInstance -> LootModifier.codecStart(addItemModifierInstance).and(BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(e -> e.item)).and(Codec.FLOAT.fieldOf("chance").forGetter(e -> e.chance)).apply(addItemModifierInstance, AddItemRollModifier::new));
+		}
+		return CODEC;
 	}
 
     private final Item item;
 
     private final float chance;
+
+	private static MapCodec<AddItemRollModifier> CODEC;
 
     public AddItemRollModifier(LootItemCondition[] conditionsIn, int priority, Item item, float chance) {
         super(conditionsIn, priority);
