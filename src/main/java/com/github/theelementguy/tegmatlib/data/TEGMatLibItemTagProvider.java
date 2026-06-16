@@ -46,7 +46,7 @@ public class TEGMatLibItemTagProvider extends ItemTagsProvider {
 				tag(Tags.Items.ARMORS_NAUTILUS).add(config.getNautilusArmor().get().get().asItem());
 			}
 			switch (config.getType()) {
-				case DIAMOND, NETHER_DIAMOND, END_DIAMOND, SAND_DIAMOND -> {
+				case DIAMOND, NETHER_DIAMOND, END_DIAMOND -> {
 					tag(Tags.Items.GEMS).add(config.getBaseItem());
 				}
 				case IRON -> {
