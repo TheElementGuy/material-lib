@@ -13,7 +13,6 @@ import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.SelectItemModel;
 import net.minecraft.client.renderer.item.properties.select.TrimMaterialProperty;
-import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
@@ -167,38 +166,40 @@ public class TEGMatLibModelProvider extends ModelProvider {
 
 	}
 
-	public void generateTrimmableItemWithModdedMaterials(ItemModelGenerators geners, Item armor, ResourceKey<EquipmentAsset> equipmentAssetId, boolean hasDyedLayer) {
-		String path = armor.getDescriptionId();
-		Identifier slotTrimPrefix = (path.contains("helmet")) ? TRIM_PREFIX_HELMET : ((path.contains("chestplate")) ? TRIM_PREFIX_CHESTPLATE : ((path.contains("leggings")) ? TRIM_PREFIX_LEGGINGS : ItemModelGenerators.TRIM_PREFIX_BOOTS));
-		Identifier modelLocation = ModelLocationUtils.getModelLocation(armor);
-		Material itemTexture = TextureMapping.getItemTexture(armor);
-		Material overlayTexture = TextureMapping.getItemTexture(armor, "_overlay");
-		List<SelectItemModel.SwitchCase<ResourceKey<TrimMaterial>>> cases = new ArrayList<>(TRIM_MATERIAL_MODELS.size());
+	public void generateTrimmableItemWithModdedMaterials(ItemModelGenerators itemModels, Item item, ResourceKey<EquipmentAsset> equipmentAsset, boolean usesSecondLayer) {
+		Identifier Identifier = ModelLocationUtils.getModelLocation(item);
+		Identifier Identifier1 = TextureMapping.getItemTexture(item);
+		Identifier Identifier2 = TextureMapping.getItemTexture(item, "_overlay");
+		List<SelectItemModel.SwitchCase<ResourceKey<TrimMaterial>>> list = new ArrayList(TRIM_MATERIAL_MODELS.size());
 
-		for (ItemModelGenerators.TrimMaterialData material : TRIM_MATERIAL_MODELS) {
-			Identifier trimModelLocation = modelLocation.withSuffix("_" + material.assets().base().suffix() + "_trim");
-			Material trimOverlayTexture = new Material(slotTrimPrefix.withSuffix("_" + material.assets().assetId(equipmentAssetId).suffix()));
-			ItemModel.Unbaked trimModel;
-			if (hasDyedLayer) {
-				geners.generateLayeredItem(trimModelLocation, itemTexture, overlayTexture, trimOverlayTexture);
-				trimModel = ItemModelUtils.tintedModel(trimModelLocation, new Dye(-6265536));
+		for(ItemModelGenerators.TrimMaterialData itemmodelgenerators$trimmaterialdata : TRIM_MATERIAL_MODELS) {
+			Identifier Identifier3 = Identifier.withSuffix("_" + itemmodelgenerators$trimmaterialdata.assets().base().suffix() + "_trim");
+			String var10001 = itemmodelgenerators$trimmaterialdata.assets().assetId(equipmentAsset).suffix();
+			String path = item.getDescriptionId();
+			Identifier modelId = (path.contains("helmet")) ? TRIM_PREFIX_HELMET : ((path.contains("chestplate")) ? TRIM_PREFIX_CHESTPLATE : ((path.contains("leggings")) ? TRIM_PREFIX_LEGGINGS : ItemModelGenerators.TRIM_PREFIX_BOOTS));
+			System.out.println(path);
+			Identifier Identifier4 = modelId.withSuffix("_" + var10001);
+			ItemModel.Unbaked itemmodel$unbaked;
+			if (usesSecondLayer) {
+				itemModels.generateLayeredItem(Identifier3, Identifier1, Identifier2, Identifier4);
+				itemmodel$unbaked = ItemModelUtils.tintedModel(Identifier3, new ItemTintSource[]{new Dye(-6265536)});
 			} else {
-				geners.generateLayeredItem(trimModelLocation, itemTexture, trimOverlayTexture);
-				trimModel = ItemModelUtils.plainModel(trimModelLocation);
+				itemModels.generateLayeredItem(Identifier3, Identifier1, Identifier4);
+				itemmodel$unbaked = ItemModelUtils.plainModel(Identifier3);
 			}
 
-			cases.add(ItemModelUtils.when(material.materialKey(), trimModel));
+			list.add(ItemModelUtils.when(itemmodelgenerators$trimmaterialdata.materialKey(), itemmodel$unbaked));
 		}
 
-		ItemModel.Unbaked untrimmedModel;
-		if (hasDyedLayer) {
-			ModelTemplates.TWO_LAYERED_ITEM.create(modelLocation, TextureMapping.layered(itemTexture, overlayTexture), geners.modelOutput);
-			untrimmedModel = ItemModelUtils.tintedModel(modelLocation, new Dye(-6265536));
+		ItemModel.Unbaked itemmodel$unbaked1;
+		if (usesSecondLayer) {
+			ModelTemplates.TWO_LAYERED_ITEM.create(Identifier, TextureMapping.layered(Identifier1, Identifier2), itemModels.modelOutput);
+			itemmodel$unbaked1 = ItemModelUtils.tintedModel(Identifier, new ItemTintSource[]{new Dye(-6265536)});
 		} else {
-			ModelTemplates.FLAT_ITEM.create(modelLocation, TextureMapping.layer0(itemTexture), geners.modelOutput);
-			untrimmedModel = ItemModelUtils.plainModel(modelLocation);
+			ModelTemplates.FLAT_ITEM.create(Identifier, TextureMapping.layer0(Identifier1), itemModels.modelOutput);
+			itemmodel$unbaked1 = ItemModelUtils.plainModel(Identifier);
 		}
 
-		geners.itemModelOutput.accept(armor, ItemModelUtils.select(new TrimMaterialProperty(), untrimmedModel, cases));
+		itemModels.itemModelOutput.accept(item, ItemModelUtils.select(new TrimMaterialProperty(), itemmodel$unbaked1, list));
 	}
 }
