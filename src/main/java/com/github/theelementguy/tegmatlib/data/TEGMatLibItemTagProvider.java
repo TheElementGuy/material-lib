@@ -25,6 +25,7 @@ public class TEGMatLibItemTagProvider extends ItemTagsProvider {
 	protected void addTags(HolderLookup.Provider provider) {
 
 		for (MaterialConfiguration config : MATERIALS.get()) {
+			tag(ItemTags.TRIM_MATERIALS).add(config.getBaseItem());
 			tag(ItemTags.SWORDS).add(config.getSword());
 			tag(ItemTags.AXES).add(config.getAxe());
 			tag(ItemTags.PICKAXES).add(config.getPickaxe());
@@ -45,7 +46,7 @@ public class TEGMatLibItemTagProvider extends ItemTagsProvider {
 				tag(Tags.Items.ARMORS_NAUTILUS).add(config.getNautilusArmor().get().get().asItem());
 			}
 			switch (config.getType()) {
-				case DIAMOND, NETHER_DIAMOND, END_DIAMOND -> {
+				case DIAMOND, NETHER_DIAMOND, END_DIAMOND, SAND_DIAMOND -> {
 					tag(Tags.Items.GEMS).add(config.getBaseItem());
 				}
 				case IRON -> {

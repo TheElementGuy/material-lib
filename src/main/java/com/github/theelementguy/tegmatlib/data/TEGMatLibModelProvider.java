@@ -6,10 +6,7 @@ import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
-import net.minecraft.client.data.models.model.ItemModelUtils;
-import net.minecraft.client.data.models.model.ModelLocationUtils;
-import net.minecraft.client.data.models.model.ModelTemplates;
-import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.SelectItemModel;
 import net.minecraft.client.renderer.item.properties.select.TrimMaterialProperty;
@@ -78,7 +75,7 @@ public class TEGMatLibModelProvider extends ModelProvider {
 			generateTrimmableItemWithModdedMaterials(itemModels, config.getLeggings(), config.getEquipmentAsset(), false);
 			generateTrimmableItemWithModdedMaterials(itemModels, config.getBoots(), config.getEquipmentAsset(), false);
 
-			blockModels.createTrivialCube(config.getBaseBlock());
+			blockModels.createTrivialBlock(config.getBaseBlock(), config.applyException(config.getBaseName() + "_block", TexturedModel.CUBE));
 
 			switch (config.getType()) {
 				case IRON -> {
@@ -121,6 +118,11 @@ public class TEGMatLibModelProvider extends ModelProvider {
 
 					blockModels.createTrivialCube(ironMatConfig.getRawBlock());
 					blockModels.createTrivialCube(ironMatConfig.getEndOre());
+				}
+				case SAND_DIAMOND -> {
+					SandDiamondTypeMaterialConfiguration sandDiamondMatConfig = (SandDiamondTypeMaterialConfiguration) config;
+					blockModels.createTrivialCube(sandDiamondMatConfig.getSandOre());
+					blockModels.createTrivialCube(sandDiamondMatConfig.getGravelOre());
 				}
 			}
 

@@ -2,11 +2,14 @@ package com.github.theelementguy.tegmatlib.core;
 
 import com.github.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import com.github.theelementguy.tegmatlib.core.tiers.MiningTier;
+import com.github.theelementguy.tegmatlib.data.ModelException;
 import com.github.theelementguy.tegmatlib.loot.LootItemSlot;
 import com.github.theelementguy.tegmatlib.loot.LootModifierType;
 import com.github.theelementguy.tegmatlib.loot.PreLootModifierInfo;
 import com.github.theelementguy.tegmatlib.worldgen.OreGenHolder;
 import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
+import net.minecraft.client.data.models.model.ModelTemplate;
+import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
@@ -80,6 +83,8 @@ public abstract class MaterialConfigurationBuilder<T extends MaterialConfigurati
 	protected String ANIMAL_ARMOR_BEFORE = null;
 
 	protected List<PreLootModifierInfo> LOOT_MODIFIERS = new ArrayList<>();
+
+	protected List<ModelException> MODEL_EXCEPTIONS = new ArrayList<>();
 
 	/**
 	 * Sets the mod ID for the material.
@@ -389,6 +394,17 @@ public abstract class MaterialConfigurationBuilder<T extends MaterialConfigurati
 	 */
 	public T addLoot(LootItemSlot slot, LootModifierType type, String table, float chance) {
 		LOOT_MODIFIERS.add(new PreLootModifierInfo(slot, type, table, chance));
+		return self();
+	}
+
+	/**
+	 * Adds a model exception. This will override the default model for the given block. This will not apply to ores.
+	 * @param name the ID of the block that is being overridden.
+	 * @param overrideTemplate the new {@link ModelTemplate} to use
+	 * @return the updated <code>MaterialConfigurationBuilder</code>
+	 */
+	public T addModelException(String name, TexturedModel.Provider overrideTemplate) {
+		MODEL_EXCEPTIONS.add(new ModelException(name, overrideTemplate));
 		return self();
 	}
 

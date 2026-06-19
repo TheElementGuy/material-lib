@@ -91,6 +91,12 @@ public class TEGMatLibLanguageProvider extends LanguageProvider {
 					add(ironMatConfig.getEndOre(), "End " + ironMatConfig.getHumanReadableName() + " Ore");
 					add(ironMatConfig.getNugget(), ironMatConfig.getHumanReadableName() + " Nugget");
 				}
+				case SAND_DIAMOND -> {
+					SandDiamondTypeMaterialConfiguration sandDiamondMatConfig = (SandDiamondTypeMaterialConfiguration) config;
+					add(sandDiamondMatConfig.getBaseItem(), sandDiamondMatConfig.getHumanReadableName());
+					add(sandDiamondMatConfig.getSandOre(), "Sand " + sandDiamondMatConfig.getHumanReadableName() + " Ore");
+					add(sandDiamondMatConfig.getGravelOre(), "Gravel " + sandDiamondMatConfig.getHumanReadableName() + " Ore");
+				}
 			}
 
 		}

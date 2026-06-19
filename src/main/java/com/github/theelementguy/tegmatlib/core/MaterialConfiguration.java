@@ -3,12 +3,15 @@ package com.github.theelementguy.tegmatlib.core;
 import com.github.theelementguy.tegmatlib.core.component.OptionalComponent;
 import com.github.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import com.github.theelementguy.tegmatlib.core.tiers.MiningTier;
+import com.github.theelementguy.tegmatlib.data.ModelException;
 import com.github.theelementguy.tegmatlib.item.SpearMaterial;
 import com.github.theelementguy.tegmatlib.loot.LootModifierInfo;
 import com.github.theelementguy.tegmatlib.loot.PreLootModifierInfo;
 import com.github.theelementguy.tegmatlib.util.TEGMatLibUtil;
 import com.github.theelementguy.tegmatlib.worldgen.OreGenHolder;
 import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
+import net.minecraft.client.data.models.model.ModelTemplate;
+import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.client.resources.model.EquipmentClientInfo;
 import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -42,6 +45,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import java.util.EnumMap;
 import java.util.List;
@@ -121,7 +125,9 @@ public abstract class MaterialConfiguration {
 
 	protected final List<PreLootModifierInfo> LOOT_MODIFIERS;
 
-	protected MaterialConfiguration(String modId, String baseName, String humanReadableName, MaterialType materialType, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String toolsBefore, String armorBefore, Supplier<Item> itemBefore, Supplier<Block> blockBefore, String oreBefore, float swingDuration, float damageMultiplier, float delay, float dismountMaxDuration, float dismountMinSpeed, float knockbackMaxDuration, float knockbackMinSpeed, float damageMaxDuration, float damageMinSpeed, boolean usingHorseArmor, boolean usingNautilusArmor, String animalArmorBefore, List<PreLootModifierInfo> lootModifiers) {
+	protected final List<ModelException> MODEL_EXCEPTIONS;
+
+	protected MaterialConfiguration(String modId, String baseName, String humanReadableName, MaterialType materialType, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String toolsBefore, String armorBefore, Supplier<Item> itemBefore, Supplier<Block> blockBefore, String oreBefore, float swingDuration, float damageMultiplier, float delay, float dismountMaxDuration, float dismountMinSpeed, float knockbackMaxDuration, float knockbackMinSpeed, float damageMaxDuration, float damageMinSpeed, boolean usingHorseArmor, boolean usingNautilusArmor, String animalArmorBefore, List<PreLootModifierInfo> lootModifiers, List<ModelException> modelExceptions) {
 		BASE_NAME = baseName;
 		MOD_ID = modId;
 		HUMAN_READABLE_NAME = humanReadableName;
@@ -143,6 +149,7 @@ public abstract class MaterialConfiguration {
 		ORE_BEFORE = oreBefore;
 		ANIMAL_ARMOR_BEFORE = animalArmorBefore;
 		LOOT_MODIFIERS = lootModifiers;
+		MODEL_EXCEPTIONS = modelExceptions;
 		INCORRECT_FOR_MATERIAL = () -> BlockTags.create(Identifier.fromNamespaceAndPath(MOD_ID, "incorrect_for_" + BASE_NAME + "_tool"));
 		NEEDS_MATERIAL = () -> BlockTags.create(Identifier.fromNamespaceAndPath(MOD_ID, "needs_" + BASE_NAME));
 		REPAIRABLES = () -> ItemTags.create(Identifier.fromNamespaceAndPath(MOD_ID, BASE_NAME + "_repairables"));
@@ -453,5 +460,14 @@ public abstract class MaterialConfiguration {
 
 	public List<LootModifierInfo> getLootModifiers() {
 		return LOOT_MODIFIERS.stream().map((modifier) -> {return modifier.convert(this);}).toList();
+	}
+
+	public TexturedModel.Provider applyException(String name, TexturedModel.Provider preferred) {
+		for (ModelException m : MODEL_EXCEPTIONS) {
+			if (m.name().equals(name)) {
+				return m.overrideTemplate();
+			}
+		}
+		return preferred;
 	}
 }
