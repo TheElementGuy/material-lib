@@ -1,6 +1,6 @@
 package com.github.theelementguy.tegmatlib.data;
 
-import com.github.theelementguy.tegmatlib.core.FullyConfiguredMaterialHolder;
+import com.github.theelementguy.tegmatlib.core.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -20,8 +20,8 @@ public class TEGMatLibItemTagProvider extends ItemTagsProvider {
 
 	protected final Supplier<List<MaterialConfiguration>> MATERIALS;
 
-	public TEGMatLibItemTagProvider(GatherDataEvent.Client event, BlockTagsProvider blocks, FullyConfiguredMaterialHolder materials) {
-		super(event.getGenerator().getPackOutput(), event.getLookupProvider(), blocks.contentsGetter(), materials.getModID());
+	public TEGMatLibItemTagProvider(GatherDataEvent.Client event, BlockTagsProvider provider, FullyConfiguredMaterialHolder materials) {
+		super(event.getGenerator().getPackOutput(), event.getLookupProvider(), provider.contentsGetter(), materials.getModID());
 		MATERIALS = materials::getMaterials;
 	}
 
@@ -29,6 +29,7 @@ public class TEGMatLibItemTagProvider extends ItemTagsProvider {
 	protected void addTags(HolderLookup.Provider provider) {
 
 		for (MaterialConfiguration config : MATERIALS.get()) {
+			tag(ItemTags.TRIM_MATERIALS).add(config.getBaseItem());
 			tag(ItemTags.SWORDS).add(config.getSword());
 			tag(ItemTags.AXES).add(config.getAxe());
 			tag(ItemTags.PICKAXES).add(config.getPickaxe());
@@ -42,7 +43,7 @@ public class TEGMatLibItemTagProvider extends ItemTagsProvider {
 			tag(Tags.Items.MELEE_WEAPON_TOOLS).add(config.getSword(), config.getAxe());
 			tag(Tags.Items.MINING_TOOL_TOOLS).add(config.getPickaxe());
 			switch (config.getType()) {
-				case DIAMOND, NETHER_DIAMOND, END_DIAMOND -> {
+				case DIAMOND, NETHER_DIAMOND, END_DIAMOND, SAND_DIAMOND -> {
 					tag(Tags.Items.GEMS).add(config.getBaseItem());
 				}
 				case IRON -> {
@@ -55,6 +56,12 @@ public class TEGMatLibItemTagProvider extends ItemTagsProvider {
 					CubicZirconiaTypeMaterialConfiguration mat = (CubicZirconiaTypeMaterialConfiguration) config;
 					tag(Tags.Items.GEMS).add(mat.getBaseItem());
 					tag(Tags.Items.RAW_MATERIALS).add(mat.getRawItem());
+				}
+				case END_IRON -> {
+					EndIronTypeMaterialConfiguration mat = (EndIronTypeMaterialConfiguration) config;
+					tag(Tags.Items.INGOTS).add(mat.getBaseItem());
+					tag(Tags.Items.RAW_MATERIALS).add(mat.getRawItem());
+					tag(Tags.Items.NUGGETS).add(mat.getNugget());
 				}
 			}
 		}

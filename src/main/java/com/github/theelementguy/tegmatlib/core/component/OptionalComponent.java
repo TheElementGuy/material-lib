@@ -1,8 +1,10 @@
 package com.github.theelementguy.tegmatlib.core.component;
 
 import net.minecraft.world.item.AnimalArmorItem;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredItem;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;

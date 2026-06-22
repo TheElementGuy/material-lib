@@ -5,10 +5,7 @@ import net.minecraft.client.color.item.Dye;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
-import net.minecraft.client.data.models.model.ItemModelUtils;
-import net.minecraft.client.data.models.model.ModelLocationUtils;
-import net.minecraft.client.data.models.model.ModelTemplates;
-import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.SelectItemModel;
 import net.minecraft.client.renderer.item.properties.select.TrimMaterialProperty;
@@ -34,7 +31,6 @@ public class TEGMatLibModelProvider extends ModelProvider {
 	protected Supplier<List<MaterialConfiguration>> MATERIALS;
 
 	public static List<ItemModelGenerators.TrimMaterialData> TRIM_MATERIAL_MODELS_WITH_MODDED = new ArrayList<>(List.of(new ItemModelGenerators.TrimMaterialData("quartz", TrimMaterials.QUARTZ, Map.of()), new ItemModelGenerators.TrimMaterialData("iron", TrimMaterials.IRON, Map.of(EquipmentAssets.IRON, "iron_darker")), new ItemModelGenerators.TrimMaterialData("netherite", TrimMaterials.NETHERITE, Map.of(EquipmentAssets.NETHERITE, "netherite_darker")), new ItemModelGenerators.TrimMaterialData("redstone", TrimMaterials.REDSTONE, Map.of()), new ItemModelGenerators.TrimMaterialData("copper", TrimMaterials.COPPER, Map.of()), new ItemModelGenerators.TrimMaterialData("gold", TrimMaterials.GOLD, Map.of(EquipmentAssets.GOLD, "gold_darker")), new ItemModelGenerators.TrimMaterialData("emerald", TrimMaterials.EMERALD, Map.of()), new ItemModelGenerators.TrimMaterialData("diamond", TrimMaterials.DIAMOND, Map.of(EquipmentAssets.DIAMOND, "diamond_darker")), new ItemModelGenerators.TrimMaterialData("lapis", TrimMaterials.LAPIS, Map.of()), new ItemModelGenerators.TrimMaterialData("amethyst", TrimMaterials.AMETHYST, Map.of()), new ItemModelGenerators.TrimMaterialData("resin", TrimMaterials.RESIN, Map.of())));
-
 
 	protected String MOD_ID;
 
@@ -71,7 +67,7 @@ public class TEGMatLibModelProvider extends ModelProvider {
 			generateTrimmableItemWithModdedMaterials(config.getLeggings(), config.getEquipmentAsset(), config.getBaseName(), false, itemModels);
 			generateTrimmableItemWithModdedMaterials(config.getBoots(), config.getEquipmentAsset(), config.getBaseName(), false, itemModels);
 
-			blockModels.createTrivialCube(config.getBaseBlock());
+			blockModels.createTrivialBlock(config.getBaseBlock(), config.applyException(config.getBaseName() + "_block", TexturedModel.CUBE));
 
 			switch (config.getType()) {
 				case IRON -> {
@@ -106,6 +102,20 @@ public class TEGMatLibModelProvider extends ModelProvider {
 					EndDiamondTypeMaterialConfiguration endDiamondMatConfig = (EndDiamondTypeMaterialConfiguration) config;
 					blockModels.createTrivialCube(endDiamondMatConfig.getEndOre());
 				}
+				case END_IRON -> {
+					EndIronTypeMaterialConfiguration ironMatConfig = (EndIronTypeMaterialConfiguration) config;
+
+					itemModels.generateFlatItem(ironMatConfig.getRawItem(), ModelTemplates.FLAT_ITEM);
+					itemModels.generateFlatItem(ironMatConfig.getNugget(), ModelTemplates.FLAT_ITEM);
+
+					blockModels.createTrivialCube(ironMatConfig.getRawBlock());
+					blockModels.createTrivialCube(ironMatConfig.getEndOre());
+				}
+				case SAND_DIAMOND -> {
+					SandDiamondTypeMaterialConfiguration sandDiamondMatConfig = (SandDiamondTypeMaterialConfiguration) config;
+					blockModels.createTrivialCube(sandDiamondMatConfig.getSandOre());
+					blockModels.createTrivialCube(sandDiamondMatConfig.getGravelOre());
+				}
 			}
 
 		}
@@ -128,19 +138,22 @@ public class TEGMatLibModelProvider extends ModelProvider {
 		generateTrimmableItemWithModdedMaterials(Items.IRON_BOOTS, EquipmentAssets.IRON, "boots", false, itemModels);
 
 
-		generateTrimmableItemWithModdedMaterials(Items.DIAMOND_HELMET, EquipmentAssets.DIAMOND, "helmet", false, itemModels);
-		generateTrimmableItemWithModdedMaterials(Items.DIAMOND_CHESTPLATE, EquipmentAssets.DIAMOND, "chestplate", false, itemModels);
-		generateTrimmableItemWithModdedMaterials(Items.DIAMOND_LEGGINGS, EquipmentAssets.DIAMOND, "leggings", false, itemModels);
-		generateTrimmableItemWithModdedMaterials(Items.DIAMOND_BOOTS, EquipmentAssets.DIAMOND, "boots", false, itemModels);
-		generateTrimmableItemWithModdedMaterials(Items.GOLDEN_HELMET, EquipmentAssets.GOLD, "helmet", false, itemModels);
-		generateTrimmableItemWithModdedMaterials(Items.GOLDEN_CHESTPLATE, EquipmentAssets.GOLD, "chestplate", false, itemModels);
-		generateTrimmableItemWithModdedMaterials(Items.GOLDEN_LEGGINGS, EquipmentAssets.GOLD, "leggings", false, itemModels);
-		generateTrimmableItemWithModdedMaterials(Items.GOLDEN_BOOTS, EquipmentAssets.GOLD, "boots", false, itemModels);
-		generateTrimmableItemWithModdedMaterials(Items.NETHERITE_HELMET, EquipmentAssets.NETHERITE, "helmet", false, itemModels);
-		generateTrimmableItemWithModdedMaterials(Items.NETHERITE_CHESTPLATE, EquipmentAssets.NETHERITE, "chestplate", false, itemModels);
-		generateTrimmableItemWithModdedMaterials(Items.NETHERITE_LEGGINGS, EquipmentAssets.NETHERITE, "leggings", false, itemModels);
-		generateTrimmableItemWithModdedMaterials(Items.NETHERITE_BOOTS, EquipmentAssets.NETHERITE, "boots", false, itemModels);
+		generateTrimmableItemWithModdedMaterials(itemModels, Items.TURTLE_HELMET, EquipmentAssets.TURTLE_SCUTE, false);
 
+	}
+
+	public void generateTrimmableItemWithModdedMaterials(ItemModelGenerators gens, Item item, ResourceKey<EquipmentAsset> key, boolean dyeable) {
+		if (item.getDescriptionId().contains("helmet")) {
+			generateTrimmableItemWithModdedMaterials(item, key, "helmet", dyeable, gens);
+		} else if (item.getDescriptionId().contains("chestplate")) {
+			generateTrimmableItemWithModdedMaterials(item, key, "chestplate", dyeable, gens);
+		} else if (item.getDescriptionId().contains("leggings")) {
+			generateTrimmableItemWithModdedMaterials(item, key, "leggings", dyeable, gens);
+		} else if (item.getDescriptionId().contains("boots")) {
+			generateTrimmableItemWithModdedMaterials(item, key, "boots", dyeable, gens);
+		} else {
+			throw new IllegalArgumentException("item is not of type helmet, chestplate, leggings, or boots");
+		}
 	}
 
 	public void generateTrimmableItemWithModdedMaterials(Item item, ResourceKey<EquipmentAsset> key, String name, boolean dyeable, ItemModelGenerators gens) {
@@ -178,9 +191,5 @@ public class TEGMatLibModelProvider extends ModelProvider {
 		}
 
 		gens.itemModelOutput.accept(item, ItemModelUtils.select(new TrimMaterialProperty(), itemmodel$unbaked1, list));
-	}
-
-	public static ResourceLocation prefixForSlotTrimModded(String name) {
-		return ResourceLocation.fromNamespaceAndPath("minecraft", "trims/items/" + name + "_trim");
 	}
 }

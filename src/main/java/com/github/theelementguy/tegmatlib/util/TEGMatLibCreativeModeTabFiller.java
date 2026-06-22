@@ -1,10 +1,12 @@
 package com.github.theelementguy.tegmatlib.util;
 
 import com.github.theelementguy.tegmatlib.core.*;
-import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.*;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
-import java.util.List;
+import javax.swing.text.html.Option;
+import java.util.*;
 
 public class TEGMatLibCreativeModeTabFiller {
 
@@ -24,10 +26,16 @@ public class TEGMatLibCreativeModeTabFiller {
 					case IRON -> {
 						IronTypeMaterialConfiguration ironMatConfig = (IronTypeMaterialConfiguration) m;
 						TEGMatLibUtil.inventoryAddAfter(ironMatConfig.getRawItem(), TEGMatLibUtil.getItemFromKey("raw_" + ironMatConfig.getRawBefore(), modID), event);
+						TEGMatLibUtil.inventoryAddAfter(ironMatConfig.getNugget(), TEGMatLibUtil.getItemFromKey(ironMatConfig.getRawBefore() + "_nugget", modID), event);
 					}
 					case CUBIC_ZIRCONIA -> {
 						CubicZirconiaTypeMaterialConfiguration cubicMatConfig = (CubicZirconiaTypeMaterialConfiguration) m;
 						TEGMatLibUtil.inventoryAddAfter(cubicMatConfig.getRawItem(), TEGMatLibUtil.getItemFromKey("raw_" + cubicMatConfig.getRawBefore(), modID), event);
+					}
+					case END_IRON -> {
+						EndIronTypeMaterialConfiguration endIronMatConfig = (EndIronTypeMaterialConfiguration) m;
+						TEGMatLibUtil.inventoryAddAfter(endIronMatConfig.getRawItem(), TEGMatLibUtil.getItemFromKey("raw_" + endIronMatConfig.getRawBefore(), modID), event);
+						TEGMatLibUtil.inventoryAddAfter(endIronMatConfig.getNugget(), TEGMatLibUtil.getItemFromKey(endIronMatConfig.getRawBefore() + "_nugget", modID), event);
 					}
 				}
 			}
@@ -65,6 +73,16 @@ public class TEGMatLibCreativeModeTabFiller {
 						EndDiamondTypeMaterialConfiguration endDiamondMatConfig = (EndDiamondTypeMaterialConfiguration) m;
 						TEGMatLibUtil.inventoryAddAfter(endDiamondMatConfig.getEndOre(), TEGMatLibUtil.getBlockFromKey(endDiamondMatConfig.getOreBefore(), modID), event);
 					}
+					case END_IRON -> {
+						EndIronTypeMaterialConfiguration endIronMatConfig = (EndIronTypeMaterialConfiguration) m;
+						TEGMatLibUtil.inventoryAddAfter(endIronMatConfig.getEndOre(), TEGMatLibUtil.getBlockFromKey(endIronMatConfig.getOreBefore(), modID), event);
+						TEGMatLibUtil.inventoryAddAfter(endIronMatConfig.getRawBlock(), TEGMatLibUtil.getBlockFromKey("raw_" + endIronMatConfig.getRawBefore() + "_block", modID), event);
+					}
+					case SAND_DIAMOND -> {
+						SandDiamondTypeMaterialConfiguration sandDiamondTypeMatConfig = (SandDiamondTypeMaterialConfiguration) m;
+						TEGMatLibUtil.inventoryAddAfter(sandDiamondTypeMatConfig.getSandOre(), TEGMatLibUtil.getBlockFromKey(sandDiamondTypeMatConfig.getOreBefore(), modID), event);
+						TEGMatLibUtil.inventoryAddAfter(sandDiamondTypeMatConfig.getGravelOre(), sandDiamondTypeMatConfig.getSandOre(), event);
+					}
 				}
 			}
 		}
@@ -81,6 +99,10 @@ public class TEGMatLibCreativeModeTabFiller {
 				TEGMatLibUtil.toolsAddAfter(m.getBaseName(), m.getToolsBefore(), event, modID);
 			}
 		}
+
+	}
+
+	private record Entry(Item toAdd, Optional<Item> reference) {
 
 	}
 
