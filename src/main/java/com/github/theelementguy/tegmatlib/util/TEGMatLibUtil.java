@@ -75,7 +75,6 @@ public class TEGMatLibUtil {
 	public static void setAddAfter(String set, String tools, String armor, BuildCreativeModeTabContentsEvent event, String modId) {
 		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_sword", modId), TEGMatLibUtil.getItemFromKey(tools + "_sword", modId), event);
 		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_axe", modId), TEGMatLibUtil.getItemFromKey(tools + "_axe", modId), event);
-		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_spear", modId), TEGMatLibUtil.getItemFromKey(tools + "_spear", modId), event);
 		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_helmet", modId), TEGMatLibUtil.getItemFromKey(armor + "_boots", modId), event);
 		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_chestplate", modId), TEGMatLibUtil.getItemFromKey(set + "_helmet", modId), event);
 		TEGMatLibUtil.inventoryAddAfter(TEGMatLibUtil.getItemFromKey(set + "_leggings", modId), TEGMatLibUtil.getItemFromKey(set + "_chestplate", modId), event);
