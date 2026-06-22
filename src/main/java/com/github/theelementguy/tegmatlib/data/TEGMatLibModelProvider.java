@@ -144,19 +144,19 @@ public class TEGMatLibModelProvider extends ModelProvider {
 
 	public void generateTrimmableItemWithModdedMaterials(ItemModelGenerators gens, Item item, ResourceKey<EquipmentAsset> key, boolean dyeable) {
 		if (item.getDescriptionId().contains("helmet")) {
-			generateTrimmableItemWithModdedMaterials(gens, item, key, "helmet", dyeable);
+			generateTrimmableItemWithModdedMaterials(item, key, "helmet", dyeable, gens);
 		} else if (item.getDescriptionId().contains("chestplate")) {
-			generateTrimmableItemWithModdedMaterials(gens, item, key, "chestplate", dyeable);
+			generateTrimmableItemWithModdedMaterials(item, key, "chestplate", dyeable, gens);
 		} else if (item.getDescriptionId().contains("leggings")) {
-			generateTrimmableItemWithModdedMaterials(gens, item, key, "leggings", dyeable);
+			generateTrimmableItemWithModdedMaterials(item, key, "leggings", dyeable, gens);
 		} else if (item.getDescriptionId().contains("boots")) {
-			generateTrimmableItemWithModdedMaterials(gens, item, key, "boots", dyeable);
+			generateTrimmableItemWithModdedMaterials(item, key, "boots", dyeable, gens);
 		} else {
 			throw new IllegalArgumentException("item is not of type helmet, chestplate, leggings, or boots");
 		}
 	}
 
-	public void generateTrimmableItemWithModdedMaterials(ItemModelGenerators gens, Item item, ResourceKey<EquipmentAsset> key, String name, boolean dyeable) {
+	public void generateTrimmableItemWithModdedMaterials(Item item, ResourceKey<EquipmentAsset> key, String name, boolean dyeable, ItemModelGenerators gens) {
 		ResourceLocation resourcelocation = ModelLocationUtils.getModelLocation(item);
 		ResourceLocation resourcelocation1 = TextureMapping.getItemTexture(item);
 		ResourceLocation resourcelocation2 = TextureMapping.getItemTexture(item, "_overlay");
