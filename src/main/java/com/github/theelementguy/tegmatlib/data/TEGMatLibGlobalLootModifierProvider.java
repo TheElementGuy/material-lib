@@ -8,7 +8,7 @@ import com.github.theelementguy.tegmatlib.loot.LootModifierInfo;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
@@ -45,10 +45,10 @@ public class TEGMatLibGlobalLootModifierProvider extends GlobalLootModifierProvi
 	}
 
 	protected void addTo(String table, Item item, float chance) {
-		this.add(BuiltInRegistries.ITEM.getKey(item).getPath() + "_to_" + table.substring(table.lastIndexOf("/") + 1), new AddItemRollModifier(new LootItemCondition[] {new LootTableIdCondition.Builder(Identifier.withDefaultNamespace(table)).build()}, item, chance));
+		this.add(BuiltInRegistries.ITEM.getKey(item).getPath() + "_to_" + table.substring(table.lastIndexOf("/") + 1), new AddItemRollModifier(new LootItemCondition[] {new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace(table)).build()}, item, chance));
 	}
 
 	protected void extraTo(String table, Item item, float chance) {
-		this.add(BuiltInRegistries.ITEM.getKey(item).getPath() + "_to_" + table.substring(table.lastIndexOf("/") + 1), new ExtraItemRollModifier(new LootItemCondition[] {new LootTableIdCondition.Builder(Identifier.withDefaultNamespace(table)).build()}, item, chance));
+		this.add(BuiltInRegistries.ITEM.getKey(item).getPath() + "_to_" + table.substring(table.lastIndexOf("/") + 1), new ExtraItemRollModifier(new LootItemCondition[] {new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace(table)).build()}, item, chance));
 	}
 }

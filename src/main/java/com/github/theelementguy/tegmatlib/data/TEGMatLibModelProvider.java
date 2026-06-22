@@ -12,12 +12,11 @@ import net.minecraft.client.renderer.item.SelectItemModel;
 import net.minecraft.client.renderer.item.properties.select.TrimMaterialProperty;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.item.equipment.EquipmentAssets;
-import net.minecraft.world.item.equipment.trim.MaterialAssetGroup;
 import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.minecraft.world.item.equipment.trim.TrimMaterials;
 import com.github.theelementguy.tegmatlib.core.*;
@@ -26,6 +25,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import static net.minecraft.client.data.models.ItemModelGenerators.*;
@@ -34,7 +34,7 @@ public class TEGMatLibModelProvider extends ModelProvider {
 
 	protected Supplier<List<MaterialConfiguration>> MATERIALS;
 
-	public final List<ItemModelGenerators.TrimMaterialData> TRIM_MATERIAL_MODELS = new ArrayList<>(List.of(new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.QUARTZ, TrimMaterials.QUARTZ), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.IRON, TrimMaterials.IRON), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.NETHERITE, TrimMaterials.NETHERITE), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.REDSTONE, TrimMaterials.REDSTONE), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.COPPER, TrimMaterials.COPPER), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.GOLD, TrimMaterials.GOLD), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.EMERALD, TrimMaterials.EMERALD), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.DIAMOND, TrimMaterials.DIAMOND), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.LAPIS, TrimMaterials.LAPIS), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.AMETHYST, TrimMaterials.AMETHYST), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.RESIN, TrimMaterials.RESIN)));
+	public static List<ItemModelGenerators.TrimMaterialData> TRIM_MATERIAL_MODELS_WITH_MODDED = new ArrayList<>(List.of(new ItemModelGenerators.TrimMaterialData("quartz", TrimMaterials.QUARTZ, Map.of()), new ItemModelGenerators.TrimMaterialData("iron", TrimMaterials.IRON, Map.of(EquipmentAssets.IRON, "iron_darker")), new ItemModelGenerators.TrimMaterialData("netherite", TrimMaterials.NETHERITE, Map.of(EquipmentAssets.NETHERITE, "netherite_darker")), new ItemModelGenerators.TrimMaterialData("redstone", TrimMaterials.REDSTONE, Map.of()), new ItemModelGenerators.TrimMaterialData("copper", TrimMaterials.COPPER, Map.of()), new ItemModelGenerators.TrimMaterialData("gold", TrimMaterials.GOLD, Map.of(EquipmentAssets.GOLD, "gold_darker")), new ItemModelGenerators.TrimMaterialData("emerald", TrimMaterials.EMERALD, Map.of()), new ItemModelGenerators.TrimMaterialData("diamond", TrimMaterials.DIAMOND, Map.of(EquipmentAssets.DIAMOND, "diamond_darker")), new ItemModelGenerators.TrimMaterialData("lapis", TrimMaterials.LAPIS, Map.of()), new ItemModelGenerators.TrimMaterialData("amethyst", TrimMaterials.AMETHYST, Map.of()), new ItemModelGenerators.TrimMaterialData("resin", TrimMaterials.RESIN, Map.of())));
 
 	protected String MOD_ID;
 
@@ -45,9 +45,9 @@ public class TEGMatLibModelProvider extends ModelProvider {
 		ArrayList<ItemModelGenerators.TrimMaterialData> trimMaterialsToAdd = new ArrayList<>();
 		for (MaterialConfiguration config : MATERIALS.get()) {
 			MaterialConfiguration concrete;
-			trimMaterialsToAdd.add(new ItemModelGenerators.TrimMaterialData(config.getMaterialAssetGroup(), config.getTrimMaterial()));
+			trimMaterialsToAdd.add(new ItemModelGenerators.TrimMaterialData(config.getBaseName(), config.getTrimMaterial(), Map.of()));
 		}
-		TRIM_MATERIAL_MODELS.addAll(trimMaterialsToAdd);
+		TRIM_MATERIAL_MODELS_WITH_MODDED.addAll(trimMaterialsToAdd);
 	}
 
 	@Override
@@ -61,13 +61,9 @@ public class TEGMatLibModelProvider extends ModelProvider {
 			itemModels.generateFlatItem(config.getPickaxe(), ModelTemplates.FLAT_HANDHELD_ITEM);
 			itemModels.generateFlatItem(config.getShovel(), ModelTemplates.FLAT_HANDHELD_ITEM);
 			itemModels.generateFlatItem(config.getHoe(), ModelTemplates.FLAT_HANDHELD_ITEM);
-			itemModels.generateSpear(config.getSpear());
 
 			if (config.getHorseArmor().isUsing()) {
 				itemModels.generateFlatItem(config.getHorseArmor().get().get().asItem(), ModelTemplates.FLAT_ITEM);
-			}
-			if (config.getNautilusArmor().isUsing()) {
-				itemModels.generateFlatItem(config.getNautilusArmor().get().get().get(), ModelTemplates.FLAT_ITEM);
 			}
 
 			generateTrimmableItemWithModdedMaterials(itemModels, config.getHelmet(), config.getEquipmentAsset(), false);
@@ -161,47 +157,56 @@ public class TEGMatLibModelProvider extends ModelProvider {
 
 		generateTrimmableItemWithModdedMaterials(itemModels, Items.TURTLE_HELMET, EquipmentAssets.TURTLE_SCUTE, false);
 
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.COPPER_HELMET, EquipmentAssets.COPPER, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.COPPER_CHESTPLATE, EquipmentAssets.COPPER, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.COPPER_LEGGINGS, EquipmentAssets.COPPER, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.COPPER_BOOTS, EquipmentAssets.COPPER, false);
-
 	}
 
-	public void generateTrimmableItemWithModdedMaterials(ItemModelGenerators itemModels, Item item, ResourceKey<EquipmentAsset> equipmentAsset, boolean usesSecondLayer) {
-		Identifier Identifier = ModelLocationUtils.getModelLocation(item);
-		Identifier Identifier1 = TextureMapping.getItemTexture(item);
-		Identifier Identifier2 = TextureMapping.getItemTexture(item, "_overlay");
-		List<SelectItemModel.SwitchCase<ResourceKey<TrimMaterial>>> list = new ArrayList(TRIM_MATERIAL_MODELS.size());
+	public void generateTrimmableItemWithModdedMaterials(ItemModelGenerators gens, Item item, ResourceKey<EquipmentAsset> key, boolean dyeable) {
+		if (item.getDescriptionId().contains("helmet")) {
+			generateTrimmableItemWithModdedMaterials(gens, item, key, "helmet", dyeable);
+		} else if (item.getDescriptionId().contains("chestplate")) {
+			generateTrimmableItemWithModdedMaterials(gens, item, key, "chestplate", dyeable);
+		} else if (item.getDescriptionId().contains("leggings")) {
+			generateTrimmableItemWithModdedMaterials(gens, item, key, "leggings", dyeable);
+		} else if (item.getDescriptionId().contains("boots")) {
+			generateTrimmableItemWithModdedMaterials(gens, item, key, "boots", dyeable);
+		} else {
+			throw new IllegalArgumentException("item is not of type helmet, chestplate, leggings, or boots");
+		}
+	}
 
-		for(ItemModelGenerators.TrimMaterialData itemmodelgenerators$trimmaterialdata : TRIM_MATERIAL_MODELS) {
-			Identifier Identifier3 = Identifier.withSuffix("_" + itemmodelgenerators$trimmaterialdata.assets().base().suffix() + "_trim");
-			String var10001 = itemmodelgenerators$trimmaterialdata.assets().assetId(equipmentAsset).suffix();
-			String path = item.getDescriptionId();
-			Identifier modelId = (path.contains("helmet")) ? TRIM_PREFIX_HELMET : ((path.contains("chestplate")) ? TRIM_PREFIX_CHESTPLATE : ((path.contains("leggings")) ? TRIM_PREFIX_LEGGINGS : ItemModelGenerators.TRIM_PREFIX_BOOTS));
-			System.out.println(path);
-			Identifier Identifier4 = modelId.withSuffix("_" + var10001);
+	public void generateTrimmableItemWithModdedMaterials(ItemModelGenerators gens, Item item, ResourceKey<EquipmentAsset> key, String name, boolean dyeable) {
+		ResourceLocation resourcelocation = ModelLocationUtils.getModelLocation(item);
+		ResourceLocation resourcelocation1 = TextureMapping.getItemTexture(item);
+		ResourceLocation resourcelocation2 = TextureMapping.getItemTexture(item, "_overlay");
+		List<SelectItemModel.SwitchCase<ResourceKey<TrimMaterial>>> list = new ArrayList<>(TRIM_MATERIAL_MODELS_WITH_MODDED.size());
+
+		for (ItemModelGenerators.TrimMaterialData itemmodelgenerators$trimmaterialdata : TRIM_MATERIAL_MODELS_WITH_MODDED) {
+			ResourceLocation resourcelocation3 = resourcelocation.withSuffix("_" + itemmodelgenerators$trimmaterialdata.name() + "_trim");
+			ResourceLocation resourcelocation4 = ResourceLocation.fromNamespaceAndPath(
+					"minecraft", "trims/items/" + name + "_trim_" + itemmodelgenerators$trimmaterialdata.textureName(key)
+			);
 			ItemModel.Unbaked itemmodel$unbaked;
-			if (usesSecondLayer) {
-				itemModels.generateLayeredItem(Identifier3, Identifier1, Identifier2, Identifier4);
-				itemmodel$unbaked = ItemModelUtils.tintedModel(Identifier3, new ItemTintSource[]{new Dye(-6265536)});
+			if (dyeable) {
+				gens.generateLayeredItem(resourcelocation3, resourcelocation1, resourcelocation2, resourcelocation4);
+				itemmodel$unbaked = ItemModelUtils.tintedModel(resourcelocation3, new Dye(-6265536));
 			} else {
-				itemModels.generateLayeredItem(Identifier3, Identifier1, Identifier4);
-				itemmodel$unbaked = ItemModelUtils.plainModel(Identifier3);
+				gens.generateLayeredItem(resourcelocation3, resourcelocation1, resourcelocation4);
+				itemmodel$unbaked = ItemModelUtils.plainModel(resourcelocation3);
 			}
 
 			list.add(ItemModelUtils.when(itemmodelgenerators$trimmaterialdata.materialKey(), itemmodel$unbaked));
+
+			System.out.println(resourcelocation3);
 		}
 
 		ItemModel.Unbaked itemmodel$unbaked1;
-		if (usesSecondLayer) {
-			ModelTemplates.TWO_LAYERED_ITEM.create(Identifier, TextureMapping.layered(Identifier1, Identifier2), itemModels.modelOutput);
-			itemmodel$unbaked1 = ItemModelUtils.tintedModel(Identifier, new ItemTintSource[]{new Dye(-6265536)});
+		if (dyeable) {
+			ModelTemplates.TWO_LAYERED_ITEM.create(resourcelocation, TextureMapping.layered(resourcelocation1, resourcelocation2), gens.modelOutput);
+			itemmodel$unbaked1 = ItemModelUtils.tintedModel(resourcelocation, new Dye(-6265536));
 		} else {
-			ModelTemplates.FLAT_ITEM.create(Identifier, TextureMapping.layer0(Identifier1), itemModels.modelOutput);
-			itemmodel$unbaked1 = ItemModelUtils.plainModel(Identifier);
+			ModelTemplates.FLAT_ITEM.create(resourcelocation, TextureMapping.layer0(resourcelocation1), gens.modelOutput);
+			itemmodel$unbaked1 = ItemModelUtils.plainModel(resourcelocation);
 		}
 
-		itemModels.itemModelOutput.accept(item, ItemModelUtils.select(new TrimMaterialProperty(), itemmodel$unbaked1, list));
+		gens.itemModelOutput.accept(item, ItemModelUtils.select(new TrimMaterialProperty(), itemmodel$unbaked1, list));
 	}
 }

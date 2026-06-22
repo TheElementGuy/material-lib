@@ -11,8 +11,6 @@ import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
 import net.minecraft.client.data.models.model.ModelTemplate;
 import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -50,16 +48,6 @@ public abstract class MaterialConfigurationBuilder<T extends MaterialConfigurati
 	protected float ATTACK_DAMAGE_BONUS;
 	protected int TOOL_ENCHANTMENT;
 
-	protected float SWING_DURATION;
-	protected float DELAY;
-	protected float DAMAGE_MULTIPLIER;
-	protected float DISMOUNT_MAX_DURATION;
-	protected float DISMOUNT_MIN_SPEED;
-	protected float KNOCKBACK_MAX_DURATION;
-	protected float KNOCKBACK_MIN_SPEED;
-	protected float DAMAGE_MAX_DURATION;
-	protected float DAMAGE_MIN_SPEED;
-
 	protected int ARMOR_DURABILITY;
 	protected int HEAD_DEFENSE;
 	protected int CHESTPLATE_DEFENSE;
@@ -78,7 +66,6 @@ public abstract class MaterialConfigurationBuilder<T extends MaterialConfigurati
 	protected String ORE_BEFORE;
 
 	protected boolean USING_HORSE_ARMOR = false;
-	protected boolean USING_NAUTILUS_ARMOR = false;
 
 	protected String ANIMAL_ARMOR_BEFORE = null;
 
@@ -217,32 +204,6 @@ public abstract class MaterialConfigurationBuilder<T extends MaterialConfigurati
 	}
 
 	/**
-	 * Sets the parameters for the spear. Note that I do not know what most of these do; see the vanilla code for typical values.
-	 * @param swingDuration sets the swing duration
-	 * @param damageMultiplier sets the damage multiplier
-	 * @param delay sets the delay
-	 * @param dismountMaxDuration sets the maximum duration for dismount
-	 * @param dismountMinSpeed sets the minimum speed for dismount
-	 * @param knockbackMaxDuration sets the maximum duration for knockback
-	 * @param knockbackMinSpeed sets the minimum speed for knockback
-	 * @param damageMaxDuration sets the maximum duration for damage
-	 * @param damageMinSpeed sets the minimum speed for damage
-	 * @return the updated <code>Builder</code>
-	 */
-	public T spearMaterial(float swingDuration, float damageMultiplier, float delay, float dismountMaxDuration, float dismountMinSpeed, float knockbackMaxDuration, float knockbackMinSpeed, float damageMaxDuration, float damageMinSpeed) {
-		this.SWING_DURATION = swingDuration;
-		this.DAMAGE_MULTIPLIER = damageMultiplier;
-		this.DELAY = delay;
-		this.DISMOUNT_MAX_DURATION = dismountMaxDuration;
-		this.DISMOUNT_MIN_SPEED = dismountMinSpeed;
-		this.KNOCKBACK_MAX_DURATION = knockbackMaxDuration;
-		this.KNOCKBACK_MIN_SPEED = knockbackMinSpeed;
-		this.DAMAGE_MAX_DURATION = damageMaxDuration;
-		this.DAMAGE_MIN_SPEED = damageMinSpeed;
-		return self();
-	}
-
-	/**
 	 * Sets the {@link OreGenConfig}s for the material, with a small, medium, large, and extra.
 	 * @param small a supplier for the <code>OreGenConfig</code> corresponding to the small vein
 	 * @param medium a supplier for the <code>OreGenConfig</code> corresponding to the medium vein
@@ -362,15 +323,6 @@ public abstract class MaterialConfigurationBuilder<T extends MaterialConfigurati
 	 */
 	public T usingHorseArmor() {
 		USING_HORSE_ARMOR = true;
-		return self();
-	}
-
-	/**
-	 * Flags for the use of nautilus armor.
-	 * @return the updated <code>MaterialConfigurationBuilder</code>
-	 */
-	public T usingNautilusArmor() {
-		USING_NAUTILUS_ARMOR = true;
 		return self();
 	}
 
