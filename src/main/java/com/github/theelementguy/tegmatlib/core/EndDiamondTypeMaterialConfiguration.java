@@ -5,6 +5,8 @@ import com.github.theelementguy.tegmatlib.loot.LootItemSlot;
 import com.github.theelementguy.tegmatlib.loot.LootModifierType;
 import com.github.theelementguy.tegmatlib.loot.PreLootModifierInfo;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;

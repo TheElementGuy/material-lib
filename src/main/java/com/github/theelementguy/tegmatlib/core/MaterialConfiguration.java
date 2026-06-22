@@ -324,23 +324,23 @@ public abstract class MaterialConfiguration {
 
 	public abstract List<Block> getBlocks();
 
-	public Item getSword() {
+	public SwordItem getSword() {
 		return SWORD.get();
 	}
 
-	public Item getAxe() {
+	public AxeItem getAxe() {
 		return AXE.get();
 	}
 
-	public Item getPickaxe() {
+	public PickaxeItem getPickaxe() {
 		return PICKAXE.get();
 	}
 
-	public Item getShovel() {
+	public ShovelItem getShovel() {
 		return SHOVEL.get();
 	}
 
-	public Item getHoe() {
+	public HoeItem getHoe() {
 		return HOE.get();
 	}
 

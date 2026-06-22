@@ -6,6 +6,9 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
 import net.neoforged.neoforge.common.Tags;
+import com.github.theelementguy.tegmatlib.core.CubicZirconiaTypeMaterialConfiguration;
+import com.github.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
+import com.github.theelementguy.tegmatlib.core.MaterialConfiguration;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 

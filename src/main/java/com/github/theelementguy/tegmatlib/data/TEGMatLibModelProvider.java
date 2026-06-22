@@ -2,7 +2,6 @@ package com.github.theelementguy.tegmatlib.data;
 
 import com.github.theelementguy.tegmatlib.core.*;
 import net.minecraft.client.color.item.Dye;
-import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
@@ -10,7 +9,6 @@ import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.SelectItemModel;
 import net.minecraft.client.renderer.item.properties.select.TrimMaterialProperty;
-import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -19,8 +17,6 @@ import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.minecraft.world.item.equipment.trim.TrimMaterials;
-import com.github.theelementguy.tegmatlib.core.*;
-import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.ArrayList;
@@ -66,10 +62,10 @@ public class TEGMatLibModelProvider extends ModelProvider {
 				itemModels.generateFlatItem(config.getHorseArmor().get().get().asItem(), ModelTemplates.FLAT_ITEM);
 			}
 
-			generateTrimmableItemWithModdedMaterials(itemModels, config.getHelmet(), config.getEquipmentAsset(), false);
-			generateTrimmableItemWithModdedMaterials(itemModels, config.getChestplate(), config.getEquipmentAsset(), false);
-			generateTrimmableItemWithModdedMaterials(itemModels, config.getLeggings(), config.getEquipmentAsset(), false);
-			generateTrimmableItemWithModdedMaterials(itemModels, config.getBoots(), config.getEquipmentAsset(), false);
+			generateTrimmableItemWithModdedMaterials(config.getHelmet(), config.getEquipmentAsset(), config.getBaseName(), false, itemModels);
+			generateTrimmableItemWithModdedMaterials(config.getChestplate(), config.getEquipmentAsset(), config.getBaseName(), false, itemModels);
+			generateTrimmableItemWithModdedMaterials(config.getLeggings(), config.getEquipmentAsset(), config.getBaseName(), false, itemModels);
+			generateTrimmableItemWithModdedMaterials(config.getBoots(), config.getEquipmentAsset(), config.getBaseName(), false, itemModels);
 
 			blockModels.createTrivialBlock(config.getBaseBlock(), config.applyException(config.getBaseName() + "_block", TexturedModel.CUBE));
 
@@ -124,36 +120,23 @@ public class TEGMatLibModelProvider extends ModelProvider {
 
 		}
 
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.LEATHER_HELMET, EquipmentAssets.LEATHER, true);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.LEATHER_CHESTPLATE, EquipmentAssets.LEATHER, true);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.LEATHER_LEGGINGS, EquipmentAssets.LEATHER, true);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.LEATHER_BOOTS, EquipmentAssets.LEATHER, true);
+		generateTrimmableItemWithModdedMaterials(Items.LEATHER_HELMET, EquipmentAssets.LEATHER, "helmet", true, itemModels);
+		generateTrimmableItemWithModdedMaterials(Items.LEATHER_CHESTPLATE, EquipmentAssets.LEATHER, "chestplate", true, itemModels);
+		generateTrimmableItemWithModdedMaterials(Items.LEATHER_LEGGINGS, EquipmentAssets.LEATHER, "leggings", true, itemModels);
+		generateTrimmableItemWithModdedMaterials(Items.LEATHER_BOOTS, EquipmentAssets.LEATHER, "boots", true, itemModels);
 
 
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.CHAINMAIL_HELMET, EquipmentAssets.CHAINMAIL, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.CHAINMAIL_CHESTPLATE, EquipmentAssets.CHAINMAIL, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.CHAINMAIL_LEGGINGS, EquipmentAssets.CHAINMAIL, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.CHAINMAIL_BOOTS, EquipmentAssets.CHAINMAIL, false);
+		generateTrimmableItemWithModdedMaterials(Items.CHAINMAIL_HELMET, EquipmentAssets.CHAINMAIL, "helmet", false, itemModels);
+		generateTrimmableItemWithModdedMaterials(Items.CHAINMAIL_CHESTPLATE, EquipmentAssets.CHAINMAIL, "chestplate", false, itemModels);
+		generateTrimmableItemWithModdedMaterials(Items.CHAINMAIL_LEGGINGS, EquipmentAssets.CHAINMAIL, "leggings", false, itemModels);
+		generateTrimmableItemWithModdedMaterials(Items.CHAINMAIL_BOOTS, EquipmentAssets.CHAINMAIL, "boots", false, itemModels);
 
 
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.IRON_HELMET, EquipmentAssets.IRON, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.IRON_CHESTPLATE, EquipmentAssets.IRON, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.IRON_LEGGINGS, EquipmentAssets.IRON, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.IRON_BOOTS, EquipmentAssets.IRON, false);
+		generateTrimmableItemWithModdedMaterials(Items.IRON_HELMET, EquipmentAssets.IRON, "helmet", false, itemModels);
+		generateTrimmableItemWithModdedMaterials(Items.IRON_CHESTPLATE, EquipmentAssets.IRON, "chestplate", false, itemModels);
+		generateTrimmableItemWithModdedMaterials(Items.IRON_LEGGINGS, EquipmentAssets.IRON, "leggings", false, itemModels);
+		generateTrimmableItemWithModdedMaterials(Items.IRON_BOOTS, EquipmentAssets.IRON, "boots", false, itemModels);
 
-
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.DIAMOND_HELMET, EquipmentAssets.DIAMOND, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.DIAMOND_CHESTPLATE, EquipmentAssets.DIAMOND, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.DIAMOND_LEGGINGS, EquipmentAssets.DIAMOND, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.DIAMOND_BOOTS, EquipmentAssets.DIAMOND, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.GOLDEN_HELMET, EquipmentAssets.GOLD, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.GOLDEN_CHESTPLATE, EquipmentAssets.GOLD, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.GOLDEN_LEGGINGS, EquipmentAssets.GOLD, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.GOLDEN_BOOTS, EquipmentAssets.GOLD, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.NETHERITE_HELMET, EquipmentAssets.NETHERITE, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.NETHERITE_CHESTPLATE, EquipmentAssets.NETHERITE, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.NETHERITE_LEGGINGS, EquipmentAssets.NETHERITE, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.NETHERITE_BOOTS, EquipmentAssets.NETHERITE, false);
 
 		generateTrimmableItemWithModdedMaterials(itemModels, Items.TURTLE_HELMET, EquipmentAssets.TURTLE_SCUTE, false);
 

@@ -19,11 +19,11 @@ import java.util.concurrent.CompletableFuture;
 
 public class TEGMatLibGlobalLootModifierProvider extends GlobalLootModifierProvider {
 
-	FullyConfiguredMaterialHolder MATERIALS;
+	private final FullyConfiguredMaterialHolder MATERIALS;
 
 	public TEGMatLibGlobalLootModifierProvider(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
-		MATERIALS = materials;
 		super(event.getGenerator().getPackOutput(), event.getLookupProvider(), materials.getModID());
+		MATERIALS = materials;
 	}
 
 	@Override
