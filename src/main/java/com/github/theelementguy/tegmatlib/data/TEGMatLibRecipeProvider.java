@@ -32,7 +32,7 @@ public class TEGMatLibRecipeProvider extends RecipeProvider implements IConditio
 
 	private RecipeOutput output;
 
-	protected TEGMatLibRecipeProvider(GatherDataEvent event, FullyConfiguredMaterialHolder materials) {
+	public TEGMatLibRecipeProvider(GatherDataEvent event, FullyConfiguredMaterialHolder materials) {
 		super(event.getGenerator().getPackOutput(), event.getLookupProvider());
 		MATERIALS = materials::getMaterials;
 		MOD_ID = materials.getModID();
