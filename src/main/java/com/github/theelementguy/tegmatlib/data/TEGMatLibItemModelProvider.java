@@ -169,7 +169,7 @@ public class TEGMatLibItemModelProvider extends ItemModelProvider {
 						.model(new ModelFile.UncheckedModelFile(trimNameResLoc.getNamespace()  + ":item/" + trimNameResLoc.getPath()))
 						.predicate(mcLoc("trim_type"), trimValue).end()
 						.texture("layer0",
-								ResourceLocation.fromNamespaceAndPath(MOD_ID,
+								ResourceLocation.fromNamespaceAndPath(id.getNamespace(),
 										"item/" + id.getPath()));
 			});
 		}
