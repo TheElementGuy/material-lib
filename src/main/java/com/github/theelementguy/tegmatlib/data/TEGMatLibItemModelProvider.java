@@ -53,6 +53,9 @@ public class TEGMatLibItemModelProvider extends ItemModelProvider {
 
 	@Override
 	protected void registerModels() {
+
+		fillTrimMaterials();
+
 		for (MaterialConfiguration config : MATERIALS.get()) {
 
 			basicItem(config.getBaseItem());
