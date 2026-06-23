@@ -238,7 +238,7 @@ public abstract class MaterialConfiguration {
 	}
 
 	protected DeferredItem<@NotNull HoeItem> registerHoe(DeferredRegister.Items register) {
-		return register.register(BASE_NAME + "_sword", () -> new HoeItem(TOOL_TIER.get(), DEFAULT_PROPERTIES.get().attributes(HoeItem.createAttributes(TOOL_TIER.get(), -2.0f, -1.0f))));
+		return register.register(BASE_NAME + "_hoe", () -> new HoeItem(TOOL_TIER.get(), DEFAULT_PROPERTIES.get().attributes(HoeItem.createAttributes(TOOL_TIER.get(), -2.0f, -1.0f))));
 	}
 
 	protected DeferredItem<@NotNull ArmorItem> registerHelmet(DeferredRegister.Items register) {
