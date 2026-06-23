@@ -8,6 +8,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -39,9 +40,9 @@ public class EndDiamondTypeMaterialConfiguration extends MaterialConfiguration {
 	}
 
 	@Override
-	public void fillItems(DeferredRegister.Items register) {
+	public void fillItems(DeferredRegister.Items register, DeferredRegister<ArmorMaterial> armorRegister) {
 		BASE_MATERIAL = registerSimpleItemWithTrimMaterial(BASE_NAME, register);
-		fillBaseEquipment(register);
+		fillBaseEquipment(register, armorRegister);
 	}
 
 	@Override

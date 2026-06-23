@@ -1,6 +1,7 @@
 package com.github.theelementguy.tegmatlib.item;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.world.item.ArmorMaterial;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import com.github.theelementguy.tegmatlib.core.FullyConfiguredMaterialHolder;
 import com.github.theelementguy.tegmatlib.core.MaterialConfiguration;
@@ -21,14 +22,14 @@ public class TEGMatLibItemProvider {
 		MATERIALS = materials;
 	}
 
-	public void registerItems(DeferredRegister.Items itemsRegistry) {
+	public void registerItems(DeferredRegister.Items itemsRegistry, DeferredRegister<ArmorMaterial> armorRegister) {
 
 		LOG.info("HELLO from tegmatlib item registration: {}", MOD_ID);
 
 		ArrayList<Supplier<MaterialConfiguration>> configs = new ArrayList<>(MATERIALS.getMaterials().size());
 
 		for (MaterialConfiguration config : MATERIALS.getMaterials()) {
-			config.fillItems(itemsRegistry);
+			config.fillItems(itemsRegistry, armorRegister);
 			configs.add(() -> config);
 		}
 

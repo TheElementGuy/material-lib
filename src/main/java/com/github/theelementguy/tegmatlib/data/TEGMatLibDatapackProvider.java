@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class TEGMatLibDatapackProvider extends DatapackBuiltinEntriesProvider {
 
-	public TEGMatLibDatapackProvider(GatherDataEvent.Client event, String modId, TEGMatLibConfiguredFeatureProvider configuredFeatures, TEGMatLibPlacedFeatureProvider placedFeatures, TEGMatLibBiomeModifierProvider biomeModifiers, TEGMatLibTrimMaterialProvider trims) {
+	public TEGMatLibDatapackProvider(GatherDataEvent event, String modId, TEGMatLibConfiguredFeatureProvider configuredFeatures, TEGMatLibPlacedFeatureProvider placedFeatures, TEGMatLibBiomeModifierProvider biomeModifiers, TEGMatLibTrimMaterialProvider trims) {
 		super(event.getGenerator().getPackOutput(), event.getLookupProvider(), new RegistrySetBuilder().add(Registries.CONFIGURED_FEATURE, configuredFeatures::bootstrap).add(Registries.PLACED_FEATURE, placedFeatures::bootstrap).add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, biomeModifiers::bootstrap).add(Registries.TRIM_MATERIAL, trims::bootstrap), Set.of(modId));
 	}
 

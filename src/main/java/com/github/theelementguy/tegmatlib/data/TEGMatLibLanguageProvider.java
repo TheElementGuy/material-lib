@@ -16,7 +16,7 @@ public class TEGMatLibLanguageProvider extends LanguageProvider {
 
 	protected Supplier<List<MaterialConfiguration>> MATERIALS;
 
-	public TEGMatLibLanguageProvider(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
+	public TEGMatLibLanguageProvider(GatherDataEvent event, FullyConfiguredMaterialHolder materials) {
 		super(event.getGenerator().getPackOutput(), materials.getModID(), "en_us");
 		this.MATERIALS = materials::getMaterials;
 	}

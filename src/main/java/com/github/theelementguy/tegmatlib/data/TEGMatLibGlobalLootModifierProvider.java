@@ -21,7 +21,7 @@ public class TEGMatLibGlobalLootModifierProvider extends GlobalLootModifierProvi
 
 	private final FullyConfiguredMaterialHolder MATERIALS;
 
-	public TEGMatLibGlobalLootModifierProvider(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
+	public TEGMatLibGlobalLootModifierProvider(GatherDataEvent event, FullyConfiguredMaterialHolder materials) {
 		super(event.getGenerator().getPackOutput(), event.getLookupProvider(), materials.getModID());
 		MATERIALS = materials;
 	}

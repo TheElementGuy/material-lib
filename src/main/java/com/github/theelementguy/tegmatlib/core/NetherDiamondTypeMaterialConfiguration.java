@@ -6,6 +6,7 @@ import com.github.theelementguy.tegmatlib.loot.LootModifierType;
 import com.github.theelementguy.tegmatlib.loot.PreLootModifierInfo;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -38,9 +39,9 @@ public class NetherDiamondTypeMaterialConfiguration extends MaterialConfiguratio
 	}
 
 	@Override
-	public void fillItems(DeferredRegister.Items register) {
+	public void fillItems(DeferredRegister.Items register, DeferredRegister<ArmorMaterial> armorRegister) {
 		BASE_MATERIAL = registerSimpleItemWithTrimMaterial(BASE_NAME, register);
-		fillBaseEquipment(register);
+		fillBaseEquipment(register, armorRegister);
 	}
 
 	@Override

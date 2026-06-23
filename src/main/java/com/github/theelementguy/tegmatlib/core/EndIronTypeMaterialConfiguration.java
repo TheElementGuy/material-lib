@@ -8,6 +8,7 @@ import com.github.theelementguy.tegmatlib.worldgen.OreGenHolder;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -48,11 +49,11 @@ public class EndIronTypeMaterialConfiguration extends MaterialConfiguration {
 	}
 
 	@Override
-	public void fillItems(DeferredRegister.Items register) {
+	public void fillItems(DeferredRegister.Items register, DeferredRegister<ArmorMaterial> armorRegister) {
 		BASE_MATERIAL = registerSimpleItemWithTrimMaterial(BASE_NAME + "_ingot", register);
 		RAW_MATERIAL = registerSimpleItem("raw_" + BASE_NAME, register);
 		NUGGET = registerSimpleItem(BASE_NAME + "_nugget", register);
-		fillBaseEquipment(register);
+		fillBaseEquipment(register, armorRegister);
 	}
 
 	@Override

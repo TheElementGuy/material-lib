@@ -20,8 +20,8 @@ public class TEGMatLibItemTagProvider extends ItemTagsProvider {
 
 	protected final Supplier<List<MaterialConfiguration>> MATERIALS;
 
-	public TEGMatLibItemTagProvider(GatherDataEvent.Client event, BlockTagsProvider provider, FullyConfiguredMaterialHolder materials) {
-		super(event.getGenerator().getPackOutput(), event.getLookupProvider(), provider.contentsGetter(), materials.getModID());
+	public TEGMatLibItemTagProvider(GatherDataEvent event, BlockTagsProvider provider, FullyConfiguredMaterialHolder materials) {
+		super(event.getGenerator().getPackOutput(), event.getLookupProvider(), provider.contentsGetter());
 		MATERIALS = materials::getMaterials;
 	}
 

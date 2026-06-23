@@ -19,8 +19,8 @@ public class TEGMatLibBlockTagProvider extends BlockTagsProvider {
 
 	private Supplier<List<MaterialConfiguration>> MATERIALS;
 
-	public TEGMatLibBlockTagProvider(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
-		super(event.getGenerator().getPackOutput(), event.getLookupProvider(), materials.getModID());
+	public TEGMatLibBlockTagProvider(GatherDataEvent event, FullyConfiguredMaterialHolder materials) {
+		super(event.getGenerator().getPackOutput(), event.getLookupProvider(), materials.getModID(), event.getExistingFileHelper());
 		MATERIALS = materials::getMaterials;
 	}
 

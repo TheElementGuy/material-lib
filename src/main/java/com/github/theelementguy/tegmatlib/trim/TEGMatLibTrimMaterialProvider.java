@@ -2,8 +2,8 @@ package com.github.theelementguy.tegmatlib.trim;
 
 import com.github.theelementguy.tegmatlib.core.FullyConfiguredMaterialHolder;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import com.github.theelementguy.tegmatlib.core.MaterialConfiguration;
+import net.minecraft.world.item.armortrim.TrimMaterial;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -18,8 +18,11 @@ public class TEGMatLibTrimMaterialProvider {
 
 	public void bootstrap(BootstrapContext<TrimMaterial> context) {
 
+		float id = 1.0f;
+
 		for (MaterialConfiguration config : MATERIALS.get()) {
-			config.bootstrapTrimMaterial(context);
+			id += 0.1f;
+			config.bootstrapTrimMaterial(context, id);
 		}
 
 	}

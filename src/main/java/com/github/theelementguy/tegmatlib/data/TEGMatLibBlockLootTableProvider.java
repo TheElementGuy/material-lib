@@ -36,7 +36,7 @@ public class TEGMatLibBlockLootTableProvider extends BlockLootSubProvider {
 		MATERIALS = materials;
 	}
 
-	public static LootTableProvider create(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
+	public static LootTableProvider create(GatherDataEvent event, FullyConfiguredMaterialHolder materials) {
 		return new LootTableProvider(event.getGenerator().getPackOutput(), Collections.emptySet(), List.of(new LootTableProvider.SubProviderEntry(p -> {return new TEGMatLibBlockLootTableProvider(p, materials::getMaterials);}, LootContextParamSets.BLOCK)), event.getLookupProvider());
 	}
 

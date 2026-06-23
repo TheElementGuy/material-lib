@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly "net.neoforged:neoforge:21.4.157"
+    compileOnly "net.neoforged:neoforge:${neo_version}"
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
 }
 

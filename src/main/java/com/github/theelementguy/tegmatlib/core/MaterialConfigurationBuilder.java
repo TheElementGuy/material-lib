@@ -3,13 +3,12 @@ package com.github.theelementguy.tegmatlib.core;
 import com.github.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import com.github.theelementguy.tegmatlib.core.tiers.MiningTier;
 import com.github.theelementguy.tegmatlib.data.ModelException;
+import com.github.theelementguy.tegmatlib.data.ModelExceptionType;
 import com.github.theelementguy.tegmatlib.loot.LootItemSlot;
 import com.github.theelementguy.tegmatlib.loot.LootModifierType;
 import com.github.theelementguy.tegmatlib.loot.PreLootModifierInfo;
 import com.github.theelementguy.tegmatlib.worldgen.OreGenHolder;
 import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
-import net.minecraft.client.data.models.model.ModelTemplate;
-import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.Item;
@@ -352,10 +351,10 @@ public abstract class MaterialConfigurationBuilder<T extends MaterialConfigurati
 	/**
 	 * Adds a model exception. This will override the default model for the given block. This will not apply to ores.
 	 * @param name the ID of the block that is being overridden.
-	 * @param overrideTemplate the new {@link ModelTemplate} to use
+	 * @param overrideTemplate the new {@link ModelExceptionType} to use
 	 * @return the updated <code>MaterialConfigurationBuilder</code>
 	 */
-	public T addModelException(String name, TexturedModel.Provider overrideTemplate) {
+	public T addModelException(String name, ModelExceptionType overrideTemplate) {
 		MODEL_EXCEPTIONS.add(new ModelException(name, overrideTemplate));
 		return self();
 	}
