@@ -263,7 +263,7 @@ public abstract class MaterialConfiguration {
 
 	protected void fillBaseEquipment(DeferredRegister.Items register, DeferredRegister<ArmorMaterial> armorMaterialRegister) {
 
-		registerArmorMaterial(armorMaterialRegister);
+		ARMOR_MATERIAL = registerArmorMaterial(armorMaterialRegister);
 
 		SWORD = registerSword(register);
 		AXE = registerAxe(register);
