@@ -76,7 +76,7 @@ public class TEGMatLibModelProvider extends ModelProvider {
 			generateTrimmableItemWithModdedMaterials(itemModels, config.getLeggings(), config.getEquipmentAsset(), false);
 			generateTrimmableItemWithModdedMaterials(itemModels, config.getBoots(), config.getEquipmentAsset(), false);
 
-			blockModels.createTrivialBlock(config.getBaseBlock(), config.applyException(config.getBaseName() + "_block", TexturedModel.CUBE));
+			blockModels.createTrivialBlock(config.getBaseBlock(), translate(config.applyException(config.getBaseName() + "_block", ModelExceptionValues.CUBE)));
 
 			switch (config.getType()) {
 				case IRON -> {
@@ -202,5 +202,14 @@ public class TEGMatLibModelProvider extends ModelProvider {
 		}
 
 		geners.itemModelOutput.accept(armor, ItemModelUtils.select(new TrimMaterialProperty(), untrimmedModel, cases));
+	}
+
+	private TexturedModel.Provider translate(ModelExceptionValues value) {
+		return switch (value) {
+			case CUBE -> TexturedModel.CUBE;
+			case CUBE_TOP -> TexturedModel.CUBE_TOP;
+			case CUBE_TOP_BOTTOM -> TexturedModel.CUBE_TOP_BOTTOM;
+			case COLUMN -> TexturedModel.COLUMN;
+		};
 	}
 }

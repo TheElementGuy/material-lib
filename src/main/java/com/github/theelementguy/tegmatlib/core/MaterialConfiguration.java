@@ -4,14 +4,13 @@ import com.github.theelementguy.tegmatlib.core.component.OptionalComponent;
 import com.github.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import com.github.theelementguy.tegmatlib.core.tiers.MiningTier;
 import com.github.theelementguy.tegmatlib.data.ModelException;
+import com.github.theelementguy.tegmatlib.data.ModelExceptionValues;
 import com.github.theelementguy.tegmatlib.item.SpearMaterial;
 import com.github.theelementguy.tegmatlib.loot.LootModifierInfo;
 import com.github.theelementguy.tegmatlib.loot.PreLootModifierInfo;
 import com.github.theelementguy.tegmatlib.util.TEGMatLibUtil;
 import com.github.theelementguy.tegmatlib.worldgen.OreGenHolder;
 import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
-import net.minecraft.client.data.models.model.ModelTemplate;
-import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.client.resources.model.EquipmentClientInfo;
 import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -462,7 +461,7 @@ public abstract class MaterialConfiguration {
 		return LOOT_MODIFIERS.stream().map((modifier) -> {return modifier.convert(this);}).toList();
 	}
 
-	public TexturedModel.Provider applyException(String name, TexturedModel.Provider preferred) {
+	public ModelExceptionValues applyException(String name, ModelExceptionValues preferred) {
 		for (ModelException m : MODEL_EXCEPTIONS) {
 			if (m.name().equals(name)) {
 				return m.overrideTemplate();
