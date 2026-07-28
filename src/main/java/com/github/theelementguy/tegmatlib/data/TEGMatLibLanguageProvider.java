@@ -31,7 +31,7 @@ public class TEGMatLibLanguageProvider extends LanguageProvider {
 			add(config.getPickaxe(), config.getHumanReadableName() + " Pickaxe");
 			add(config.getShovel(), config.getHumanReadableName() + " Shovel");
 			add(config.getHoe(), config.getHumanReadableName() + " Hoe");
-			add(config.getSpear(), config.getHumanReadableName() + "Spear");
+			add(config.getSpear(), config.getHumanReadableName() + " Spear");
 
 			add(config.getHelmet(), config.getHumanReadableName() + " Helmet");
 			add(config.getChestplate(), config.getHumanReadableName() + " Chestplate");
