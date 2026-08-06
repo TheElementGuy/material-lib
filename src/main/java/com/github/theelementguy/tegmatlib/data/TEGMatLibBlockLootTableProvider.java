@@ -1,6 +1,7 @@
 package com.github.theelementguy.tegmatlib.data;
 
 import com.github.theelementguy.tegmatlib.core.*;
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
@@ -19,6 +20,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import com.github.theelementguy.tegmatlib.core.*;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,21 +31,25 @@ import java.util.function.Supplier;
 
 public class TEGMatLibBlockLootTableProvider extends BlockLootSubProvider {
 
-	private Supplier<List<MaterialConfiguration>> MATERIALS;
+	private final Logger LOG = LogUtils.getLogger();
 
-	public TEGMatLibBlockLootTableProvider(HolderLookup.Provider registries, Supplier<List<MaterialConfiguration>> materials) {
+	private final FullyConfiguredMaterialHolder MATERIALS;
+
+	public TEGMatLibBlockLootTableProvider(HolderLookup.Provider registries, FullyConfiguredMaterialHolder materials) {
 		super(Set.of(), FeatureFlags.REGISTRY.allFlags(), registries);
 		MATERIALS = materials;
 	}
 
 	public static LootTableProvider create(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
-		return new LootTableProvider(event.getGenerator().getPackOutput(), Collections.emptySet(), List.of(new LootTableProvider.SubProviderEntry(p -> {return new TEGMatLibBlockLootTableProvider(p, materials::getMaterials);}, LootContextParamSets.BLOCK)), event.getLookupProvider());
+		return new LootTableProvider(event.getGenerator().getPackOutput(), Collections.emptySet(), List.of(new LootTableProvider.SubProviderEntry(p -> {return new TEGMatLibBlockLootTableProvider(p, materials);}, LootContextParamSets.BLOCK)), event.getLookupProvider());
 	}
 
 	@Override
 	protected void generate() {
 
-		for (MaterialConfiguration config : MATERIALS.get()) {
+		LOG.info("Generating block loot tables for mod {}", MATERIALS.getModID());
+
+		for (MaterialConfiguration config : MATERIALS.getMaterials()) {
 			add(config);
 		}
 
@@ -142,7 +148,7 @@ public class TEGMatLibBlockLootTableProvider extends BlockLootSubProvider {
 	@Override
 	protected Iterable<Block> getKnownBlocks() {
 		List<Block> toReturn = new ArrayList<>();
-		for (MaterialConfiguration config : MATERIALS.get()) {
+		for (MaterialConfiguration config : MATERIALS.getMaterials()) {
 			toReturn.addAll(config.getBlocks());
 		}
 		return toReturn;

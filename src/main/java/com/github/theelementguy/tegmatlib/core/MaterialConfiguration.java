@@ -11,6 +11,7 @@ import com.github.theelementguy.tegmatlib.loot.PreLootModifierInfo;
 import com.github.theelementguy.tegmatlib.util.TEGMatLibUtil;
 import com.github.theelementguy.tegmatlib.worldgen.OreGenHolder;
 import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
+import com.mojang.logging.LogUtils;
 import net.minecraft.client.resources.model.EquipmentClientInfo;
 import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -44,6 +45,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
 import org.w3c.dom.Text;
 
 import java.util.EnumMap;
@@ -56,6 +58,8 @@ import java.util.function.Supplier;
  * The base class for material configurations. Do not construct this class; instead, use one of the child classes.
  */
 public abstract class MaterialConfiguration {
+
+	private final Logger LOG = LogUtils.getLogger();
 
 	protected final String BASE_NAME;
 	protected final String MOD_ID;
@@ -168,6 +172,7 @@ public abstract class MaterialConfiguration {
 		fillBiomeModifierKeys();
 		HORSE_ARMOR = OptionalComponent.horseArmor(usingHorseArmor);
 		NAUTILUS_ARMOR = OptionalComponent.nautilusArmor(usingNautilusArmor);
+		LOG.info("Instantiated material configuration {} from mod {}", BASE_NAME, MOD_ID);
 	}
 
 	public String getBaseName() {
@@ -183,20 +188,24 @@ public abstract class MaterialConfiguration {
 	public abstract void fillBlocks(DeferredRegister.Blocks register, Supplier<DeferredRegister.Items> itemsRegister);
 
 	public void fillConfiguredFeatureKeys() {
+		LOG.info("Filling configured feature keys for material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		CONFIGURED_FEATURE_KEYS = new OreGenHolder<ResourceKey<ConfiguredFeature<?, ?>>>((ORE_GEN_CONFIGS.hasSmall()) ? () -> TEGMatLibUtil.createConfiguredFeatureResourceKey(MOD_ID, "small_" + BASE_NAME) : null, (ORE_GEN_CONFIGS.hasMedium()) ? () -> TEGMatLibUtil.createConfiguredFeatureResourceKey(MOD_ID, "medium_" + BASE_NAME) : null, (ORE_GEN_CONFIGS.hasLarge()) ? () -> TEGMatLibUtil.createConfiguredFeatureResourceKey(MOD_ID, "large_" + BASE_NAME) : null, (ORE_GEN_CONFIGS.hasExtra()) ? () -> TEGMatLibUtil.createConfiguredFeatureResourceKey(MOD_ID, "extra_" + BASE_NAME) : null);
 	}
 
 	public void fillPlacedFeatureKeys() {
+		LOG.info("Filling placed feature keys for material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		PLACED_FEATURE_KEYS = new OreGenHolder<>((ORE_GEN_CONFIGS.hasSmall()) ? () -> TEGMatLibUtil.createPlacedFeatureResourceKey(MOD_ID, "small_" + BASE_NAME + "_ore_placed") : null, (ORE_GEN_CONFIGS.hasMedium()) ? () -> TEGMatLibUtil.createPlacedFeatureResourceKey(MOD_ID, "medium_" + BASE_NAME + "_ore_placed") : null, (ORE_GEN_CONFIGS.hasLarge()) ? () -> TEGMatLibUtil.createPlacedFeatureResourceKey(MOD_ID, "large_" + BASE_NAME + "_ore_placed") : null, (ORE_GEN_CONFIGS.hasExtra()) ? () -> TEGMatLibUtil.createPlacedFeatureResourceKey(MOD_ID, "extra_" + BASE_NAME + "_ore_placed") : null);
 	}
 
 	public void fillBiomeModifierKeys() {
+		LOG.info("Filling biome modifier keys for material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		BIOME_MODIFIER_KEYS = new OreGenHolder<>((ORE_GEN_CONFIGS.hasSmall()) ? () -> TEGMatLibUtil.createBiomeModifierResourceKey(MOD_ID, "add_" + BASE_NAME + "_small_ore") : null, (ORE_GEN_CONFIGS.hasMedium()) ? () -> TEGMatLibUtil.createBiomeModifierResourceKey(MOD_ID, "add_" + BASE_NAME + "_medium_ore") : null, (ORE_GEN_CONFIGS.hasLarge()) ? () -> TEGMatLibUtil.createBiomeModifierResourceKey(MOD_ID, "add_" + BASE_NAME + "_large_ore") : null, (ORE_GEN_CONFIGS.hasExtra()) ? () -> TEGMatLibUtil.createBiomeModifierResourceKey(MOD_ID, "add_" + BASE_NAME + "_extra_ore") : null);
 	}
 
 	public abstract List<OreConfiguration.TargetBlockState> getOreStates();
 
 	public void registerConfiguredFeatures(BootstrapContext<ConfiguredFeature<?, ?>> context) {
+		LOG.info("Bootstrapping configured features for material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		ORE_GEN_CONFIGS.getSmall().ifPresent((oreConfig) -> {oreConfig.registerConfiguredFeature(context, getOreStates(), CONFIGURED_FEATURE_KEYS.getSmall().get());});
 		ORE_GEN_CONFIGS.getMedium().ifPresent((oreConfig) -> {oreConfig.registerConfiguredFeature(context, getOreStates(), CONFIGURED_FEATURE_KEYS.getMedium().get());});
 		ORE_GEN_CONFIGS.getLarge().ifPresent((oreConfig) -> {oreConfig.registerConfiguredFeature(context, getOreStates(), CONFIGURED_FEATURE_KEYS.getLarge().get());});
@@ -204,6 +213,7 @@ public abstract class MaterialConfiguration {
 	}
 
 	public void registerPlacedFeatures(BootstrapContext<PlacedFeature> context) {
+		LOG.info("Bootstrapping placed features for material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		ORE_GEN_CONFIGS.getSmall().ifPresent((oreConfig) -> {oreConfig.registerPlacedFeature(context, PLACED_FEATURE_KEYS.getSmall().get(), CONFIGURED_FEATURE_KEYS.getSmall().get());});
 		ORE_GEN_CONFIGS.getMedium().ifPresent((oreConfig) -> {oreConfig.registerPlacedFeature(context, PLACED_FEATURE_KEYS.getMedium().get(), CONFIGURED_FEATURE_KEYS.getMedium().get());});
 		ORE_GEN_CONFIGS.getLarge().ifPresent((oreConfig) -> {oreConfig.registerPlacedFeature(context, PLACED_FEATURE_KEYS.getLarge().get(), CONFIGURED_FEATURE_KEYS.getLarge().get());});
@@ -211,6 +221,7 @@ public abstract class MaterialConfiguration {
 	}
 
 	public void registerBiomeModifiers(BootstrapContext<BiomeModifier> context) {
+		LOG.info("Bootstrapping biome modifiers for material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		ORE_GEN_CONFIGS.getSmall().ifPresent((oreConfig) -> {oreConfig.registerBiomeModifier(context, BIOME_MODIFIER_KEYS.getSmall().get(), PLACED_FEATURE_KEYS.getSmall().get());});
 		ORE_GEN_CONFIGS.getMedium().ifPresent((oreConfig) -> {oreConfig.registerBiomeModifier(context, BIOME_MODIFIER_KEYS.getMedium().get(), PLACED_FEATURE_KEYS.getMedium().get());});
 		ORE_GEN_CONFIGS.getLarge().ifPresent((oreConfig) -> {oreConfig.registerBiomeModifier(context, BIOME_MODIFIER_KEYS.getLarge().get(), PLACED_FEATURE_KEYS.getLarge().get());});
@@ -218,69 +229,85 @@ public abstract class MaterialConfiguration {
 	}
 
 	protected DeferredItem<@NotNull Item> registerSimpleItem(String name, DeferredRegister.Items register) {
+		LOG.info("Registering item {} in material configuration {} from mod {}", name, BASE_NAME, MOD_ID);
 		return register.register(name, () -> new Item(DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(name, MOD_ID))));
 	}
 
 	protected DeferredItem<@NotNull Item> registerSimpleItemWithTrimMaterial(String name, DeferredRegister.Items register) {
+		LOG.info("Registering trim item {} in material configuration {} from mod {}", name, BASE_NAME, MOD_ID);
 		return register.register(name, () -> new Item(DEFAULT_PROPERTIES.get().trimMaterial(TRIM_MATERIAL.get()).setId(TEGMatLibUtil.createItemResourceKey(name, MOD_ID))));
 	}
 
 	protected DeferredBlock<@NotNull Block> registerSimpleBlock(String name, DeferredRegister.Blocks register, Supplier<DeferredRegister.Items> itemsRegister, float destroyTime, float explosionResistance, MapColor color, SoundType soundType) {
+		LOG.info("Registering block {} in material configuration {} from mod {}", name, BASE_NAME, MOD_ID);
 		DeferredBlock<@NotNull Block> blockToReturn = register.register(name, () -> new Block(BlockBehaviour.Properties.of().destroyTime(destroyTime).explosionResistance(explosionResistance).mapColor(color).sound(soundType).requiresCorrectToolForDrops().setId(TEGMatLibUtil.createBlockResourceKey(name, MOD_ID))));
 		itemsRegister.get().registerSimpleBlockItem(name, blockToReturn, DEFAULT_PROPERTIES);
 		return blockToReturn;
 	}
 
 	protected DeferredItem<@NotNull Item> registerSword(DeferredRegister.Items register) {
+		LOG.info("Registering sword in material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		return register.register(BASE_NAME + "_sword", () -> new Item(DEFAULT_PROPERTIES.get().sword(TOOL_MATERIAL.get(), 3.0f, -2.4f).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_sword", MOD_ID))));
 	}
 
 	protected DeferredItem<@NotNull Item> registerAxe(DeferredRegister.Items register) {
+		LOG.info("Registering axe in material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		return register.register(BASE_NAME + "_axe", () -> new Item(DEFAULT_PROPERTIES.get().axe(TOOL_MATERIAL.get(), 6.0f, -3.1f).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_axe", MOD_ID))));
 	}
 
 	protected DeferredItem<@NotNull Item> registerPickaxe(DeferredRegister.Items register) {
+		LOG.info("Registering pickaxe in material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		return register.register(BASE_NAME + "_pickaxe", () -> new Item(DEFAULT_PROPERTIES.get().pickaxe(TOOL_MATERIAL.get(), 1.0f, -2.0f).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_pickaxe", MOD_ID))));
 	}
 
 	protected DeferredItem<@NotNull Item> registerShovel(DeferredRegister.Items register) {
+		LOG.info("Registering shovel in material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		return register.register(BASE_NAME + "_shovel", () -> new Item(DEFAULT_PROPERTIES.get().shovel(TOOL_MATERIAL.get(), 1.5f, -3f).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_shovel", MOD_ID))));
 	}
 
 	protected DeferredItem<@NotNull Item> registerHoe(DeferredRegister.Items register) {
+		LOG.info("Registering hoe in material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		return register.register(BASE_NAME + "_hoe", () -> new Item(DEFAULT_PROPERTIES.get().hoe(TOOL_MATERIAL.get(), -2f, -1f).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_hoe", MOD_ID))));
 	}
 
 	protected DeferredItem<@NotNull Item> registerSpear(DeferredRegister.Items register) {
 		SpearMaterial material = SPEAR_MATERIAL.get();
+		LOG.info("Registering spear in material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		return register.register(BASE_NAME + "_spear", () -> new Item(DEFAULT_PROPERTIES.get().spear(TOOL_MATERIAL.get(), material.swingDuration(), material.damageMultiplier(), material.delay(), material.dismountMaxDuration(), material.dismountMinSpeed(), material.knockbackMaxDuration(), material.knockbackMinSpeed(), material.damageMaxDuration(), material.damageMinSpeed()).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_spear", MOD_ID))));
 	}
 
 	protected DeferredItem<@NotNull Item> registerHelmet(DeferredRegister.Items register) {
+		LOG.info("Registering helmet in material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		return register.register(BASE_NAME + "_helmet", () -> new Item(DEFAULT_PROPERTIES.get().humanoidArmor(ARMOR_MATERIAL.get(), ArmorType.HELMET).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_helmet", MOD_ID))));
 	}
 
 	protected DeferredItem<@NotNull Item> registerChestplate(DeferredRegister.Items register) {
+		LOG.info("Registering chestplate in material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		return register.register(BASE_NAME + "_chestplate", () -> new Item(DEFAULT_PROPERTIES.get().humanoidArmor(ARMOR_MATERIAL.get(), ArmorType.CHESTPLATE).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_chestplate", MOD_ID))));
 	}
 
 	protected DeferredItem<@NotNull Item> registerLeggings(DeferredRegister.Items register) {
+		LOG.info("Registering leggings in material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		return register.register(BASE_NAME + "_leggings", () -> new Item(DEFAULT_PROPERTIES.get().humanoidArmor(ARMOR_MATERIAL.get(), ArmorType.LEGGINGS).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_leggings", MOD_ID))));
 	}
 
 	protected DeferredItem<@NotNull Item> registerBoots(DeferredRegister.Items register) {
+		LOG.info("Registering boots in material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		return register.register(BASE_NAME + "_boots", () -> new Item(DEFAULT_PROPERTIES.get().humanoidArmor(ARMOR_MATERIAL.get(), ArmorType.BOOTS).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_boots", MOD_ID))));
 	}
 
 	protected DeferredItem<@NotNull Item> registerHorseArmor(DeferredRegister.Items register) {
+		LOG.info("Registering horse armor in material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		return register.register(BASE_NAME + "_horse_armor", () -> new Item(DEFAULT_PROPERTIES.get().horseArmor(ARMOR_MATERIAL.get()).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_horse_armor", MOD_ID))));
 	}
 
 	protected DeferredItem<@NotNull Item> registerNautilusArmor(DeferredRegister.Items register) {
+		LOG.info("Registering nautilus armor in material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		return register.register(BASE_NAME + "_nautilus_armor", () -> new Item(DEFAULT_PROPERTIES.get().nautilusArmor(ARMOR_MATERIAL.get()).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_nautilus_armor", MOD_ID))));
 	}
 
 	protected void fillBaseEquipment(DeferredRegister.Items register) {
+		LOG.info("Registering equipment in material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		SWORD = registerSword(register);
 		AXE = registerAxe(register);
 		PICKAXE = registerPickaxe(register);
@@ -298,9 +325,8 @@ public abstract class MaterialConfiguration {
 	}
 
 	protected void fillBaseBlock(DeferredRegister.Blocks register, Supplier<DeferredRegister.Items> itemsRegister) {
-
+		LOG.info("Registering base block in material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		BLOCK = registerSimpleBlock(BASE_NAME + "_block", register, itemsRegister, 5f, 6f, MAP_COLOR.get(), SOUND_TYPE.get());
-
 	}
 
 	public Block getBaseBlock() {
@@ -332,6 +358,7 @@ public abstract class MaterialConfiguration {
 	}
 
 	public void bootstrapEquipmentAsset(BiConsumer<ResourceKey<EquipmentAsset>, EquipmentClientInfo> consumer) {
+		LOG.info("Bootstrapping equipment asset for material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		EquipmentClientInfo.Builder builder = EquipmentClientInfo.builder().addHumanoidLayers(Identifier.fromNamespaceAndPath(MOD_ID, EQUIPMENT_ASSET.get().identifier().getPath()));
 		if (HORSE_ARMOR.isUsing()) {
 			builder.addLayers(EquipmentClientInfo.LayerType.HORSE_BODY, new EquipmentClientInfo.Layer(EQUIPMENT_ASSET.get().identifier(), Optional.empty(), true));
@@ -393,10 +420,12 @@ public abstract class MaterialConfiguration {
 	}
 
 	public void bootstrapTrimMaterial(BootstrapContext<TrimMaterial> context) {
+		LOG.info("Bootstrapping trim material for material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		context.register(TRIM_MATERIAL.get(), new TrimMaterial(MATERIAL_ASSET_GROUP.get(), Component.translatable(Util.makeDescriptionId("trim_material", TRIM_MATERIAL.get().identifier())).withStyle(Style.EMPTY.withColor(TextColor.parseColor(TRIM_MATERIAL_DESCRIPTION_COLOR).getOrThrow()))));
 	}
 
 	public void fillTrimMaterialKeys() {
+		LOG.info("Filling trim material keys for material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		TRIM_MATERIAL = () -> TEGMatLibUtil.createTrimMaterialResourceKey(BASE_NAME, MOD_ID);
 		MATERIAL_ASSET_GROUP = () -> MaterialAssetGroup.create(BASE_NAME);
 	}
@@ -464,6 +493,7 @@ public abstract class MaterialConfiguration {
 	public ModelExceptionValues applyException(String name, ModelExceptionValues preferred) {
 		for (ModelException m : MODEL_EXCEPTIONS) {
 			if (m.name().equals(name)) {
+				LOG.info("Material configuration {}/mod {}: overriding {} model from {} to {}", BASE_NAME, MOD_ID, name, preferred.name(), m.overrideTemplate().name());
 				return m.overrideTemplate();
 			}
 		}

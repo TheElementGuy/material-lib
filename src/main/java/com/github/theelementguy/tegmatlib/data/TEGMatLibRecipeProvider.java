@@ -1,6 +1,7 @@
 package com.github.theelementguy.tegmatlib.data;
 
 import com.github.theelementguy.tegmatlib.core.*;
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -14,12 +15,15 @@ import net.minecraft.world.level.ItemLike;
 import com.github.theelementguy.tegmatlib.core.*;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 public class TEGMatLibRecipeProvider extends RecipeProvider {
+
+	private final Logger LOG = LogUtils.getLogger();
 
 	private Supplier<List<MaterialConfiguration>> MATERIALS;
 
@@ -59,6 +63,8 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 
 	@Override
 	protected void buildRecipes() {
+
+		LOG.info("Building recipes for mod {}", MOD_ID);
 
 		for (MaterialConfiguration config : MATERIALS.get()) {
 

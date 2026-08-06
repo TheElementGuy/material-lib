@@ -4,6 +4,7 @@ import com.github.theelementguy.tegmatlib.data.ModelException;
 import com.github.theelementguy.tegmatlib.loot.LootItemSlot;
 import com.github.theelementguy.tegmatlib.loot.LootModifierType;
 import com.github.theelementguy.tegmatlib.loot.PreLootModifierInfo;
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
@@ -22,6 +23,7 @@ import com.github.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import com.github.theelementguy.tegmatlib.core.tiers.MiningTier;
 import com.github.theelementguy.tegmatlib.worldgen.OreGenHolder;
 import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,8 @@ import java.util.function.Supplier;
  */
 public class NetherDiamondTypeMaterialConfiguration extends MaterialConfiguration {
 
+	private final Logger LOG = LogUtils.getLogger();
+
 	protected DeferredBlock<Block> NETHER_ORE_BLOCK;
 
 	NetherDiamondTypeMaterialConfiguration(String modId, String baseName, String humanReadableName, String trimMaterialDescriptionColor, int toolDurability, float speed, float attackDamageBonus, int enchantmentValue, Supplier<Item.Properties> defaultProperties, int armorDurability, int helmetDefense, int chestplateDefense, float smeltingExperience, int leggingsDefense, int bootsDefense, int horseDefense, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance, Supplier<MapColor> mapColor, Supplier<SoundType> soundType, OreGenHolder<OreGenConfig> oreGenConfigs, int dropsPerOre, int extraDrops, MiningTier tier, MineabilityTier mineabilityTier, String toolsBefore, String armorBefore, Supplier<Item> itemBefore, Supplier<Block> blockBefore, String oreBefore, float swingDuration, float damageMultiplier, float delay, float dismountMaxDuration, float dismountMinSpeed, float knockbackMaxDuration, float knockbackMinSpeed, float damageMaxDuration, float damageMinSpeed, boolean usingHorseArmor, boolean usingNautilusArmor, String animalArmorBefore, List<PreLootModifierInfo> lootModifiers, List<ModelException> modelExceptions) {
@@ -41,12 +45,14 @@ public class NetherDiamondTypeMaterialConfiguration extends MaterialConfiguratio
 
 	@Override
 	public void fillItems(DeferredRegister.Items register) {
+		LOG.info("Registering items for material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		BASE_MATERIAL = registerSimpleItemWithTrimMaterial(BASE_NAME, register);
 		fillBaseEquipment(register);
 	}
 
 	@Override
 	public void fillBlocks(DeferredRegister.Blocks register, Supplier<DeferredRegister.Items> itemsRegister) {
+		LOG.info("Registering blocks for material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		NETHER_ORE_BLOCK = registerSimpleBlock("nether_" + BASE_NAME + "_ore", register, itemsRegister, 3f, 3f, MapColor.NETHER, SoundType.NETHER_ORE);
 		fillBaseBlock(register, itemsRegister);
 	}

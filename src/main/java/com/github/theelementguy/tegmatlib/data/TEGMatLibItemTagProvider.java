@@ -2,12 +2,14 @@ package com.github.theelementguy.tegmatlib.data;
 
 import com.github.theelementguy.tegmatlib.core.*;
 import com.github.theelementguy.tegmatlib.util.TEGMatLibUtil;
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.ItemTags;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ItemTagsProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -15,15 +17,22 @@ import java.util.function.Supplier;
 
 public class TEGMatLibItemTagProvider extends ItemTagsProvider {
 
+	private final Logger LOG = LogUtils.getLogger();
+
 	protected final Supplier<List<MaterialConfiguration>> MATERIALS;
+
+	private final String MOD_ID;
 
 	public TEGMatLibItemTagProvider(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
 		super(event.getGenerator().getPackOutput(), event.getLookupProvider(), materials.getModID());
 		MATERIALS = materials::getMaterials;
+		MOD_ID = materials.getModID();
 	}
 
 	@Override
 	protected void addTags(HolderLookup.Provider provider) {
+
+		LOG.info("Adding item tags for mod {}", MOD_ID);
 
 		for (MaterialConfiguration config : MATERIALS.get()) {
 			tag(ItemTags.TRIM_MATERIALS).add(TEGMatLibUtil.getResourceKeyFromItem(config.getBaseItem()));

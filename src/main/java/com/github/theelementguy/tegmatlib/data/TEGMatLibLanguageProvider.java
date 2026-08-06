@@ -1,6 +1,7 @@
 package com.github.theelementguy.tegmatlib.data;
 
 import com.github.theelementguy.tegmatlib.core.*;
+import com.mojang.logging.LogUtils;
 import net.minecraft.util.Util;
 import net.minecraft.client.main.GameConfig;
 import net.minecraft.data.PackOutput;
@@ -8,21 +9,29 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import com.github.theelementguy.tegmatlib.core.*;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.function.Supplier;
 
 public class TEGMatLibLanguageProvider extends LanguageProvider {
 
+	private final Logger LOG = LogUtils.getLogger();
+
 	protected Supplier<List<MaterialConfiguration>> MATERIALS;
+
+	private final String MOD_ID;
 
 	public TEGMatLibLanguageProvider(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
 		super(event.getGenerator().getPackOutput(), materials.getModID(), "en_us");
 		this.MATERIALS = materials::getMaterials;
+		MOD_ID = materials.getModID();
 	}
 
 	@Override
 	protected void addTranslations() {
+
+		LOG.info("Adding translations for mod {}", MOD_ID);
 
 		for (MaterialConfiguration config : MATERIALS.get()) {
 

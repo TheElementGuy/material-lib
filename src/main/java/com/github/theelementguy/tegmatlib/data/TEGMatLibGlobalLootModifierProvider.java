@@ -5,6 +5,7 @@ import com.github.theelementguy.tegmatlib.core.MaterialConfiguration;
 import com.github.theelementguy.tegmatlib.loot.AddItemRollModifier;
 import com.github.theelementguy.tegmatlib.loot.ExtraItemRollModifier;
 import com.github.theelementguy.tegmatlib.loot.LootModifierInfo;
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -14,12 +15,15 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
 import net.neoforged.neoforge.common.loot.LootTableIdCondition;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import org.slf4j.Logger;
 
 import java.util.concurrent.CompletableFuture;
 
 public class TEGMatLibGlobalLootModifierProvider extends GlobalLootModifierProvider {
 
-	FullyConfiguredMaterialHolder MATERIALS;
+	private final Logger LOG = LogUtils.getLogger();
+
+	private final FullyConfiguredMaterialHolder MATERIALS;
 
 	public TEGMatLibGlobalLootModifierProvider(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
 		MATERIALS = materials;
@@ -28,6 +32,8 @@ public class TEGMatLibGlobalLootModifierProvider extends GlobalLootModifierProvi
 
 	@Override
 	protected void start() {
+
+		LOG.info("Adding global loot modifiers for mod {}", MATERIALS.getModID());
 
 		for (MaterialConfiguration m : MATERIALS.getMaterials()) {
 			for (LootModifierInfo l : m.getLootModifiers()) {

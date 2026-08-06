@@ -1,5 +1,6 @@
 package com.github.theelementguy.tegmatlib.util;
 
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -26,10 +27,13 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import com.github.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import com.github.theelementguy.tegmatlib.core.tiers.MiningTier;
+import org.slf4j.Logger;
 
 import java.util.*;
 
 public class TEGMatLibUtil {
+
+	private static final Logger LOG = LogUtils.getLogger();
 
 	private static HashMap<Character, Character> upsideDown = new HashMap<>(mapOf('a', 'ɐ', 'b', 'q', 'c', 'ɔ', 'd', 'p', 'e', 'ǝ', 'f', 'ɟ', 'g', 'ᵷ', 'h', 'ɥ', 'i', 'ᴉ', 'k', 'ʞ', 'C', 'Ɔ', 'u', 'n', 'n', 'u', ' ', ' ', 'z', 'z', 'Z', 'Z', 'q', 'b', 'p', 'd', 'r', 'ɹ', 'o', 'o', 'l', 'l', 's', 's', 'R', 'ᴚ', 'S', 'S', 'B', 'ᗺ', 'A', 'Ɐ', 'w', 'ʍ', 'W', 'M', 'x', 'x', 'P', 'Ԁ', 'T', '⟘', 'H', 'H', 'v', 'ʌ', 'D', 'ᗡ', 'N', 'N', 'E', 'Ǝ', 'O', 'O', 'm', 'ɯ', 't', 'ʇ', 'L', 'Ꞁ', 'I', 'I'));
 
@@ -58,26 +62,32 @@ public class TEGMatLibUtil {
 	}
 
 	public static void inventoryAddAfter(Item item, Item referenceItem, BuildCreativeModeTabContentsEvent event) {
+		LOG.info("Adding item {} to inventory", item.toString());
 		event.insertAfter(new ItemStack(referenceItem, 1), new ItemStack(item, 1), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 	}
 
 	public static void inventoryAddAfter(DeferredItem<? extends Item> item, Item referenceItem, BuildCreativeModeTabContentsEvent event) {
+		LOG.info("Adding item {} to inventory", item.toString());
 		event.insertAfter(new ItemStack(referenceItem, 1), new ItemStack(item.get(), 1), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 	}
 
 	public static void inventoryAddAfter(DeferredItem<? extends Item> item, DeferredItem<? extends Item> referenceItem, BuildCreativeModeTabContentsEvent event) {
+		LOG.info("Adding item {} to inventory", item.toString());
 		event.insertAfter(new ItemStack(referenceItem.get(), 1), new ItemStack(item.get(), 1), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 	}
 
 	public static void inventoryAddAfter(Block item, Block referenceItem, BuildCreativeModeTabContentsEvent event) {
+		LOG.info("Adding item {} to inventory", item.toString());
 		event.insertAfter(new ItemStack(referenceItem, 1), new ItemStack(item, 1), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 	}
 
 	public static void inventoryAddAfter(DeferredBlock<? extends Block> item, Block referenceItem, BuildCreativeModeTabContentsEvent event) {
+		LOG.info("Adding item {} to inventory", item.toString());
 		event.insertAfter(new ItemStack(referenceItem, 1), new ItemStack(item, 1), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 	}
 
 	public static void inventoryAddAfter(DeferredBlock<? extends Block> item, DeferredBlock<? extends Block> referenceItem, BuildCreativeModeTabContentsEvent event) {
+		LOG.info("Adding item {} to inventory", item.toString());
 		event.insertAfter(new ItemStack(referenceItem, 1), new ItemStack(item, 1), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 	}
 
@@ -100,6 +110,8 @@ public class TEGMatLibUtil {
 
 	public static Item getItemFromKey(String key, String modId) {
 
+		LOG.info("Retrieving item at key {}", key);
+
 		if (BuiltInRegistries.ITEM.get(TEGMatLibUtil.createItemResourceKey(key, modId)).isEmpty()) {
 			return getItemFromKeyMinecraft(key);
 		}
@@ -113,6 +125,7 @@ public class TEGMatLibUtil {
 	}
 
 	public static Block getBlockFromKey(String key, String modId) {
+		LOG.info("Retrieving block at key {}", key);
 		if (BuiltInRegistries.BLOCK.get(TEGMatLibUtil.createBlockResourceKey(key, modId)).isEmpty()) {
 			return getBlockFromKey(key, "minecraft");
 		}

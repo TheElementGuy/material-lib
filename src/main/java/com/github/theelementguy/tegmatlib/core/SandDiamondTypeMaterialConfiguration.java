@@ -3,6 +3,7 @@ package com.github.theelementguy.tegmatlib.core;
 import com.github.theelementguy.tegmatlib.data.ModelException;
 import com.github.theelementguy.tegmatlib.loot.PreLootModifierInfo;
 import com.github.theelementguy.tegmatlib.util.TEGMatLibUtil;
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
@@ -23,6 +24,7 @@ import com.github.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import com.github.theelementguy.tegmatlib.core.tiers.MiningTier;
 import com.github.theelementguy.tegmatlib.worldgen.OreGenHolder;
 import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
+import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -33,6 +35,8 @@ import java.util.function.Supplier;
  */
 public class SandDiamondTypeMaterialConfiguration extends MaterialConfiguration {
 
+	private final Logger LOG = LogUtils.getLogger();
+
 	protected DeferredBlock<Block> SAND_ORE_BLOCK;
 	protected DeferredBlock<Block> GRAVEL_ORE_BLOCK;
 
@@ -42,12 +46,14 @@ public class SandDiamondTypeMaterialConfiguration extends MaterialConfiguration 
 
 	@Override
 	public void fillItems(DeferredRegister.Items register) {
+		LOG.info("Registering items for material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		BASE_MATERIAL = registerSimpleItemWithTrimMaterial(BASE_NAME, register);
 		fillBaseEquipment(register);
 	}
 
 	@Override
 	public void fillBlocks(DeferredRegister.Blocks register, Supplier<DeferredRegister.Items> itemsRegister) {
+		LOG.info("Registering blocks for material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		SAND_ORE_BLOCK = register.registerBlock("sand_" + BASE_NAME + "_ore", (p) -> new ColoredFallingBlock(new ColorRGBA(14406560), p), () -> BlockBehaviour.Properties.of().destroyTime(1.5f).explosionResistance(1f).mapColor(MapColor.SAND).sound(SoundType.SAND).requiresCorrectToolForDrops().setId(TEGMatLibUtil.createBlockResourceKey("sand_" + BASE_NAME + "_ore", MOD_ID)));
 		itemsRegister.get().registerSimpleBlockItem("sand_" + BASE_NAME + "_ore", () -> SAND_ORE_BLOCK.get());
 		GRAVEL_ORE_BLOCK = register.registerBlock("gravel_" + BASE_NAME + "_ore", (p) -> new ColoredFallingBlock(new ColorRGBA(14406560), p), () -> BlockBehaviour.Properties.of().destroyTime(1.5f).explosionResistance(1f).mapColor(MapColor.STONE).sound(SoundType.GRAVEL).requiresCorrectToolForDrops().setId(TEGMatLibUtil.createBlockResourceKey("gravel_" + BASE_NAME + "_ore", MOD_ID)));

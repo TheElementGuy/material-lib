@@ -5,6 +5,7 @@ import com.github.theelementguy.tegmatlib.loot.LootItemSlot;
 import com.github.theelementguy.tegmatlib.loot.LootModifierType;
 import com.github.theelementguy.tegmatlib.loot.PreLootModifierInfo;
 import com.github.theelementguy.tegmatlib.worldgen.OreGenHolder;
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
@@ -25,6 +26,7 @@ import com.github.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import com.github.theelementguy.tegmatlib.core.tiers.MiningTier;
 import com.github.theelementguy.tegmatlib.worldgen.*;
 import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,8 @@ import java.util.function.Supplier;
  * <p>Use this class for overworld materials with an iron-type format: a raw metal that needs to be smelted into the final ingot.</p>
  */
 public class EndIronTypeMaterialConfiguration extends MaterialConfiguration {
+
+	private final Logger LOG = LogUtils.getLogger();
 
 	protected DeferredItem<Item> RAW_MATERIAL;
 	protected DeferredItem<Item> NUGGET;
@@ -51,6 +55,7 @@ public class EndIronTypeMaterialConfiguration extends MaterialConfiguration {
 
 	@Override
 	public void fillItems(DeferredRegister.Items register) {
+		LOG.info("Registering items for material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		BASE_MATERIAL = registerSimpleItemWithTrimMaterial(BASE_NAME + "_ingot", register);
 		RAW_MATERIAL = registerSimpleItem("raw_" + BASE_NAME, register);
 		NUGGET = registerSimpleItem(BASE_NAME + "_nugget", register);
@@ -59,6 +64,7 @@ public class EndIronTypeMaterialConfiguration extends MaterialConfiguration {
 
 	@Override
 	public void fillBlocks(DeferredRegister.Blocks register, Supplier<DeferredRegister.Items> itemsRegister) {
+		LOG.info("Registering blocks for material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		RAW_BLOCK = registerSimpleBlock("raw_" + BASE_NAME + "_block", register, itemsRegister, 3f, 6f, MAP_COLOR.get(), SOUND_TYPE.get());
 		END_ORE_BLOCK = registerSimpleBlock("end_" + BASE_NAME + "_ore", register, itemsRegister, 4.5f, 9f, MapColor.SAND, SoundType.STONE);
 		fillBaseBlock(register, itemsRegister);

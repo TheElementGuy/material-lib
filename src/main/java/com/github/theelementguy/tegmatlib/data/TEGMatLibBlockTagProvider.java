@@ -1,6 +1,7 @@
 package com.github.theelementguy.tegmatlib.data;
 
 import com.github.theelementguy.tegmatlib.core.*;
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
@@ -10,6 +11,7 @@ import com.github.theelementguy.tegmatlib.core.*;
 import com.github.theelementguy.tegmatlib.core.tiers.MineabilityTier;
 import com.github.theelementguy.tegmatlib.util.TEGMatLibUtil;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -17,17 +19,21 @@ import java.util.function.Supplier;
 
 public class TEGMatLibBlockTagProvider extends BlockTagsProvider {
 
-	private final Supplier<List<MaterialConfiguration>> MATERIALS;
+	private final Logger LOG = LogUtils.getLogger();
+
+	private final FullyConfiguredMaterialHolder MATERIALS;
 
 	public TEGMatLibBlockTagProvider(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
 		super(event.getGenerator().getPackOutput(), event.getLookupProvider(), materials.getModID());
-		MATERIALS = materials::getMaterials;
+		MATERIALS = materials;
 	}
 
 	@Override
 	protected void addTags(HolderLookup.Provider provider) {
 
-		for (MaterialConfiguration config : MATERIALS.get()) {
+		LOG.info("Adding block tags for mod {}", MATERIALS.getModID());
+
+		for (MaterialConfiguration config : MATERIALS.getMaterials()) {
 			addMaterial(config);
 		}
 

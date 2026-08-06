@@ -5,6 +5,7 @@ import com.github.theelementguy.tegmatlib.loot.LootItemSlot;
 import com.github.theelementguy.tegmatlib.loot.LootModifierType;
 import com.github.theelementguy.tegmatlib.loot.PreLootModifierInfo;
 import com.github.theelementguy.tegmatlib.worldgen.OreGenHolder;
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
@@ -24,6 +25,7 @@ import com.github.theelementguy.tegmatlib.core.tiers.MiningTier;
 import com.github.theelementguy.tegmatlib.worldgen.*;
 import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,8 @@ import java.util.function.Supplier;
  * <p>Use this class for overworld materials with a Cubic-Zirconia-type format: a raw gem that needs to be smelted into the final product. Note that this differs from iron-type by not possessing a nugget and the final product not having "ingot" in the name.</p>
  */
 public class CubicZirconiaTypeMaterialConfiguration extends MaterialConfiguration {
+
+	private final Logger LOG = LogUtils.getLogger();
 
 	protected DeferredItem<@NotNull Item> RAW_MATERIAL;
 
@@ -50,6 +54,7 @@ public class CubicZirconiaTypeMaterialConfiguration extends MaterialConfiguratio
 
 	@Override
 	public void fillItems(DeferredRegister.Items register) {
+		LOG.info("Registering items for material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		BASE_MATERIAL = registerSimpleItemWithTrimMaterial(BASE_NAME, register);
 		RAW_MATERIAL = registerSimpleItem("raw_" + BASE_NAME, register);
 		fillBaseEquipment(register);
@@ -57,6 +62,7 @@ public class CubicZirconiaTypeMaterialConfiguration extends MaterialConfiguratio
 
 	@Override
 	public void fillBlocks(DeferredRegister.Blocks register, Supplier<DeferredRegister.Items> itemsRegister) {
+		LOG.info("Registering blocks for material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		RAW_BLOCK = registerSimpleBlock("raw_" + BASE_NAME + "_block", register, itemsRegister, 3f, 6f, MAP_COLOR.get(), SOUND_TYPE.get());
 		ORE_BLOCK = registerSimpleBlock(BASE_NAME + "_ore", register, itemsRegister, 3f, 3f, MapColor.STONE, SoundType.STONE);
 		DEEPSLATE_ORE_BLOCK = registerSimpleBlock("deepslate_" + BASE_NAME + "_ore", register, itemsRegister, 4.5f, 3f, MapColor.DEEPSLATE, SoundType.DEEPSLATE);

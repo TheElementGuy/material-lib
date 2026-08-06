@@ -1,6 +1,7 @@
 package com.github.theelementguy.tegmatlib.data;
 
 import com.github.theelementguy.tegmatlib.core.*;
+import com.mojang.logging.LogUtils;
 import net.minecraft.client.color.item.Dye;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.data.models.BlockModelGenerators;
@@ -24,6 +25,7 @@ import net.minecraft.world.item.equipment.trim.TrimMaterials;
 import com.github.theelementguy.tegmatlib.core.*;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,8 @@ import java.util.function.Supplier;
 import static net.minecraft.client.data.models.ItemModelGenerators.*;
 
 public class TEGMatLibModelProvider extends ModelProvider {
+
+	private final Logger LOG = LogUtils.getLogger();
 
 	protected Supplier<List<MaterialConfiguration>> MATERIALS;
 
@@ -53,6 +57,8 @@ public class TEGMatLibModelProvider extends ModelProvider {
 
 	@Override
 	protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
+
+		LOG.info("Generating models for mod {}", modId);
 
 		for (MaterialConfiguration config : MATERIALS.get()) {
 
@@ -170,6 +176,9 @@ public class TEGMatLibModelProvider extends ModelProvider {
 	}
 
 	public void generateTrimmableItemWithModdedMaterials(ItemModelGenerators geners, Item armor, ResourceKey<EquipmentAsset> equipmentAssetId, boolean hasDyedLayer) {
+
+		LOG.info("Generating trims for item {}: mod {}", armor.toString(), MOD_ID);
+
 		String path = armor.getDescriptionId();
 		Identifier slotTrimPrefix = (path.contains("helmet")) ? TRIM_PREFIX_HELMET : ((path.contains("chestplate")) ? TRIM_PREFIX_CHESTPLATE : ((path.contains("leggings")) ? TRIM_PREFIX_LEGGINGS : ItemModelGenerators.TRIM_PREFIX_BOOTS));
 		Identifier modelLocation = ModelLocationUtils.getModelLocation(armor);

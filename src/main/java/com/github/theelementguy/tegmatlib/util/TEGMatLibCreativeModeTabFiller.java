@@ -1,14 +1,18 @@
 package com.github.theelementguy.tegmatlib.util;
 
 import com.github.theelementguy.tegmatlib.core.*;
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.*;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import org.slf4j.Logger;
 
 import javax.swing.text.html.Option;
 import java.util.*;
 
 public class TEGMatLibCreativeModeTabFiller {
+
+	private static final Logger LOG = LogUtils.getLogger();
 
 	/**
 	 * Automatically fills the inventory in creative mode.
@@ -16,6 +20,7 @@ public class TEGMatLibCreativeModeTabFiller {
 	 * @param event The BuildCreativeModeTabContentsEvent from the addCreative method.
 	 */
 	public static void build(FullyConfiguredMaterialHolder materialHolder, BuildCreativeModeTabContentsEvent event) {
+		LOG.info("Filling creative mode tabs for mod {}", materialHolder.getModID());
 		//TODO: proper ordering
 		List<MaterialConfiguration> materials = materialHolder.getMaterials();
 		String modID = materialHolder.getModID();
