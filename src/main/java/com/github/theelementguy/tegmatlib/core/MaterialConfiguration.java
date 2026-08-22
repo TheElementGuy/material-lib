@@ -25,8 +25,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Util;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.EquipmentAsset;
@@ -237,7 +236,7 @@ public abstract class MaterialConfiguration {
 	}
 
 	protected DeferredItem<@NotNull Item> registerAxe(DeferredRegister.Items register) {
-		return register.register(BASE_NAME + "_axe", () -> new Item(DEFAULT_PROPERTIES.get().axe(TOOL_MATERIAL.get(), 6.0f, -3.1f).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_axe", MOD_ID))));
+		return register.register(BASE_NAME + "_axe", () -> new AxeItem(TOOL_MATERIAL.get(), 6.0f, -3.1f, DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_axe", MOD_ID))));
 	}
 
 	protected DeferredItem<@NotNull Item> registerPickaxe(DeferredRegister.Items register) {
@@ -245,11 +244,11 @@ public abstract class MaterialConfiguration {
 	}
 
 	protected DeferredItem<@NotNull Item> registerShovel(DeferredRegister.Items register) {
-		return register.register(BASE_NAME + "_shovel", () -> new Item(DEFAULT_PROPERTIES.get().shovel(TOOL_MATERIAL.get(), 1.5f, -3f).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_shovel", MOD_ID))));
+		return register.register(BASE_NAME + "_shovel", () -> new ShovelItem(TOOL_MATERIAL.get(), 1.5f, -3f, DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_shovel", MOD_ID))));
 	}
 
 	protected DeferredItem<@NotNull Item> registerHoe(DeferredRegister.Items register) {
-		return register.register(BASE_NAME + "_hoe", () -> new Item(DEFAULT_PROPERTIES.get().hoe(TOOL_MATERIAL.get(), -2f, -1f).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_hoe", MOD_ID))));
+		return register.register(BASE_NAME + "_hoe", () -> new HoeItem(TOOL_MATERIAL.get(), -2f, -1f, DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_hoe", MOD_ID))));
 	}
 
 	protected DeferredItem<@NotNull Item> registerSpear(DeferredRegister.Items register) {
