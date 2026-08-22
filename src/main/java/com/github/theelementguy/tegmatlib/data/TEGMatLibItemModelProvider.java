@@ -144,7 +144,7 @@ public class TEGMatLibItemModelProvider extends ItemModelProvider {
 				};
 
 				String armorItemPath = armorItem.toString();
-				String trimPath = "trims/items/" + armorType + "_trim_" + trimMaterial.location().getPath();
+				String trimPath = trimMaterial.location().getNamespace()  + ":trims/items/" + armorType + "_trim_" + trimMaterial.location().getPath();
 				String currentTrimName = armorItemPath + "_" + trimMaterial.location().getPath() + "_trim";
 				ResourceLocation armorItemResLoc = ResourceLocation.parse(armorItemPath);
 				ResourceLocation trimResLoc = ResourceLocation.parse(trimPath); // minecraft namespace
