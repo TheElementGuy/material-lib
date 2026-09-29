@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
@@ -12,6 +13,8 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.common.loot.LootModifier;
+
+import java.util.Optional;
 
 public class ExtraItemRollModifier extends LootModifier {
 
@@ -28,7 +31,7 @@ public class ExtraItemRollModifier extends LootModifier {
 
 	private static MapCodec<ExtraItemRollModifier> CODEC = null;
 
-    public ExtraItemRollModifier(LootItemCondition[] conditionsIn, int priority, Item item, float chance) {
+    public ExtraItemRollModifier(Optional<Holder<LootItemCondition>> conditionsIn, int priority, Item item, float chance) {
         super(conditionsIn, priority);
         this.item = item;
         this.chance = chance;
@@ -36,11 +39,6 @@ public class ExtraItemRollModifier extends LootModifier {
 
     @Override
     protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> objectArrayList, LootContext lootContext) {
-        for (LootItemCondition lootItemCondition : this.conditions) {
-            if (!lootItemCondition.test(lootContext)) {
-                return objectArrayList;
-            }
-        }
         RandomSource randomSource = lootContext.getRandom();
         float randInt = randomSource.nextFloat();
         System.out.println(randInt);

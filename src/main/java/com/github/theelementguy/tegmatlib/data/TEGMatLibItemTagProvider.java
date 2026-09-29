@@ -24,7 +24,7 @@ public class TEGMatLibItemTagProvider extends ItemTagsProvider {
 	private final String MOD_ID;
 
 	public TEGMatLibItemTagProvider(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
-		super(event.getGenerator().getPackOutput(), event.getLookupProvider(), materials.getModID());
+		super(event.getGenerator().getPackOutput(), event.getWorldLookupProvider(), materials.getModID());
 		MATERIALS = materials::getMaterials;
 		MOD_ID = materials.getModID();
 	}

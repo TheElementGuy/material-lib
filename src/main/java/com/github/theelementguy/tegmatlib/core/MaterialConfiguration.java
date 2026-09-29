@@ -29,23 +29,20 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.EquipmentAsset;
-import net.minecraft.world.item.equipment.trim.MaterialAssetGroup;
 import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.feature.BlockReplacement;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.common.world.BiomeModifier;
-import net.neoforged.neoforge.event.level.PistonEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
-import org.w3c.dom.Text;
 
 import java.util.EnumMap;
 import java.util.List;
@@ -89,7 +86,7 @@ public abstract class MaterialConfiguration {
 	protected final float SMELTING_EXPERIENCE;
 
 	protected Supplier<ResourceKey<TrimMaterial>> TRIM_MATERIAL;
-	protected Supplier<MaterialAssetGroup> MATERIAL_ASSET_GROUP;
+	protected Supplier<Identifier> PALETTE;
 
 	protected final String TRIM_MATERIAL_DESCRIPTION_COLOR;
 
@@ -106,7 +103,7 @@ public abstract class MaterialConfiguration {
 	protected final Supplier<MapColor> MAP_COLOR;
 	protected final Supplier<SoundType> SOUND_TYPE;
 
-	protected OreGenHolder<ResourceKey<ConfiguredFeature<?, ?>>> CONFIGURED_FEATURE_KEYS;
+	protected OreGenHolder<ResourceKey<Feature>> FEATURE_KEYS;
 	protected OreGenHolder<ResourceKey<PlacedFeature>> PLACED_FEATURE_KEYS;
 	protected OreGenHolder<ResourceKey<BiomeModifier>> BIOME_MODIFIER_KEYS;
 	protected final OreGenHolder<OreGenConfig> ORE_GEN_CONFIGS;
@@ -188,7 +185,7 @@ public abstract class MaterialConfiguration {
 
 	public void fillConfiguredFeatureKeys() {
 		LOG.info("Filling configured feature keys for material configuration {} from mod {}", BASE_NAME, MOD_ID);
-		CONFIGURED_FEATURE_KEYS = new OreGenHolder<ResourceKey<ConfiguredFeature<?, ?>>>((ORE_GEN_CONFIGS.hasSmall()) ? () -> TEGMatLibUtil.createConfiguredFeatureResourceKey(MOD_ID, "small_" + BASE_NAME) : null, (ORE_GEN_CONFIGS.hasMedium()) ? () -> TEGMatLibUtil.createConfiguredFeatureResourceKey(MOD_ID, "medium_" + BASE_NAME) : null, (ORE_GEN_CONFIGS.hasLarge()) ? () -> TEGMatLibUtil.createConfiguredFeatureResourceKey(MOD_ID, "large_" + BASE_NAME) : null, (ORE_GEN_CONFIGS.hasExtra()) ? () -> TEGMatLibUtil.createConfiguredFeatureResourceKey(MOD_ID, "extra_" + BASE_NAME) : null);
+		FEATURE_KEYS = new OreGenHolder<ResourceKey<Feature>>((ORE_GEN_CONFIGS.hasSmall()) ? () -> TEGMatLibUtil.createFeatureResourceKey(MOD_ID, "small_" + BASE_NAME) : null, (ORE_GEN_CONFIGS.hasMedium()) ? () -> TEGMatLibUtil.createFeatureResourceKey(MOD_ID, "medium_" + BASE_NAME) : null, (ORE_GEN_CONFIGS.hasLarge()) ? () -> TEGMatLibUtil.createFeatureResourceKey(MOD_ID, "large_" + BASE_NAME) : null, (ORE_GEN_CONFIGS.hasExtra()) ? () -> TEGMatLibUtil.createFeatureResourceKey(MOD_ID, "extra_" + BASE_NAME) : null);
 	}
 
 	public void fillPlacedFeatureKeys() {
@@ -201,22 +198,22 @@ public abstract class MaterialConfiguration {
 		BIOME_MODIFIER_KEYS = new OreGenHolder<>((ORE_GEN_CONFIGS.hasSmall()) ? () -> TEGMatLibUtil.createBiomeModifierResourceKey(MOD_ID, "add_" + BASE_NAME + "_small_ore") : null, (ORE_GEN_CONFIGS.hasMedium()) ? () -> TEGMatLibUtil.createBiomeModifierResourceKey(MOD_ID, "add_" + BASE_NAME + "_medium_ore") : null, (ORE_GEN_CONFIGS.hasLarge()) ? () -> TEGMatLibUtil.createBiomeModifierResourceKey(MOD_ID, "add_" + BASE_NAME + "_large_ore") : null, (ORE_GEN_CONFIGS.hasExtra()) ? () -> TEGMatLibUtil.createBiomeModifierResourceKey(MOD_ID, "add_" + BASE_NAME + "_extra_ore") : null);
 	}
 
-	public abstract List<OreConfiguration.TargetBlockState> getOreStates();
+	public abstract List<BlockReplacement> getOreStates();
 
-	public void registerConfiguredFeatures(BootstrapContext<ConfiguredFeature<?, ?>> context) {
-		LOG.info("Bootstrapping configured features for material configuration {} from mod {}", BASE_NAME, MOD_ID);
-		ORE_GEN_CONFIGS.getSmall().ifPresent((oreConfig) -> {oreConfig.registerConfiguredFeature(context, getOreStates(), CONFIGURED_FEATURE_KEYS.getSmall().get());});
-		ORE_GEN_CONFIGS.getMedium().ifPresent((oreConfig) -> {oreConfig.registerConfiguredFeature(context, getOreStates(), CONFIGURED_FEATURE_KEYS.getMedium().get());});
-		ORE_GEN_CONFIGS.getLarge().ifPresent((oreConfig) -> {oreConfig.registerConfiguredFeature(context, getOreStates(), CONFIGURED_FEATURE_KEYS.getLarge().get());});
-		ORE_GEN_CONFIGS.getExtra().ifPresent((oreConfig) -> {oreConfig.registerConfiguredFeature(context, getOreStates(), CONFIGURED_FEATURE_KEYS.getExtra().get());});
+	public void registerFeatures(BootstrapContext<Feature> context) {
+		LOG.info("Bootstrapping features for material configuration {} from mod {}", BASE_NAME, MOD_ID);
+		ORE_GEN_CONFIGS.getSmall().ifPresent((oreConfig) -> {oreConfig.registerFeature(context, getOreStates(), FEATURE_KEYS.getSmall().get());});
+		ORE_GEN_CONFIGS.getMedium().ifPresent((oreConfig) -> {oreConfig.registerFeature(context, getOreStates(), FEATURE_KEYS.getMedium().get());});
+		ORE_GEN_CONFIGS.getLarge().ifPresent((oreConfig) -> {oreConfig.registerFeature(context, getOreStates(), FEATURE_KEYS.getLarge().get());});
+		ORE_GEN_CONFIGS.getExtra().ifPresent((oreConfig) -> {oreConfig.registerFeature(context, getOreStates(), FEATURE_KEYS.getExtra().get());});
 	}
 
 	public void registerPlacedFeatures(BootstrapContext<PlacedFeature> context) {
 		LOG.info("Bootstrapping placed features for material configuration {} from mod {}", BASE_NAME, MOD_ID);
-		ORE_GEN_CONFIGS.getSmall().ifPresent((oreConfig) -> {oreConfig.registerPlacedFeature(context, PLACED_FEATURE_KEYS.getSmall().get(), CONFIGURED_FEATURE_KEYS.getSmall().get());});
-		ORE_GEN_CONFIGS.getMedium().ifPresent((oreConfig) -> {oreConfig.registerPlacedFeature(context, PLACED_FEATURE_KEYS.getMedium().get(), CONFIGURED_FEATURE_KEYS.getMedium().get());});
-		ORE_GEN_CONFIGS.getLarge().ifPresent((oreConfig) -> {oreConfig.registerPlacedFeature(context, PLACED_FEATURE_KEYS.getLarge().get(), CONFIGURED_FEATURE_KEYS.getLarge().get());});
-		ORE_GEN_CONFIGS.getExtra().ifPresent((oreConfig) -> {oreConfig.registerPlacedFeature(context, PLACED_FEATURE_KEYS.getExtra().get(), CONFIGURED_FEATURE_KEYS.getExtra().get());});
+		ORE_GEN_CONFIGS.getSmall().ifPresent((oreConfig) -> {oreConfig.registerPlacedFeature(context, PLACED_FEATURE_KEYS.getSmall().get(), FEATURE_KEYS.getSmall().get());});
+		ORE_GEN_CONFIGS.getMedium().ifPresent((oreConfig) -> {oreConfig.registerPlacedFeature(context, PLACED_FEATURE_KEYS.getMedium().get(), FEATURE_KEYS.getMedium().get());});
+		ORE_GEN_CONFIGS.getLarge().ifPresent((oreConfig) -> {oreConfig.registerPlacedFeature(context, PLACED_FEATURE_KEYS.getLarge().get(), FEATURE_KEYS.getLarge().get());});
+		ORE_GEN_CONFIGS.getExtra().ifPresent((oreConfig) -> {oreConfig.registerPlacedFeature(context, PLACED_FEATURE_KEYS.getExtra().get(), FEATURE_KEYS.getExtra().get());});
 	}
 
 	public void registerBiomeModifiers(BootstrapContext<BiomeModifier> context) {
@@ -251,7 +248,7 @@ public abstract class MaterialConfiguration {
 
 	protected DeferredItem<@NotNull Item> registerAxe(DeferredRegister.Items register) {
 		LOG.info("Registering axe in material configuration {} from mod {}", BASE_NAME, MOD_ID);
-		return register.register(BASE_NAME + "_axe", () -> new AxeItem(TOOL_MATERIAL.get(), 6.0f, -3.1f, DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_axe", MOD_ID))));
+		return register.register(BASE_NAME + "_axe", () -> new Item(DEFAULT_PROPERTIES.get().axe(TOOL_MATERIAL.get(), 6.0f, -3.1f).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_axe", MOD_ID))));
 	}
 
 	protected DeferredItem<@NotNull Item> registerPickaxe(DeferredRegister.Items register) {
@@ -261,12 +258,12 @@ public abstract class MaterialConfiguration {
 
 	protected DeferredItem<@NotNull Item> registerShovel(DeferredRegister.Items register) {
 		LOG.info("Registering shovel in material configuration {} from mod {}", BASE_NAME, MOD_ID);
-		return register.register(BASE_NAME + "_shovel", () -> new ShovelItem(TOOL_MATERIAL.get(), 1.5f, -3f, DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_shovel", MOD_ID))));
+		return register.register(BASE_NAME + "_shovel", () -> new Item(DEFAULT_PROPERTIES.get().shovel(TOOL_MATERIAL.get(), 1.5f, -3f).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_shovel", MOD_ID))));
 	}
 
 	protected DeferredItem<@NotNull Item> registerHoe(DeferredRegister.Items register) {
 		LOG.info("Registering hoe in material configuration {} from mod {}", BASE_NAME, MOD_ID);
-		return register.register(BASE_NAME + "_hoe", () -> new HoeItem(TOOL_MATERIAL.get(), -2f, -1f, DEFAULT_PROPERTIES.get().setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_hoe", MOD_ID))));
+		return register.register(BASE_NAME + "_hoe", () -> new Item(DEFAULT_PROPERTIES.get().hoe(TOOL_MATERIAL.get(), -2f, -1f).setId(TEGMatLibUtil.createItemResourceKey(BASE_NAME + "_hoe", MOD_ID))));
 	}
 
 	protected DeferredItem<@NotNull Item> registerSpear(DeferredRegister.Items register) {
@@ -420,17 +417,13 @@ public abstract class MaterialConfiguration {
 
 	public void bootstrapTrimMaterial(BootstrapContext<TrimMaterial> context) {
 		LOG.info("Bootstrapping trim material for material configuration {} from mod {}", BASE_NAME, MOD_ID);
-		context.register(TRIM_MATERIAL.get(), new TrimMaterial(MATERIAL_ASSET_GROUP.get(), Component.translatable(Util.makeDescriptionId("trim_material", TRIM_MATERIAL.get().identifier())).withStyle(Style.EMPTY.withColor(TextColor.parseColor(TRIM_MATERIAL_DESCRIPTION_COLOR).getOrThrow()))));
+		context.register(TRIM_MATERIAL.get(), new TrimMaterial(PALETTE.get(), Component.translatable(Util.makeDescriptionId("trim_material", TRIM_MATERIAL.get().identifier())).withStyle(Style.EMPTY.withColor(TextColor.parseColor(TRIM_MATERIAL_DESCRIPTION_COLOR).getOrThrow()))));
 	}
 
 	public void fillTrimMaterialKeys() {
 		LOG.info("Filling trim material keys for material configuration {} from mod {}", BASE_NAME, MOD_ID);
 		TRIM_MATERIAL = () -> TEGMatLibUtil.createTrimMaterialResourceKey(BASE_NAME, MOD_ID);
-		MATERIAL_ASSET_GROUP = () -> MaterialAssetGroup.create(BASE_NAME);
-	}
-
-	public MaterialAssetGroup getMaterialAssetGroup() {
-		return MATERIAL_ASSET_GROUP.get();
+		PALETTE = () -> Identifier.fromNamespaceAndPath(MOD_ID, "trim/" + BASE_NAME);
 	}
 
 	public ResourceKey<TrimMaterial> getTrimMaterial() {
@@ -497,5 +490,9 @@ public abstract class MaterialConfiguration {
 			}
 		}
 		return preferred;
+	}
+
+	public Identifier getPalette() {
+		return PALETTE.get();
 	}
 }

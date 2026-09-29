@@ -2,12 +2,18 @@ package com.github.theelementguy.tegmatlib.data;
 
 import com.github.theelementguy.tegmatlib.core.*;
 import com.mojang.logging.LogUtils;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.MultiRegistryBootstrap;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
@@ -18,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
@@ -29,36 +36,24 @@ public class TEGMatLibRecipeProvider extends RecipeProvider {
 
 	private final String MOD_ID;
 
-	protected TEGMatLibRecipeProvider(HolderLookup.Provider registries, RecipeOutput output, Supplier<List<MaterialConfiguration>> materials, String modId) {
-		super(registries, output);
+	protected TEGMatLibRecipeProvider(BootstrapContext<Recipe<?>> recipeOutput, BootstrapContext<Advancement> advancementOutput, Supplier<List<MaterialConfiguration>> materials, String modId) {
+		super(recipeOutput, advancementOutput);
 		MATERIALS = materials;
 		MOD_ID = modId;
 	}
 
-	public static class Runner extends RecipeProvider.Runner {
+	public static MultiRegistryBootstrap create(FullyConfiguredMaterialHolder materials) {
+		return new MultiRegistryBootstrap() {
+			@Override
+			public Set<ResourceKey<? extends Registry<?>>> requestedRegistries() {
+				return Set.of(Registries.RECIPE, Registries.ADVANCEMENT);
+			}
 
-		private Supplier<List<MaterialConfiguration>> MATERIALS;
-
-		private final String NAME;
-
-		private final String MOD_ID;
-
-		public Runner(GatherDataEvent.Client event, String modName, FullyConfiguredMaterialHolder materials) {
-			super(event.getGenerator().getPackOutput(), event.getLookupProvider());
-			NAME = modName;
-			MATERIALS = materials::getMaterials;
-			MOD_ID = materials.getModID();
-		}
-
-		@Override
-		protected @NotNull RecipeProvider createRecipeProvider(HolderLookup.@NotNull Provider registries, @NotNull RecipeOutput output) {
-			return new TEGMatLibRecipeProvider(registries, output, MATERIALS, MOD_ID);
-		}
-
-		@Override
-		public String getName() {
-			return NAME + " Recipes";
-		}
+			@Override
+			public void run(MultiRegistryBootstrap.BootstrapGetter registries) {
+				new TEGMatLibRecipeProvider(registries.get(Registries.RECIPE), registries.get(Registries.ADVANCEMENT), materials::getMaterials, materials.getModID()).buildRecipes();
+			}
+		};
 	}
 
 	@Override

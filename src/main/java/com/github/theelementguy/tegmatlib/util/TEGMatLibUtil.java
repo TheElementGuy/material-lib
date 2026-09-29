@@ -16,8 +16,7 @@ import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.world.BiomeModifier;
@@ -184,8 +183,8 @@ public class TEGMatLibUtil {
 
 	}
 
-	public static ResourceKey<ConfiguredFeature<?, ?>> createConfiguredFeatureResourceKey(String modId, String name) {
-		return ResourceKey.create(Registries.CONFIGURED_FEATURE, Identifier.fromNamespaceAndPath(modId, name));
+	public static ResourceKey<Feature> createFeatureResourceKey(String modId, String name) {
+		return ResourceKey.create(Registries.FEATURE, Identifier.fromNamespaceAndPath(modId, name));
 	}
 
 	public static ResourceKey<PlacedFeature> createPlacedFeatureResourceKey(String modId, String name) {

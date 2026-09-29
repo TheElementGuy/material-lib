@@ -24,7 +24,7 @@ public class TEGMatLibBlockTagProvider extends BlockTagsProvider {
 	private final FullyConfiguredMaterialHolder MATERIALS;
 
 	public TEGMatLibBlockTagProvider(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
-		super(event.getGenerator().getPackOutput(), event.getLookupProvider(), materials.getModID());
+		super(event.getGenerator().getPackOutput(), event.getWorldLookupProvider(), materials.getModID());
 		MATERIALS = materials;
 	}
 

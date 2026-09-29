@@ -7,6 +7,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -17,8 +18,9 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import com.github.theelementguy.tegmatlib.core.*;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
+import net.minecraft.world.level.storage.loot.providers.number.ints.UniformGenerator;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import org.slf4j.Logger;
 
@@ -35,13 +37,13 @@ public class TEGMatLibBlockLootTableProvider extends BlockLootSubProvider {
 
 	private final FullyConfiguredMaterialHolder MATERIALS;
 
-	public TEGMatLibBlockLootTableProvider(HolderLookup.Provider registries, FullyConfiguredMaterialHolder materials) {
-		super(Set.of(), FeatureFlags.REGISTRY.allFlags(), registries);
+	public TEGMatLibBlockLootTableProvider(LootTableSubProvider.Context context, FullyConfiguredMaterialHolder materials) {
+		super(Set.of(), FeatureFlags.REGISTRY.allFlags(), context);
 		MATERIALS = materials;
 	}
 
 	public static LootTableProvider create(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
-		return new LootTableProvider(event.getGenerator().getPackOutput(), Collections.emptySet(), List.of(new LootTableProvider.SubProviderEntry(p -> {return new TEGMatLibBlockLootTableProvider(p, materials);}, LootContextParamSets.BLOCK)), event.getLookupProvider());
+		return new LootTableProvider(Collections.emptySet(), List.of(new LootTableProvider.SubProviderEntry(p -> {return new TEGMatLibBlockLootTableProvider(p, materials);}, LootContextParamSets.BLOCK)));
 	}
 
 	@Override
@@ -140,9 +142,8 @@ public class TEGMatLibBlockLootTableProvider extends BlockLootSubProvider {
 		return createMultipleOreDrops(pBlock, item, materialConfiguration.getBaseDrops(), materialConfiguration.getMaxDrops());
 	}
 
-	protected LootTable.Builder createMultipleOreDrops(Block pBlock, Item item, float minDrops, float maxDrops) {
-		HolderLookup.RegistryLookup<Enchantment> registrylookup = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
-		return this.createSilkTouchDispatchTable(pBlock, this.applyExplosionDecay(pBlock, LootItem.lootTableItem(item).apply(SetItemCountFunction.setCount(UniformGenerator.between(minDrops, maxDrops))).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE)))));
+	protected LootTable.Builder createMultipleOreDrops(Block pBlock, Item item, int minDrops, int maxDrops) {
+		return this.createSilkTouchDispatchTable(pBlock, this.applyExplosionDecay(pBlock, LootItem.lootTableItem(item).apply(SetItemCountFunction.setCount(ContextIntProviders.between(minDrops, maxDrops))).apply(ApplyBonusCount.addOreBonusCount(enchantments.getOrThrow(Enchantments.FORTUNE)))));
 	}
 
 	@Override

@@ -12,17 +12,19 @@ import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.SelectItemModel;
 import net.minecraft.client.renderer.item.properties.select.TrimMaterialProperty;
 import net.minecraft.client.resources.model.sprite.Material;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.item.equipment.EquipmentAssets;
-import net.minecraft.world.item.equipment.trim.MaterialAssetGroup;
 import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.minecraft.world.item.equipment.trim.TrimMaterials;
 import com.github.theelementguy.tegmatlib.core.*;
+import net.neoforged.neoforge.client.model.item.TrimmedArmorModel;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import org.slf4j.Logger;
@@ -37,9 +39,12 @@ public class TEGMatLibModelProvider extends ModelProvider {
 
 	private final Logger LOG = LogUtils.getLogger();
 
-	protected Supplier<List<MaterialConfiguration>> MATERIALS;
+	public static final Identifier TRIM_PREFIX_HELMET = prefixForSlotTrim("helmet");
+	public static final Identifier TRIM_PREFIX_CHESTPLATE = prefixForSlotTrim("chestplate");
+	public static final Identifier TRIM_PREFIX_LEGGINGS = prefixForSlotTrim("leggings");
+	public static final Identifier TRIM_PREFIX_BOOTS = prefixForSlotTrim("boots");
 
-	public final List<ItemModelGenerators.TrimMaterialData> TRIM_MATERIAL_MODELS = new ArrayList<>(List.of(new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.QUARTZ, TrimMaterials.QUARTZ), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.IRON, TrimMaterials.IRON), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.NETHERITE, TrimMaterials.NETHERITE), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.REDSTONE, TrimMaterials.REDSTONE), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.COPPER, TrimMaterials.COPPER), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.GOLD, TrimMaterials.GOLD), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.EMERALD, TrimMaterials.EMERALD), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.DIAMOND, TrimMaterials.DIAMOND), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.LAPIS, TrimMaterials.LAPIS), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.AMETHYST, TrimMaterials.AMETHYST), new ItemModelGenerators.TrimMaterialData(MaterialAssetGroup.RESIN, TrimMaterials.RESIN)));
+	protected Supplier<List<MaterialConfiguration>> MATERIALS;
 
 	protected String MOD_ID;
 
@@ -47,12 +52,6 @@ public class TEGMatLibModelProvider extends ModelProvider {
 		super(event.getGenerator().getPackOutput(), materials.getModID());
 		this.MATERIALS = materials::getMaterials;
 		this.MOD_ID = modId;
-		ArrayList<ItemModelGenerators.TrimMaterialData> trimMaterialsToAdd = new ArrayList<>();
-		for (MaterialConfiguration config : MATERIALS.get()) {
-			MaterialConfiguration concrete;
-			trimMaterialsToAdd.add(new ItemModelGenerators.TrimMaterialData(config.getMaterialAssetGroup(), config.getTrimMaterial()));
-		}
-		TRIM_MATERIAL_MODELS.addAll(trimMaterialsToAdd);
 	}
 
 	@Override
@@ -77,10 +76,10 @@ public class TEGMatLibModelProvider extends ModelProvider {
 				itemModels.generateFlatItem(config.getNautilusArmor().get().get().get(), ModelTemplates.FLAT_ITEM);
 			}
 
-			generateTrimmableItemWithModdedMaterials(itemModels, config.getHelmet(), config.getEquipmentAsset(), false);
-			generateTrimmableItemWithModdedMaterials(itemModels, config.getChestplate(), config.getEquipmentAsset(), false);
-			generateTrimmableItemWithModdedMaterials(itemModels, config.getLeggings(), config.getEquipmentAsset(), false);
-			generateTrimmableItemWithModdedMaterials(itemModels, config.getBoots(), config.getEquipmentAsset(), false);
+			trimmable(itemModels, config.getHelmet(), MOD_ID + ":" + config.getBaseName(), true);
+			trimmable(itemModels, config.getChestplate(), MOD_ID + ":" + config.getBaseName(), true);
+			trimmable(itemModels, config.getLeggings(), MOD_ID + ":" + config.getBaseName(), true);
+			trimmable(itemModels, config.getBoots(), MOD_ID + ":" + config.getBaseName(), true);
 
 			blockModels.createTrivialBlock(config.getBaseBlock(), translate(config.applyException(config.getBaseName() + "_block", ModelExceptionValues.CUBE)));
 
@@ -135,90 +134,37 @@ public class TEGMatLibModelProvider extends ModelProvider {
 
 		}
 
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.LEATHER_HELMET, EquipmentAssets.LEATHER, true);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.LEATHER_CHESTPLATE, EquipmentAssets.LEATHER, true);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.LEATHER_LEGGINGS, EquipmentAssets.LEATHER, true);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.LEATHER_BOOTS, EquipmentAssets.LEATHER, true);
-
-
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.CHAINMAIL_HELMET, EquipmentAssets.CHAINMAIL, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.CHAINMAIL_CHESTPLATE, EquipmentAssets.CHAINMAIL, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.CHAINMAIL_LEGGINGS, EquipmentAssets.CHAINMAIL, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.CHAINMAIL_BOOTS, EquipmentAssets.CHAINMAIL, false);
-
-
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.IRON_HELMET, EquipmentAssets.IRON, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.IRON_CHESTPLATE, EquipmentAssets.IRON, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.IRON_LEGGINGS, EquipmentAssets.IRON, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.IRON_BOOTS, EquipmentAssets.IRON, false);
-
-
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.DIAMOND_HELMET, EquipmentAssets.DIAMOND, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.DIAMOND_CHESTPLATE, EquipmentAssets.DIAMOND, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.DIAMOND_LEGGINGS, EquipmentAssets.DIAMOND, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.DIAMOND_BOOTS, EquipmentAssets.DIAMOND, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.GOLDEN_HELMET, EquipmentAssets.GOLD, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.GOLDEN_CHESTPLATE, EquipmentAssets.GOLD, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.GOLDEN_LEGGINGS, EquipmentAssets.GOLD, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.GOLDEN_BOOTS, EquipmentAssets.GOLD, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.NETHERITE_HELMET, EquipmentAssets.NETHERITE, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.NETHERITE_CHESTPLATE, EquipmentAssets.NETHERITE, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.NETHERITE_LEGGINGS, EquipmentAssets.NETHERITE, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.NETHERITE_BOOTS, EquipmentAssets.NETHERITE, false);
-
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.TURTLE_HELMET, EquipmentAssets.TURTLE_SCUTE, false);
-
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.COPPER_HELMET, EquipmentAssets.COPPER, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.COPPER_CHESTPLATE, EquipmentAssets.COPPER, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.COPPER_LEGGINGS, EquipmentAssets.COPPER, false);
-		generateTrimmableItemWithModdedMaterials(itemModels, Items.COPPER_BOOTS, EquipmentAssets.COPPER, false);
-
-	}
-
-	public void generateTrimmableItemWithModdedMaterials(ItemModelGenerators geners, Item armor, ResourceKey<EquipmentAsset> equipmentAssetId, boolean hasDyedLayer) {
-
-		LOG.info("Generating trims for item {}: mod {}", armor.toString(), MOD_ID);
-
-		String path = armor.getDescriptionId();
-		Identifier slotTrimPrefix = (path.contains("helmet")) ? TRIM_PREFIX_HELMET : ((path.contains("chestplate")) ? TRIM_PREFIX_CHESTPLATE : ((path.contains("leggings")) ? TRIM_PREFIX_LEGGINGS : ItemModelGenerators.TRIM_PREFIX_BOOTS));
-		Identifier modelLocation = ModelLocationUtils.getModelLocation(armor);
-		Material itemTexture = TextureMapping.getItemTexture(armor);
-		Material overlayTexture = TextureMapping.getItemTexture(armor, "_overlay");
-		List<SelectItemModel.SwitchCase<ResourceKey<TrimMaterial>>> cases = new ArrayList<>(TRIM_MATERIAL_MODELS.size());
-
-		for (ItemModelGenerators.TrimMaterialData material : TRIM_MATERIAL_MODELS) {
-			Identifier trimModelLocation = modelLocation.withSuffix("_" + material.assets().base().suffix() + "_trim");
-			Material trimOverlayTexture = new Material(slotTrimPrefix.withSuffix("_" + material.assets().assetId(equipmentAssetId).suffix()));
-			ItemModel.Unbaked trimModel;
-			if (hasDyedLayer) {
-				geners.generateLayeredItem(trimModelLocation, itemTexture, overlayTexture, trimOverlayTexture);
-				trimModel = ItemModelUtils.tintedModel(trimModelLocation, new Dye(-6265536));
-			} else {
-				geners.generateLayeredItem(trimModelLocation, itemTexture, trimOverlayTexture);
-				trimModel = ItemModelUtils.plainModel(trimModelLocation);
-			}
-
-			cases.add(ItemModelUtils.when(material.materialKey(), trimModel));
-		}
-
-		ItemModel.Unbaked untrimmedModel;
-		if (hasDyedLayer) {
-			ModelTemplates.TWO_LAYERED_ITEM.create(modelLocation, TextureMapping.layered(itemTexture, overlayTexture), geners.modelOutput);
-			untrimmedModel = ItemModelUtils.tintedModel(modelLocation, new Dye(-6265536));
-		} else {
-			ModelTemplates.FLAT_ITEM.create(modelLocation, TextureMapping.layer0(itemTexture), geners.modelOutput);
-			untrimmedModel = ItemModelUtils.plainModel(modelLocation);
-		}
-
-		geners.itemModelOutput.accept(armor, ItemModelUtils.select(new TrimMaterialProperty(), untrimmedModel, cases));
 	}
 
 	private TexturedModel.Provider translate(ModelExceptionValues value) {
 		return switch (value) {
 			case CUBE -> TexturedModel.CUBE;
 			case CUBE_TOP -> TexturedModel.CUBE_TOP;
-			case CUBE_TOP_BOTTOM -> TexturedModel.CUBE_TOP_BOTTOM;
+			case CUBE_TOP_BOTTOM -> TexturedModel.CUBE_BOTTOM_TOP;
 			case COLUMN -> TexturedModel.COLUMN;
 		};
+	}
+
+	private void trimmable(ItemModelGenerators itemModels, Item trimmable, String palette, boolean replace) {
+		String trimmablePath = BuiltInRegistries.ITEM.getKey(trimmable).getPath();
+		Identifier prefix;
+		if (trimmablePath.contains("helmet")) {
+			prefix = TRIM_PREFIX_HELMET;
+		} else if (trimmablePath.contains("chestplate")) {
+			prefix = TRIM_PREFIX_CHESTPLATE;
+		} else if (trimmablePath.contains("leggings")) {
+			prefix = TRIM_PREFIX_LEGGINGS;
+		} else if (trimmablePath.contains("boots")) {
+			prefix = TRIM_PREFIX_BOOTS;
+		} else {
+			prefix = TRIM_PREFIX_HELMET;
+			LOG.warn("Could not find proper trim prefix for: {}", trimmablePath);
+		}
+		if (replace) {
+			itemModels.generateDynamicTrimmableItem(trimmable, prefix, new TrimmedArmorModel.PaletteTransform(Identifier.bySeparator(palette, ':'), Identifier.bySeparator(palette + "_darker", ':')));
+		} else {
+			itemModels.generateDynamicTrimmableItem(trimmable, prefix, null);
+		}
+		ModelTemplates.FLAT_ITEM.create(trimmable, TextureMapping.layer0(trimmable), itemModels.modelOutput);
 	}
 }

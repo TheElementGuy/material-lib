@@ -6,17 +6,20 @@ import com.github.theelementguy.tegmatlib.loot.AddItemRollModifier;
 import com.github.theelementguy.tegmatlib.loot.ExtraItemRollModifier;
 import com.github.theelementguy.tegmatlib.loot.LootModifierInfo;
 import com.mojang.logging.LogUtils;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.storage.loot.predicates.AllOfCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
 import net.neoforged.neoforge.common.loot.LootTableIdCondition;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import org.slf4j.Logger;
 
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class TEGMatLibGlobalLootModifierProvider extends GlobalLootModifierProvider {
@@ -27,7 +30,7 @@ public class TEGMatLibGlobalLootModifierProvider extends GlobalLootModifierProvi
 
 	public TEGMatLibGlobalLootModifierProvider(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
 		MATERIALS = materials;
-		super(event.getGenerator().getPackOutput(), event.getLookupProvider(), materials.getModID());
+		super(event.getGenerator().getPackOutput(), event.getWorldLookupProvider(), materials.getModID());
 	}
 
 	@Override
@@ -51,10 +54,10 @@ public class TEGMatLibGlobalLootModifierProvider extends GlobalLootModifierProvi
 	}
 
 	protected void addTo(String table, Item item, float chance) {
-		this.add(BuiltInRegistries.ITEM.getKey(item).getPath() + "_to_" + table.substring(table.lastIndexOf("/") + 1), new AddItemRollModifier(new LootItemCondition[] {new LootTableIdCondition.Builder(Identifier.withDefaultNamespace(table)).build()}, 1000, item, chance));
+		this.add(BuiltInRegistries.ITEM.getKey(item).getPath() + "_to_" + table.substring(table.lastIndexOf("/") + 1), new AddItemRollModifier(Optional.of(Holder.direct(AllOfCondition.allOf(LootTableIdCondition.builder(Identifier.withDefaultNamespace(table))).build())), 1000, item, chance));
 	}
 
 	protected void extraTo(String table, Item item, float chance) {
-		this.add(BuiltInRegistries.ITEM.getKey(item).getPath() + "_to_" + table.substring(table.lastIndexOf("/") + 1), new ExtraItemRollModifier(new LootItemCondition[] {new LootTableIdCondition.Builder(Identifier.withDefaultNamespace(table)).build()}, 1000, item, chance));
+		this.add(BuiltInRegistries.ITEM.getKey(item).getPath() + "_to_" + table.substring(table.lastIndexOf("/") + 1), new ExtraItemRollModifier(Optional.of(Holder.direct(AllOfCondition.allOf(LootTableIdCondition.builder(Identifier.withDefaultNamespace(table))).build())), 1000, item, chance));
 	}
 }

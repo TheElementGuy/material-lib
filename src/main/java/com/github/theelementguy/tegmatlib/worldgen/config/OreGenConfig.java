@@ -8,9 +8,9 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.BlockReplacement;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.feature.OreFeature;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.neoforged.neoforge.common.world.BiomeModifier;
@@ -242,12 +242,12 @@ public class OreGenConfig {
 		return () -> new OreGenConfig(OreGenSize.EXTRA, HeightRangePlacement.triangle(VerticalAnchor.absolute(lowerBound), VerticalAnchor.absolute(upperBound)), veinSize, discardOnAirChance, OreRarity.RARE, chunksPerVein, biome);
 	}
 	
-	public void registerConfiguredFeature(BootstrapContext<ConfiguredFeature<?, ?>> context, List<OreConfiguration.TargetBlockState> ores, ResourceKey<ConfiguredFeature<?, ?>> key) {
-		context.register(key, new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(ores, this.SIZE_INT, this.DISCARD_ON_AIR_CHANCE)));
+	public void registerFeature(BootstrapContext<Feature> context, List<BlockReplacement> ores, ResourceKey<Feature> key) {
+		context.register(key, new OreFeature(ores, this.SIZE_INT, this.DISCARD_ON_AIR_CHANCE));
 	}
 
-	public void registerPlacedFeature(BootstrapContext<PlacedFeature> context, ResourceKey<PlacedFeature> featureKey, ResourceKey<ConfiguredFeature<?, ?>> configKey) {
-		context.register(featureKey, new PlacedFeature(context.lookup(Registries.CONFIGURED_FEATURE).getOrThrow(configKey), (RARITY == OreRarity.COMMON) ? OrePlacement.commonOrePlacement(PLACEMENT_INT, PLACEMENT) : OrePlacement.rareOrePlacement(PLACEMENT_INT, PLACEMENT)));
+	public void registerPlacedFeature(BootstrapContext<PlacedFeature> context, ResourceKey<PlacedFeature> featureKey, ResourceKey<Feature> configKey) {
+		context.register(featureKey, new PlacedFeature(context.lookup(Registries.FEATURE).getOrThrow(configKey), (RARITY == OreRarity.COMMON) ? OrePlacement.commonOrePlacement(PLACEMENT_INT, PLACEMENT) : OrePlacement.rareOrePlacement(PLACEMENT_INT, PLACEMENT)));
 	}
 
 	public void registerBiomeModifier(BootstrapContext<BiomeModifier> context, ResourceKey<BiomeModifier> modifierKey, ResourceKey<PlacedFeature> featureKey) {

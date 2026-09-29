@@ -3,12 +3,10 @@ package com.github.theelementguy.tegmatlib.worldgen;
 import com.github.theelementguy.tegmatlib.core.FullyConfiguredMaterialHolder;
 import com.mojang.logging.LogUtils;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import com.github.theelementguy.tegmatlib.core.MaterialConfiguration;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
-
-import java.util.List;
-import java.util.function.Supplier;
 
 public class TEGMatLibConfiguredFeatureProvider {
 
@@ -20,12 +18,12 @@ public class TEGMatLibConfiguredFeatureProvider {
 		MATERIALS = materials;
 	}
 
-	public void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
+	public void bootstrap(BootstrapContext<@NotNull Feature> context) {
 
 		LOG.info("Bootstrapping configured features for mod {}", MATERIALS.getModID());
 
 		for (MaterialConfiguration config : MATERIALS.getMaterials()) {
-			config.registerConfiguredFeatures(context);
+			config.registerFeatures(context);
 		}
 
 	}

@@ -6,7 +6,6 @@ import com.github.theelementguy.tegmatlib.util.TEGMatLibUtil;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -14,9 +13,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ColoredFallingBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.feature.BlockReplacement;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
-import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -62,8 +60,8 @@ public class SandDiamondTypeMaterialConfiguration extends MaterialConfiguration 
 	}
 
 	@Override
-	public List<OreConfiguration.TargetBlockState> getOreStates() {
-		return List.of(OreConfiguration.target(new BlockMatchTest(Blocks.SAND), SAND_ORE_BLOCK.get().defaultBlockState()), OreConfiguration.target(new BlockMatchTest(Blocks.GRAVEL), GRAVEL_ORE_BLOCK.get().defaultBlockState()));
+	public List<BlockReplacement> getOreStates() {
+		return List.of(BlockReplacement.replace(new BlockMatchTest(Blocks.SAND), SAND_ORE_BLOCK.get().defaultBlockState()), BlockReplacement.replace(new BlockMatchTest(Blocks.GRAVEL), GRAVEL_ORE_BLOCK.get().defaultBlockState()));
 	}
 
 	@Override
