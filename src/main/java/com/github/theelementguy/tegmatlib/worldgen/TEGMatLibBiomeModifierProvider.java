@@ -7,8 +7,6 @@ import net.neoforged.neoforge.common.world.BiomeModifier;
 import com.github.theelementguy.tegmatlib.core.MaterialConfiguration;
 import org.slf4j.Logger;
 
-import java.util.List;
-import java.util.function.Supplier;
 
 public class TEGMatLibBiomeModifierProvider {
 

@@ -7,8 +7,6 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import com.github.theelementguy.tegmatlib.core.MaterialConfiguration;
 import org.slf4j.Logger;
 
-import java.util.List;
-import java.util.function.Supplier;
 
 public class TEGMatLibPlacedFeatureProvider {
 

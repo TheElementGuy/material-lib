@@ -3,7 +3,6 @@ package com.github.theelementguy.tegmatlib.loot;
 import com.github.theelementguy.tegmatlib.core.CubicZirconiaTypeMaterialConfiguration;
 import com.github.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
 import com.github.theelementguy.tegmatlib.core.MaterialConfiguration;
-import net.minecraft.world.item.Item;
 
 public record PreLootModifierInfo(LootItemSlot slot, LootModifierType type, String table, float chance) {
 	public LootModifierInfo convert(MaterialConfiguration config) {

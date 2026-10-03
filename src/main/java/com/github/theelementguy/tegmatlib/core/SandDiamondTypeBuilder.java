@@ -1,6 +1,5 @@
 package com.github.theelementguy.tegmatlib.core;
 
-import com.github.theelementguy.tegmatlib.worldgen.config.OreGenConfig;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 

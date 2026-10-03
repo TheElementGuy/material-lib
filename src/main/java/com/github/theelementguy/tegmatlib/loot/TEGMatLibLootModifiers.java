@@ -3,10 +3,8 @@ package com.github.theelementguy.tegmatlib.loot;
 import com.github.theelementguy.tegmatlib.core.FullyConfiguredMaterialHolder;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.MapCodec;
-import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 

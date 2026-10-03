@@ -4,7 +4,6 @@ import com.github.theelementguy.tegmatlib.core.*;
 import com.github.theelementguy.tegmatlib.util.TEGMatLibUtil;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.PackOutput;
 import net.minecraft.tags.ItemTags;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ItemTagsProvider;
@@ -12,7 +11,6 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import org.slf4j.Logger;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 public class TEGMatLibItemTagProvider extends ItemTagsProvider {

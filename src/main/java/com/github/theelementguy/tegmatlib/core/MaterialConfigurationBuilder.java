@@ -15,6 +15,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.MapColor;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +33,8 @@ public abstract class MaterialConfigurationBuilder<T extends MaterialConfigurati
 
 	protected String TRIM_MATERIAL_DESCRIPTION_COLOR;
 
-	protected Supplier<MapColor> MAP_COLOR;
-	protected Supplier<SoundType> SOUND_TYPE;
+	protected MapColor MAP_COLOR;
+	protected SoundType SOUND_TYPE;
 	protected OreGenHolder<OreGenConfig> ORE_GEN_CONFIGS;
 
 	protected int DROPS_PER_ORE = 1;
@@ -66,7 +67,7 @@ public abstract class MaterialConfigurationBuilder<T extends MaterialConfigurati
 	protected int ARMOR_ENCHANTMENT;
 	protected float TOUGHNESS = 0f;
 	protected float KNOCKBACK_RESISTANCE = 0f;
-	protected Supplier<Holder<SoundEvent>> EQUIP_SOUND;
+	protected Holder<@NotNull SoundEvent> EQUIP_SOUND;
 
 	protected String TOOLS_BEFORE;
 	protected String ARMOR_BEFORE;
@@ -153,7 +154,7 @@ public abstract class MaterialConfigurationBuilder<T extends MaterialConfigurati
 	 * @param knockbackResistance sets a dampener on how far knockback launches the user, with higher being more protective
 	 * @return the updated <code>MaterialConfigurationBuilder</code>
 	 */
-	public T armorMaterial(int durability, int helmetDefense, int chestplateDefense, int leggingsDefense, int bootsDefense, int horseDefense, int enchantmentValue, Supplier<Holder<SoundEvent>> equipSound, float toughness, float knockbackResistance) {
+	public T armorMaterial(int durability, int helmetDefense, int chestplateDefense, int leggingsDefense, int bootsDefense, int horseDefense, int enchantmentValue, Holder<SoundEvent> equipSound, float toughness, float knockbackResistance) {
 		ARMOR_DURABILITY = durability;
 		HEAD_DEFENSE = helmetDefense;
 		CHESTPLATE_DEFENSE = chestplateDefense;
@@ -179,7 +180,7 @@ public abstract class MaterialConfigurationBuilder<T extends MaterialConfigurati
 	 * @param equipSound supplier of a <code>SoundEvent</code> that dictates in-game equip sound
 	 * @return the updated <code>MaterialConfigurationBuilder</code>
 	 */
-	public T armorMaterial(int durability, int helmetDefense, int chestplateDefense, int leggingsDefense, int bootsDefense, int horseDefense, int enchantmentValue, Supplier<Holder<SoundEvent>> equipSound) {
+	public T armorMaterial(int durability, int helmetDefense, int chestplateDefense, int leggingsDefense, int bootsDefense, int horseDefense, int enchantmentValue, Holder<SoundEvent> equipSound) {
 		ARMOR_DURABILITY = durability;
 		HEAD_DEFENSE = helmetDefense;
 		CHESTPLATE_DEFENSE = chestplateDefense;
@@ -207,7 +208,7 @@ public abstract class MaterialConfigurationBuilder<T extends MaterialConfigurati
 	 * @param stepSound a supplier of the <code>SoundType</code> corresponding to the noise made from stepping on the block
 	 * @return the updated <code>MaterialConfigurationBuilder</code>
 	 */
-	public T blockProperties(Supplier<MapColor> color, Supplier<SoundType> stepSound) {
+	public T blockProperties(MapColor color, SoundType stepSound) {
 		MAP_COLOR = color;
 		SOUND_TYPE = stepSound;
 		return self();

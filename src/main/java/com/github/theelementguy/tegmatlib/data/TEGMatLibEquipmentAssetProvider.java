@@ -4,19 +4,15 @@ import com.github.theelementguy.tegmatlib.core.FullyConfiguredMaterialHolder;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.data.models.EquipmentAssetProvider;
 import net.minecraft.client.resources.model.EquipmentClientInfo;
-import net.minecraft.data.CachedOutput;
-import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import com.github.theelementguy.tegmatlib.core.MaterialConfiguration;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
@@ -38,7 +34,7 @@ public class TEGMatLibEquipmentAssetProvider extends EquipmentAssetProvider {
 	}
 
 	@Override
-	protected void registerModels(BiConsumer<ResourceKey<EquipmentAsset>, EquipmentClientInfo> output) {
+	protected void registerModels(@NotNull BiConsumer<ResourceKey<@NotNull EquipmentAsset>, EquipmentClientInfo> output) {
 		LOG.info("Bootstrapping equipment assets for mod {}", MOD_ID);
 		for (MaterialConfiguration m : MATERIALS.get()) {
 			m.bootstrapEquipmentAsset(output);

@@ -1,7 +1,5 @@
 package com.github.theelementguy.tegmatlib.core;
 
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 

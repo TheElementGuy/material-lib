@@ -2,34 +2,19 @@ package com.github.theelementguy.tegmatlib.data;
 
 import com.github.theelementguy.tegmatlib.core.*;
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.color.item.Dye;
-import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.model.*;
-import net.minecraft.client.renderer.item.ItemModel;
-import net.minecraft.client.renderer.item.SelectItemModel;
-import net.minecraft.client.renderer.item.properties.select.TrimMaterialProperty;
-import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.equipment.EquipmentAsset;
-import net.minecraft.world.item.equipment.EquipmentAssets;
-import net.minecraft.world.item.equipment.trim.TrimMaterial;
-import net.minecraft.world.item.equipment.trim.TrimMaterials;
 import com.github.theelementguy.tegmatlib.core.*;
 import net.neoforged.neoforge.client.model.item.TrimmedArmorModel;
-import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -55,7 +40,7 @@ public class TEGMatLibModelProvider extends ModelProvider {
 	}
 
 	@Override
-	protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
+	protected void registerModels(@NotNull BlockModelGenerators blockModels, @NotNull ItemModelGenerators itemModels) {
 
 		LOG.info("Generating models for mod {}", modId);
 
@@ -70,16 +55,16 @@ public class TEGMatLibModelProvider extends ModelProvider {
 			itemModels.generateSpear(config.getSpear());
 
 			if (config.getHorseArmor().isUsing()) {
-				itemModels.generateFlatItem(config.getHorseArmor().get().get().asItem(), ModelTemplates.FLAT_ITEM);
+				itemModels.generateFlatItem(config.getHorseArmor().get().orElseThrow().get().asItem(), ModelTemplates.FLAT_ITEM);
 			}
 			if (config.getNautilusArmor().isUsing()) {
-				itemModels.generateFlatItem(config.getNautilusArmor().get().get().get(), ModelTemplates.FLAT_ITEM);
+				itemModels.generateFlatItem(config.getNautilusArmor().get().orElseThrow().get(), ModelTemplates.FLAT_ITEM);
 			}
 
-			trimmable(itemModels, config.getHelmet(), MOD_ID + ":" + config.getBaseName(), true);
-			trimmable(itemModels, config.getChestplate(), MOD_ID + ":" + config.getBaseName(), true);
-			trimmable(itemModels, config.getLeggings(), MOD_ID + ":" + config.getBaseName(), true);
-			trimmable(itemModels, config.getBoots(), MOD_ID + ":" + config.getBaseName(), true);
+			trimmable(itemModels, config.getHelmet(), MOD_ID + ":" + config.getBaseName());
+			trimmable(itemModels, config.getChestplate(), MOD_ID + ":" + config.getBaseName());
+			trimmable(itemModels, config.getLeggings(), MOD_ID + ":" + config.getBaseName());
+			trimmable(itemModels, config.getBoots(), MOD_ID + ":" + config.getBaseName());
 
 			blockModels.createTrivialBlock(config.getBaseBlock(), translate(config.applyException(config.getBaseName() + "_block", ModelExceptionValues.CUBE)));
 
@@ -145,7 +130,7 @@ public class TEGMatLibModelProvider extends ModelProvider {
 		};
 	}
 
-	private void trimmable(ItemModelGenerators itemModels, Item trimmable, String palette, boolean replace) {
+	private void trimmable(ItemModelGenerators itemModels, Item trimmable, String palette) {
 		String trimmablePath = BuiltInRegistries.ITEM.getKey(trimmable).getPath();
 		Identifier prefix;
 		if (trimmablePath.contains("helmet")) {
@@ -160,11 +145,7 @@ public class TEGMatLibModelProvider extends ModelProvider {
 			prefix = TRIM_PREFIX_HELMET;
 			LOG.warn("Could not find proper trim prefix for: {}", trimmablePath);
 		}
-		if (replace) {
-			itemModels.generateDynamicTrimmableItem(trimmable, prefix, new TrimmedArmorModel.PaletteTransform(Identifier.bySeparator(palette, ':'), Identifier.bySeparator(palette + "_darker", ':')));
-		} else {
-			itemModels.generateDynamicTrimmableItem(trimmable, prefix, null);
-		}
+		itemModels.generateDynamicTrimmableItem(trimmable, prefix, new TrimmedArmorModel.PaletteTransform(Identifier.bySeparator(palette, ':'), Identifier.bySeparator(palette + "_darker", ':')));
 		ModelTemplates.FLAT_ITEM.create(trimmable, TextureMapping.layer0(trimmable), itemModels.modelOutput);
 	}
 }

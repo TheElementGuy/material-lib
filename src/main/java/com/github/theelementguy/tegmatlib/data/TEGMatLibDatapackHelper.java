@@ -2,13 +2,10 @@ package com.github.theelementguy.tegmatlib.data;
 
 import com.github.theelementguy.tegmatlib.core.FullyConfiguredMaterialHolder;
 import com.mojang.logging.LogUtils;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import com.github.theelementguy.tegmatlib.trim.TEGMatLibTrimMaterialProvider;
@@ -19,7 +16,6 @@ import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 
 public class TEGMatLibDatapackHelper {
 
