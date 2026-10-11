@@ -4,9 +4,7 @@ import com.github.theelementguy.tegmatlib.core.FullyConfiguredMaterialHolder;
 import com.github.theelementguy.tegmatlib.core.MaterialConfiguration;
 import net.minecraft.client.renderer.texture.atlas.sources.DirectoryLister;
 import net.minecraft.client.renderer.texture.atlas.sources.PalettedPermutations;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.data.AtlasIds;
-import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.client.data.SpriteSourceProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
@@ -14,7 +12,6 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 public class TEGMatLibAtlasProvider extends SpriteSourceProvider {
 
