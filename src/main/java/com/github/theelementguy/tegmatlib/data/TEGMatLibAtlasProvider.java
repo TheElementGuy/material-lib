@@ -9,6 +9,7 @@ import net.minecraft.data.AtlasIds;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.client.data.SpriteSourceProvider;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,10 +18,10 @@ import java.util.concurrent.CompletableFuture;
 
 public class TEGMatLibAtlasProvider extends SpriteSourceProvider {
 
-	private List<MaterialConfiguration> MATERIALS;
+	private final List<MaterialConfiguration> MATERIALS;
 
-	public TEGMatLibAtlasProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, FullyConfiguredMaterialHolder materials) {
-		super(output, lookupProvider, materials.getModID());
+	public TEGMatLibAtlasProvider(GatherDataEvent.Client event, FullyConfiguredMaterialHolder materials) {
+		super(event.getGenerator().getPackOutput(), event.getWorldLookupProvider(), materials.getModID());
 		MATERIALS = materials.getMaterials();
 	}
 
