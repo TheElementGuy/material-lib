@@ -3,8 +3,13 @@ package com.github.theelementguy.tegmatlib.loot;
 import com.github.theelementguy.tegmatlib.core.CubicZirconiaTypeMaterialConfiguration;
 import com.github.theelementguy.tegmatlib.core.IronTypeMaterialConfiguration;
 import com.github.theelementguy.tegmatlib.core.MaterialConfiguration;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 public record PreLootModifierInfo(LootItemSlot slot, LootModifierType type, String table, float chance) {
+
+	public static final Codec<PreLootModifierInfo> CODEC = RecordCodecBuilder.create(instance -> instance.group(LootItemSlot.CODEC.fieldOf("slot").forGetter(PreLootModifierInfo::slot), LootModifierType.CODEC.fieldOf("type").forGetter(PreLootModifierInfo::type), Codec.STRING.fieldOf("table").forGetter(PreLootModifierInfo::table), Codec.FLOAT.fieldOf("chance").forGetter(PreLootModifierInfo::chance)).apply(instance, PreLootModifierInfo::new));
+
 	public LootModifierInfo convert(MaterialConfiguration config) {
 		switch (slot) {
 			case AXE -> {

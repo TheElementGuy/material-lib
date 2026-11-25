@@ -1,8 +1,24 @@
 package com.github.theelementguy.tegmatlib.data;
 
-public enum ModelExceptionValues {
-	CUBE,
-	CUBE_TOP,
-	CUBE_TOP_BOTTOM,
-	COLUMN
+import com.mojang.serialization.Codec;
+import net.minecraft.util.StringRepresentable;
+
+public enum ModelExceptionValues implements StringRepresentable {
+	CUBE("cube"),
+	CUBE_TOP("cube_top"),
+	CUBE_TOP_BOTTOM("cube_top_bottom"),
+	COLUMN("column");
+
+	private final String name;
+
+	public static final Codec<ModelExceptionValues> CODEC = StringRepresentable.fromEnum(ModelExceptionValues::values);
+
+	ModelExceptionValues(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String getSerializedName() {
+		return name;
+	}
 }

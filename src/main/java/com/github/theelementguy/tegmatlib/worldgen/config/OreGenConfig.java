@@ -1,5 +1,7 @@
 package com.github.theelementguy.tegmatlib.worldgen.config;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -38,6 +40,8 @@ public class OreGenConfig {
 
 	protected final SingleOrMultiple BIOME_HOLDING_TYPE;
 
+	public static final Codec<OreGenConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(OreGenSize.CODEC.fieldOf("size").forGetter(OreGenConfig::getSize), HeightRangePlacement.CODEC.fieldOf("placement").forGetter(OreGenConfig::getPlacement), Codec.INT.fieldOf("size_int").forGetter(OreGenConfig::getSizeInt), Codec.FLOAT.fieldOf("discard_on_air_chance").forGetter(OreGenConfig::getDiscardOnAirChance), OreRarity.CODEC.fieldOf("rarity").forGetter(OreGenConfig::getRarity), Codec.INT.fieldOf("placement_int").forGetter(OreGenConfig::getPlacementInt), TagKey.codec(Registries.BIOME).fieldOf("biomes").forGetter(OreGenConfig::getBiomes), ResourceKey.codec(Registries.BIOME).fieldOf("biome").forGetter(OreGenConfig::getBiome), SingleOrMultiple.CODEC.fieldOf("biome_holding_type").forGetter(OreGenConfig::getBiomeHoldingType)).apply(instance, OreGenConfig::oreGenConfigFromCodec));
+
 	public OreGenConfig(OreGenSize size, HeightRangePlacement placement, int sizeInt, float discardOnAirChance, OreRarity rarity, int placementInt, TagKey<Biome> biomes) {
 		SIZE = size;
 		PLACEMENT = placement;
@@ -50,16 +54,59 @@ public class OreGenConfig {
 		BIOME = null;
 	}
 
-	public OreGenConfig(OreGenSize size, HeightRangePlacement placement, int sizeInt, float discardOnAirChance, OreRarity rarity, int placementInt, ResourceKey<Biome> biomes) {
+	public OreGenConfig(OreGenSize size, HeightRangePlacement placement, int sizeInt, float discardOnAirChance, OreRarity rarity, int placementInt, ResourceKey<Biome> biome) {
 		SIZE = size;
 		PLACEMENT = placement;
 		SIZE_INT = sizeInt;
 		DISCARD_ON_AIR_CHANCE = discardOnAirChance;
 		RARITY = rarity;
 		PLACEMENT_INT = placementInt;
-		BIOME = biomes;
+		BIOME = biome;
 		BIOME_HOLDING_TYPE = SingleOrMultiple.SINGLE;
 		BIOMES = null;
+	}
+
+	private static OreGenConfig oreGenConfigFromCodec(OreGenSize size, HeightRangePlacement placement, int sizeInt, float discardOnAirChance, OreRarity rarity, int placementInt, TagKey<Biome> biomes, ResourceKey<Biome> biome, SingleOrMultiple placeType) {
+		if (placeType == SingleOrMultiple.SINGLE) {
+			return new OreGenConfig(size, placement, sizeInt, discardOnAirChance, rarity, placementInt, biome);
+		}
+		return new OreGenConfig(size, placement, sizeInt, discardOnAirChance, rarity, placementInt, biomes);
+	}
+
+	public OreGenSize getSize() {
+		return SIZE;
+	}
+
+	public HeightRangePlacement getPlacement() {
+		return PLACEMENT;
+	}
+
+	public int getSizeInt() {
+		return SIZE_INT;
+	}
+
+	public float getDiscardOnAirChance() {
+		return DISCARD_ON_AIR_CHANCE;
+	}
+
+	public OreRarity getRarity() {
+		return RARITY;
+	}
+
+	public int getPlacementInt() {
+		return PLACEMENT_INT;
+	}
+
+	public TagKey<Biome> getBiomes() {
+		return BIOMES;
+	}
+
+	public ResourceKey<Biome> getBiome() {
+		return BIOME;
+	}
+
+	public SingleOrMultiple getBiomeHoldingType() {
+		return BIOME_HOLDING_TYPE;
 	}
 
 	public static Supplier<OreGenConfig> smallAllBiomes(int upperBound, int lowerBound, OreDistribution distributionType, int veinSize, int numberPerChunk, Dimension dimension) {
