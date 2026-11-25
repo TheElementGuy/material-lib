@@ -15,39 +15,44 @@ import net.neoforged.neoforge.common.loot.LootModifier;
 
 public class ExtraItemRollModifier extends LootModifier {
 
-    public static MapCodec<ExtraItemRollModifier> getCodec() {
-		return RecordCodecBuilder.mapCodec(extraItemRollModifierInstance -> LootModifier.codecStart(extraItemRollModifierInstance).and(BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(e -> e.item)).and(Codec.FLOAT.fieldOf("chance").forGetter(e -> e.chance)).apply(extraItemRollModifierInstance, ExtraItemRollModifier::new));
+	public static MapCodec<ExtraItemRollModifier> getCodec() {
+		if (CODEC == null) {
+			CODEC = RecordCodecBuilder.mapCodec(extraItemRollModifierInstance -> LootModifier.codecStart(extraItemRollModifierInstance).and(BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(e -> e.item)).and(Codec.FLOAT.fieldOf("chance").forGetter(e -> e.chance)).apply(extraItemRollModifierInstance, ExtraItemRollModifier::new));
+		}
+		return CODEC;
 	}
 
-    private final Item item;
+	private final Item item;
 
-    private final float chance;
+	private final float chance;
 
-    public ExtraItemRollModifier(LootItemCondition[] conditionsIn, int priority, Item item, float chance) {
-        super(conditionsIn, priority);
-        this.item = item;
-        this.chance = chance;
-    }
+	private static MapCodec<ExtraItemRollModifier> CODEC = null;
 
-    @Override
-    protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> objectArrayList, LootContext lootContext) {
-        for (LootItemCondition lootItemCondition : this.conditions) {
-            if (!lootItemCondition.test(lootContext)) {
-                return objectArrayList;
-            }
-        }
-        RandomSource randomSource = lootContext.getRandom();
-        float randInt = randomSource.nextFloat();
-        System.out.println(randInt);
-        if (randInt > chance) {
-            return objectArrayList;
-        }
-        objectArrayList.add(new ItemStack(this.item));
-        return objectArrayList;
-    }
+	public ExtraItemRollModifier(LootItemCondition[] conditionsIn, int priority, Item item, float chance) {
+		super(conditionsIn, priority);
+		this.item = item;
+		this.chance = chance;
+	}
 
-    @Override
-    public MapCodec<? extends IGlobalLootModifier> codec() {
-        return getCodec();
-    }
+	@Override
+	protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> objectArrayList, LootContext lootContext) {
+		for (LootItemCondition lootItemCondition : this.conditions) {
+			if (!lootItemCondition.test(lootContext)) {
+				return objectArrayList;
+			}
+		}
+		RandomSource randomSource = lootContext.getRandom();
+		float randInt = randomSource.nextFloat();
+		System.out.println(randInt);
+		if (randInt > chance) {
+			return objectArrayList;
+		}
+		objectArrayList.add(new ItemStack(this.item));
+		return objectArrayList;
+	}
+
+	@Override
+	public MapCodec<? extends IGlobalLootModifier> codec() {
+		return getCodec();
+	}
 }
